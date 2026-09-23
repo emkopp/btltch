@@ -2,9 +2,8 @@
 node_modules/
 
 # Runtime state
-apps/campaign-manager/storage/*
-!apps/campaign-manager/storage/.gitkeep
 *.db
+!apps/campaign-manager/storage/merc.db
 *.db-shm
 *.db-wal
 
