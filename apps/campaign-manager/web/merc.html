@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Mercenary Team — Mercenary Manager</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <a class="home" href="/">&#9664; Home</a>
+    <span id="company-badge" class="company-badge" hidden></span>
+    <h1>Mercenary Team</h1>
+    <span id="summary" class="summary">&nbsp;</span>
+  </header>
+  <div class="layout">
+    <nav id="nav" class="sidebar"></nav>
+    <main class="main">
+      <div class="toolbar">
+        <input id="search" type="search" placeholder="Search&hellip;" autocomplete="off" />
+        <span id="filters" class="filters"></span>
+        <span id="count" class="count"></span>
+      </div>
+      <div class="split">
+        <div class="list-pane">
+          <table id="list"><thead></thead><tbody></tbody></table>
+        </div>
+        <aside id="detail" class="detail-pane">
+          <p class="hint">Select a row to see details.</p>
+        </aside>
+      </div>
+      <div id="custom-view" class="custom-view" hidden></div>
+    </main>
+  </div>
+  <div id="sheet-modal" class="modal" hidden>
+    <div class="modal-backdrop"></div>
+    <div class="modal-content">
+      <button id="sheet-close" class="modal-close" aria-label="Close record sheet">&times;</button>
+      <div id="sheet-body"></div>
+    </div>
+  </div>
+  <script>
+    window.NAV_CONFIG = { collections: ['mech', 'pilot', 'staff', 'work', 'txn', 'ownedWeapons', 'ownedEquipment', 'company'], default: 'mech', titleFromCompany: true };
+  </script>
+  <script src="app.js"></script>
+</body>
+</html>

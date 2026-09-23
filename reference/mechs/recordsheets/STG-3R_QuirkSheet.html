@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Design Quirk Sheet — Stinger STG-3R</title>
+<style>
+  :root{
+    --ink:#111; --line:#222; --accent:#7a1f1f;
+    --panel:#f4f1e8; --panel2:#ebe6d6;
+    --pos:#1f6b3a; --neg:#a12626;
+  }
+  *{box-sizing:border-box;}
+  body{font-family:"Arial Narrow","Segoe UI",Arial,sans-serif;color:var(--ink);background:#d9d4c5;margin:0;padding:18px;}
+  .sheet{max-width:1000px;margin:0 auto;background:var(--panel);border:3px solid var(--line);padding:14px 16px 22px;box-shadow:0 6px 24px rgba(0,0,0,.3);}
+  h1{font-family:"Arial Black",Impact,sans-serif;letter-spacing:1px;margin:0;font-size:24px;text-transform:uppercase;border-bottom:3px solid var(--accent);padding-bottom:6px;color:var(--accent);}
+  h1 small{color:var(--ink);font-size:12px;font-weight:normal;letter-spacing:0;}
+  .intro{border:2px solid var(--line);background:#fff;padding:10px 12px;margin:12px 0;font-size:13px;}
+  .intro h2{margin:-10px -12px 8px;padding:4px 12px;font-size:12px;letter-spacing:1px;text-transform:uppercase;background:var(--line);color:#fff;}
+  .balance{display:flex;gap:10px;margin:12px 0;text-align:center;}
+  .balance div{flex:1;border:2px solid var(--line);background:#fff;padding:6px;}
+  .balance b{display:block;font-size:22px;}
+  .balance .p{color:var(--pos);} .balance .n{color:var(--neg);}
+  .balance small{font-size:10px;text-transform:uppercase;letter-spacing:.5px;}
+  .section-title{font-family:"Arial Black",sans-serif;text-transform:uppercase;letter-spacing:1px;font-size:14px;margin:16px 0 8px;border-bottom:2px solid var(--line);padding-bottom:3px;}
+  .quirk{border:2px solid var(--line);background:#fff;margin-bottom:12px;}
+  .quirk h3{margin:0;padding:6px 10px;font-size:15px;display:flex;justify-content:space-between;align-items:center;color:#fff;}
+  .quirk.pos h3{background:var(--pos);}
+  .quirk.neg h3{background:var(--neg);}
+  .quirk h3 .tag{font-size:11px;font-weight:normal;text-transform:uppercase;letter-spacing:.5px;background:rgba(255,255,255,.25);padding:2px 8px;border-radius:10px;}
+  .quirk .body{padding:8px 12px;font-size:13px;}
+  .quirk .row{display:flex;gap:10px;padding:3px 0;border-bottom:1px dotted #ccc;}
+  .quirk .row:last-child{border-bottom:none;}
+  .quirk .row .lbl{flex:0 0 130px;font-weight:bold;text-transform:uppercase;font-size:11px;color:#555;padding-top:2px;}
+  .quirk .row .val{flex:1;}
+  .quirk .urban{background:var(--panel2);border-left:4px solid var(--accent);padding:6px 10px;margin-top:6px;font-style:italic;font-size:12.5px;}
+  .foot{font-size:10px;color:#666;margin-top:14px;text-align:center;}
+  @media print{body{background:#fff;padding:0;}.sheet{box-shadow:none;border:2px solid #000;}}
+</style>
+</head>
+<body>
+<div class="sheet">
+  <h1>Design Quirk Sheet &nbsp;<small>Stinger STG-3R &nbsp;•&nbsp; 20 Tons &nbsp;•&nbsp; Inner Sphere Light 'Mech</small></h1>
+
+  <div class="intro">
+    <h2>What are Design Quirks?</h2>
+    <b>Design Quirks</b> are an <em>optional</em> BattleTech rules set (from <em>Strategic Operations</em>,
+    collected in the <em>BattleMech Manual</em>) that give an individual 'Mech special positive or negative
+    traits normal construction rules don't capture. Each has a <b>point value</b> — positives cost points,
+    negatives refund them — and they're not counted in Battle Value, so both players must agree to use them.
+    The Stinger is a tough, everywhere-you-look scout with one notorious flaw: a miserably tight cockpit.
+  </div>
+
+  <div class="balance">
+    <div><b class="p">+1</b><small>Rugged (1)</small></div>
+    <div><b class="p">+1</b><small>Ubiquitous</small></div>
+    <div><b class="n">−2</b><small>Cramped Cockpit</small></div>
+    <div><b>±0</b><small>Net Quirk Points</small></div>
+  </div>
+
+  <div class="section-title">Positive Quirks</div>
+
+  <div class="quirk pos">
+    <h3>Rugged (1) <span class="tag">Positive · 1 pt</span></h3>
+    <div class="body">
+      <div class="row"><div class="lbl">What is it?</div><div class="val">The chassis is built tough and forgiving, tolerating longer stretches without a full maintenance cycle.</div></div>
+      <div class="row"><div class="lbl">Game effect</div><div class="val">At <b>1 point</b>, the 'Mech can go <b>twice as long</b> between required maintenance cycles before it starts to degrade. (At 2 points it would be three times as long — the Stinger has the 1-point version.)</div></div>
+      <div class="urban">Ideal for a scout that operates far from proper repair bays for extended patrols. The Stinger keeps soldiering on with minimal attention, which helped it survive the Succession Wars in huge numbers.</div>
+    </div>
+  </div>
+
+  <div class="quirk pos">
+    <h3>Ubiquitous <span class="tag">Positive · 1 pt</span></h3>
+    <div class="body">
+      <div class="row"><div class="lbl">What is it?</div><div class="val">Mass-produced for centuries by many factories, so spare parts are common everywhere.</div></div>
+      <div class="row"><div class="lbl">Game effect</div><div class="val"><b>Easier to find replacement parts.</b> Rolls to locate/obtain spares are simpler because the chassis is so widespread.</div></div>
+      <div class="urban">The Stinger is the second-most produced 'Mech in the Inner Sphere (right behind its rival, the Wasp) — over 200,000 built. Parts are almost never a problem.</div>
+    </div>
+  </div>
+
+  <div class="section-title">Negative Quirks</div>
+
+  <div class="quirk neg">
+    <h3>Cramped Cockpit <span class="tag">Negative · −2 pts</span></h3>
+    <div class="body">
+      <div class="row"><div class="lbl">What is it?</div><div class="val">The cockpit is uncomfortably tight — an average-sized MechWarrior has to physically squeeze in and often needs help getting out. The controls are awkward to work under stress.</div></div>
+      <div class="row"><div class="lbl">BattleTech effect</div><div class="val">The 'Mech suffers the <b>same penalties as if it mounted a Small Cockpit</b> (a piloting/gunnery penalty), even though it actually uses a normal cockpit's weight and critical slots — so it gets the downside with none of the weight savings.</div></div>
+      <div class="row"><div class="lbl">Alpha Strike</div><div class="val">Applies a <b>+1 penalty to Control Rolls and Physical Attack rolls</b>.</div></div>
+      <div class="urban">This is the Stinger's signature drawback — a running joke among its pilots. It's often cited as the reason later variants (like the STG-5R) prioritized a roomier head assembly with a full-head ejection system.</div>
+    </div>
+  </div>
+
+  <div class="foot">
+    Quirks per <em>BattleMech Manual</em>, p. 95 (Stinger entry). Rules summarized from
+    <em>Strategic Operations</em> / <em>BattleMech Manual</em> and the Alpha Strike Companion via Sarna.net.
+    Design Quirks are optional; both players must agree to use them.
+  </div>
+</div>
+</body>
+</html>

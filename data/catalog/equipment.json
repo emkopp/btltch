@@ -1,0 +1,128 @@
+[
+  {
+    "_id": "equipment:anti-personnel-pod",
+    "type": "equipment",
+    "name": "Anti-Personnel Pod",
+    "description": ""
+  },
+  {
+    "_id": "equipment:artemis-iv-fcs",
+    "type": "equipment",
+    "name": "Artemis IV FCS",
+    "description": ""
+  },
+  {
+    "_id": "equipment:beagle-probe",
+    "type": "equipment",
+    "name": "Beagle Probe",
+    "description": ""
+  },
+  {
+    "_id": "equipment:case",
+    "type": "equipment",
+    "name": "CASE",
+    "description": ""
+  },
+  {
+    "_id": "equipment:c3-computer",
+    "type": "equipment",
+    "name": "C3 Computer",
+    "description": ""
+  },
+  {
+    "_id": "equipment:c3-slave",
+    "type": "equipment",
+    "name": "C3 Slave",
+    "description": ""
+  },
+  {
+    "_id": "equipment:guardian-ecm",
+    "type": "equipment",
+    "name": "Guardian ECM",
+    "description": ""
+  },
+  {
+    "_id": "equipment:hatchet",
+    "type": "equipment",
+    "name": "Hatchet",
+    "description": ""
+  },
+  {
+    "_id": "equipment:masc",
+    "type": "equipment",
+    "name": "MASC",
+    "description": ""
+  },
+  {
+    "_id": "equipment:sword",
+    "type": "equipment",
+    "name": "Sword",
+    "description": ""
+  },
+  {
+    "_id": "equipment:tag",
+    "type": "equipment",
+    "name": "TAG",
+    "description": ""
+  },
+  {
+    "_id": "equipment:triple-strength-myomer",
+    "type": "equipment",
+    "name": "Triple-Strength Myomer",
+    "description": ""
+  },
+  {
+    "_id": "equipment:anti-missile-syst",
+    "type": "equipment",
+    "name": "Anti-Missile Syst",
+    "description": ""
+  },
+  {
+    "_id": "equipment:narc-beacon",
+    "type": "equipment",
+    "name": "Narc Beacon",
+    "description": ""
+  },
+  {
+    "_id": "equipment:tag-arrow-iv",
+    "type": "equipment",
+    "name": "TAG (Arrow IV)",
+    "description": ""
+  },
+  {
+    "_id": "equipment:tag-arrowiv",
+    "type": "equipment",
+    "name": "TAG (ArrowIV)",
+    "description": ""
+  },
+  {
+    "_id": "equipment:artemis-iv",
+    "type": "equipment",
+    "name": "Artemis IV",
+    "description": ""
+  },
+  {
+    "_id": "equipment:targeting-computer",
+    "type": "equipment",
+    "name": "Targeting Computer",
+    "description": ""
+  },
+  {
+    "_id": "equipment:targeting-compute",
+    "type": "equipment",
+    "name": "Targeting Compute",
+    "description": ""
+  },
+  {
+    "_id": "equipment:heat-sink",
+    "type": "equipment",
+    "name": "Heat Sink",
+    "description": ""
+  },
+  {
+    "_id": "equipment:spotlight",
+    "type": "equipment",
+    "name": "SpotLight",
+    "description": ""
+  }
+]

@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Mercenary Manager</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <h1>Mercenary Manager</h1>
+    <span id="summary" class="summary">&nbsp;</span>
+  </header>
+  <div class="home-grid">
+    <a class="card" href="/merc">
+      <h2>Mercenary Team</h2>
+      <p>Your stable, pilots, gear, and finances &mdash; the crew you run.</p>
+      <span class="stat" id="stat-merc">&nbsp;</span>
+    </a>
+    <a class="card" href="/gm">
+      <h2>Game Master</h2>
+      <p>Manage the company and build missions and contracts.</p>
+      <span class="stat" id="stat-gm">&nbsp;</span>
+    </a>
+    <a class="card" href="/lexicon">
+      <h2>Lexicon</h2>
+      <p>Every 'Mech, weapon, and piece of equipment in the universe.</p>
+      <span class="stat" id="stat-lex">&nbsp;</span>
+    </a>
+    <a class="card" href="/map/" target="_blank" rel="noopener">
+      <h2>System Map</h2>
+      <p>The Inner Sphere &mdash; browse systems and plan jump routes.</p>
+      <span class="stat" id="stat-map">&nbsp;</span>
+    </a>
+  </div>
+  <script>
+    async function fetchJson(url) {
+      try { const r = await fetch(url); return r.ok ? await r.json() : null; } catch { return null; }
+    }
+    (async () => {
+      const [fin, mechs, pilots, designs, weapons, equipment, systems, company] = await Promise.all([
+        fetchJson('/api/finances/summary'), fetchJson('/api/mech'), fetchJson('/api/pilot'),
+        fetchJson('/api/design'), fetchJson('/api/weapon'), fetchJson('/api/equipment'),
+        fetchJson('/api/systems/names'), fetchJson('/api/company'),
+      ]);
+      const money = v => (v ?? 0).toLocaleString('en-US') + ' C-Bills';
+      const len = a => Array.isArray(a) ? a.length : 0;
+      const co = (company && company[0]) || {};
+      const bits = [];
+      if (co.name) bits.push(co.name);
+      if (fin) bits.push(`Balance: ${money(fin.balance)}`);
+      document.getElementById('summary').textContent = bits.join('  \u00b7  ');
+      document.getElementById('stat-merc').textContent = `${len(mechs)} 'Mechs \u00b7 ${len(pilots)} pilots`;
+      document.getElementById('stat-gm').textContent = fin ? `Balance ${money(fin.balance)}` : '';
+      document.getElementById('stat-lex').textContent = `${len(designs)} designs \u00b7 ${len(weapons)} weapons \u00b7 ${len(equipment)} equipment`;
+      document.getElementById('stat-map').textContent = `${len(systems)} systems`;
+    })();
+  </script>
+</body>
+</html>

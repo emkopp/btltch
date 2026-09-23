@@ -1,0 +1,21 @@
+{
+  "name": "mercenary-manager",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Local SQLite-backed API and web UI for managing a BattleTech mercenary command.",
+  "main": "server/app.js",
+  "scripts": {
+    "start": "node server/app.js",
+    "seed": "node server/database/seeds/campaign.js",
+    "convert": "node scripts/catalog/convert-mechsheet.js",
+    "seed:catalog": "node server/database/seeds/catalog.js",
+    "seed:systems": "node server/database/seeds/systems.js"
+  },
+  "dependencies": {
+    "better-sqlite3": "^11.10.0",
+    "express": "^4.21.2"
+  },
+  "devDependencies": {
+    "xlsx": "^0.18.5"
+  }
+}

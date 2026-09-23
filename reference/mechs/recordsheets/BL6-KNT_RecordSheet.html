@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>BattleMech Record Sheet — Black Knight BL6-KNT</title>
+<style>
+  :root {
+    --ink: #111;
+    --line: #222;
+    --accent: #7a1f1f;
+    --panel: #f4f1e8;
+    --panel2: #ebe6d6;
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: "Arial Narrow", "Segoe UI", Arial, sans-serif;
+    color: var(--ink);
+    background: #d9d4c5;
+    margin: 0;
+    padding: 18px;
+  }
+  .sheet {
+    max-width: 1100px;
+    margin: 0 auto;
+    background: var(--panel);
+    border: 3px solid var(--line);
+    padding: 14px 16px 22px;
+    box-shadow: 0 6px 24px rgba(0,0,0,.3);
+  }
+  h1 {
+    font-family: "Arial Black", Impact, sans-serif;
+    letter-spacing: 1px;
+    margin: 0;
+    font-size: 26px;
+    text-transform: uppercase;
+    border-bottom: 3px solid var(--accent);
+    padding-bottom: 6px;
+    color: var(--accent);
+  }
+  h1 small { color: var(--ink); font-size: 13px; font-weight: normal; letter-spacing: 0; }
+  .topgrid {
+    display: grid;
+    grid-template-columns: 1.3fr 1fr 1fr;
+    gap: 10px;
+    margin: 12px 0;
+  }
+  .box {
+    border: 2px solid var(--line);
+    background: #fff;
+    padding: 8px 10px;
+  }
+  .box h2 {
+    margin: -8px -10px 8px;
+    padding: 4px 10px;
+    font-size: 13px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    background: var(--line);
+    color: #fff;
+  }
+  .kv { display: flex; justify-content: space-between; font-size: 14px; padding: 2px 0; border-bottom: 1px dotted #bbb; }
+  .kv span:last-child { font-weight: bold; }
+  .movement .mv { display: flex; gap: 10px; text-align: center; }
+  .movement .mv div { flex: 1; border: 1px solid #999; padding: 4px; }
+  .movement .mv b { display: block; font-size: 22px; }
+  .movement .mv small { font-size: 10px; text-transform: uppercase; letter-spacing: .5px; }
+
+  table.weapons { width: 100%; border-collapse: collapse; font-size: 13px; }
+  table.weapons th, table.weapons td { border: 1px solid #999; padding: 3px 5px; text-align: center; }
+  table.weapons th { background: var(--panel2); text-transform: uppercase; font-size: 11px; letter-spacing: .5px; }
+  table.weapons td.name { text-align: left; font-weight: bold; }
+
+  .midgrid { display: grid; grid-template-columns: 1.15fr 1fr; gap: 12px; margin-top: 12px; }
+
+  /* Armor silhouette */
+  .silhouette {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-areas:
+      ".  .   hd  .  ."
+      "la lt  ct  rt ra"
+      ".  ll  ct2 rl .";
+    gap: 6px;
+  }
+  .loc { border: 1.5px solid var(--line); background: #fff; padding: 5px; text-align: center; }
+  .loc .lname { font-size: 10px; font-weight: bold; text-transform: uppercase; letter-spacing: .5px; background: var(--line); color:#fff; margin: -5px -5px 4px; padding: 2px; }
+  .loc .sub { font-size: 9px; color: #666; text-transform: uppercase; margin-top: 4px; }
+  .pips { display: flex; flex-wrap: wrap; gap: 2px; justify-content: center; }
+  .pip { width: 11px; height: 11px; border-radius: 50%; border: 1.3px solid #333; display: inline-block; }
+  .pip.rear { border-style: dashed; }
+  .pip.struct { border-radius: 2px; background: #cfc8b2; border-color:#7a1f1f; }
+  .hd { grid-area: hd; } .la { grid-area: la; } .lt { grid-area: lt; }
+  .ct { grid-area: ct; } .rt { grid-area: rt; } .ra { grid-area: ra; }
+  .ll { grid-area: ll; } .rl { grid-area: rl; } .ct2 { grid-area: ct2; }
+  .legend { font-size: 11px; margin-top: 8px; display:flex; gap:16px; flex-wrap:wrap; }
+  .legend span { display:inline-flex; align-items:center; gap:5px; }
+
+  /* Critical hit tables */
+  .crits { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+  .crit { border: 1.5px solid var(--line); background:#fff; }
+  .crit h3 { margin:0; font-size:11px; background: var(--accent); color:#fff; padding:3px 6px; text-transform:uppercase; letter-spacing:.5px; display:flex; justify-content:space-between; }
+  .crit ol { margin:0; padding:2px 4px 4px 24px; font-size:12px; }
+  .crit li { padding:1px 0; }
+  .crit li.empty { color:#aaa; font-style: italic; }
+  .crit li.fixed { color:#333; }
+  .crit li.weapon { color: var(--accent); font-weight:bold; }
+  .crit li.struct { color:#6b5f3a; }
+
+  /* Heat scale */
+  .heat { margin-top:12px; }
+  .heatscale { display:flex; flex-wrap:wrap; gap:2px; margin-top:6px; }
+  .heatscale div { width: 26px; font-size:10px; text-align:center; border:1px solid #999; padding:2px 0; background:#fff; }
+  .heatscale div.warn { background:#f6d488; }
+  .heatscale div.bad { background:#e8a15a; }
+  .heatscale div.crit { background:#cf5b4b; color:#fff; }
+  .section-title { font-family:"Arial Black",sans-serif; text-transform:uppercase; letter-spacing:1px; font-size:14px; margin:16px 0 6px; border-bottom:2px solid var(--line); padding-bottom:3px; }
+  .foot { font-size:10px; color:#666; margin-top:14px; text-align:center; }
+  @media print {
+    body { background:#fff; padding:0; }
+    .sheet { box-shadow:none; border:2px solid #000; }
+  }
+</style>
+</head>
+<body>
+<div class="sheet">
+  <h1>Black Knight &nbsp;<small>BL6-KNT &nbsp;•&nbsp; 75 Tons &nbsp;•&nbsp; Inner Sphere &nbsp;•&nbsp; Heavy 'Mech</small></h1>
+
+  <div class="topgrid">
+    <div class="box">
+      <h2>'Mech Data</h2>
+      <div class="kv"><span>Tonnage</span><span>75</span></div>
+      <div class="kv"><span>Engine</span><span>300 Fusion (Normal)</span></div>
+      <div class="kv"><span>Walking / Running</span><span>4 / 6</span></div>
+      <div class="kv"><span>Jump</span><span>0</span></div>
+      <div class="kv"><span>Structure</span><span>Endo Steel</span></div>
+      <div class="kv"><span>Heat Sinks</span><span>10 (Single)</span></div>
+      <div class="kv"><span>Tech Base</span><span>Inner Sphere</span></div>
+    </div>
+
+    <div class="box movement">
+      <h2>Movement</h2>
+      <div class="mv">
+        <div><b>4</b><small>Walk</small></div>
+        <div><b>6</b><small>Run</small></div>
+        <div><b>0</b><small>Jump</small></div>
+      </div>
+      <div class="kv" style="margin-top:8px"><span>Heat Dissipation</span><span>10 / turn</span></div>
+      <div class="kv"><span>Alpha-Strike Heat</span><span>39</span></div>
+    </div>
+
+    <div class="box">
+      <h2>Warrior</h2>
+      <div class="kv"><span>Name</span><span>________</span></div>
+      <div class="kv"><span>Gunnery</span><span>____</span></div>
+      <div class="kv"><span>Piloting</span><span>____</span></div>
+      <div class="kv"><span>Hits Taken</span><span>▢▢▢▢▢▢</span></div>
+    </div>
+  </div>
+
+  <div class="section-title">Weapons &amp; Equipment Inventory</div>
+  <table class="weapons">
+    <thead>
+      <tr><th>Qty</th><th>Weapon</th><th>Loc</th><th>Ht</th><th>Dmg</th><th>Min</th><th>Sht</th><th>Med</th><th>Lng</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>1</td><td class="name">PPC</td><td>RA</td><td>10</td><td>10</td><td>3</td><td>6</td><td>12</td><td>18</td></tr>
+      <tr><td>2</td><td class="name">Large Laser</td><td>RT, LT</td><td>8</td><td>8</td><td>—</td><td>5</td><td>10</td><td>15</td></tr>
+      <tr><td>4</td><td class="name">Medium Laser</td><td>RT, LT, RA, LA</td><td>3</td><td>5</td><td>—</td><td>3</td><td>6</td><td>9</td></tr>
+      <tr><td>1</td><td class="name">Small Laser</td><td>HD</td><td>1</td><td>3</td><td>—</td><td>1</td><td>2</td><td>3</td></tr>
+      <tr><td>1</td><td class="name">Beagle Active Probe</td><td>CT</td><td>—</td><td>—</td><td colspan="4">Detection / electronic warfare</td></tr>
+    </tbody>
+  </table>
+
+  <div class="midgrid">
+    <div>
+      <div class="section-title">Armor &amp; Structure Diagram</div>
+      <div class="silhouette" id="silhouette"></div>
+      <div class="legend">
+        <span><i class="pip"></i> Armor (front)</span>
+        <span><i class="pip rear"></i> Armor (rear)</span>
+        <span><i class="pip struct"></i> Internal Structure</span>
+      </div>
+    </div>
+
+    <div>
+      <div class="section-title">Critical Hit Table</div>
+      <div class="crits" id="crits"></div>
+    </div>
+  </div>
+
+  <div class="heat">
+    <div class="section-title">Heat Scale</div>
+    <div class="heatscale" id="heatscale"></div>
+    <div style="font-size:11px;margin-top:6px">
+      Effects — <b>5:</b> −1 Movement &nbsp; <b>8:</b> −1 To-Hit &nbsp; <b>10:</b> −2 Movement &nbsp;
+      <b>13:</b> −2 To-Hit &nbsp; <b>14:</b> Ammo check (4+) &nbsp; <b>17:</b> Shutdown check (8+) &nbsp;
+      <b>19:</b> −3 To-Hit &nbsp; <b>22:</b> Shutdown (10+) &nbsp; <b>28+:</b> Automatic shutdown.
+    </div>
+  </div>
+
+  <div class="foot">
+    Generated from <code>data/catalog/source/mechsheet.xls</code> · sheet <code>BiMechClasses</code>, row <code>BL6-KNT</code> ·
+    layout modeled on <code>Data/R.jpg</code>. Ammunition: none (all-energy loadout).
+  </div>
+</div>
+
+<script>
+// ---- BL6-KNT data pulled from BiMechClasses ----
+const armor = {
+  hd:  { name:"Head",         front:9,  rear:0,  struct:3  },
+  ct:  { name:"Center Torso", front:29, rear:10, struct:23 },
+  rt:  { name:"Right Torso",  front:24, rear:8,  struct:16 },
+  lt:  { name:"Left Torso",   front:24, rear:8,  struct:16 },
+  ra:  { name:"Right Arm",    front:24, rear:0,  struct:12 },
+  la:  { name:"Left Arm",     front:24, rear:0,  struct:12 },
+  rl:  { name:"Right Leg",    front:24, rear:0,  struct:16 },
+  ll:  { name:"Left Leg",     front:24, rear:0,  struct:16 }
+};
+
+function pips(n, cls){
+  let s = "";
+  for (let i=0;i<n;i++) s += `<i class="pip ${cls}"></i>`;
+  return s;
+}
+function locBox(key){
+  const a = armor[key];
+  let html = `<div class="loc ${key}"><div class="lname">${a.name}</div>`;
+  html += `<div class="pips">${pips(a.front,"")}</div>`;
+  if (a.rear>0){
+    html += `<div class="sub">Rear</div><div class="pips">${pips(a.rear,"rear")}</div>`;
+  }
+  html += `<div class="sub">Structure ${a.struct}</div><div class="pips">${pips(a.struct,"struct")}</div>`;
+  html += `</div>`;
+  return html;
+}
+// silhouette order matches grid-areas
+const sil = document.getElementById("silhouette");
+sil.innerHTML =
+  locBox("hd") + locBox("la") + locBox("lt") + locBox("ct") + locBox("rt") +
+  locBox("ra") + locBox("ll") + locBox("rl");
+// duplicate CT lower area cell (ct2) shows nothing—remove by hiding; instead fill legs area properly
+// Fix: the grid has an unused ct2 cell; add a placeholder so layout stays aligned
+const ct2 = document.createElement("div");
+ct2.className = "ct2";
+sil.appendChild(ct2);
+
+// ---- Critical hit tables ----
+const crits = {
+  "Head":        ["Life Support","Sensors","Cockpit",["Small Laser","weapon"],"Sensors","Life Support"],
+  "Center Torso":["Engine","Engine","Engine","Gyro","Gyro","Gyro","Gyro","Engine","Engine","Engine",["Beagle Probe","weapon"],["Beagle Probe","weapon"]],
+  "Right Torso": [["Large Laser","weapon"],["Large Laser","weapon"],["Medium Laser","weapon"],"—","—","—","—","—","—","—","—","—"],
+  "Left Torso":  [["Large Laser","weapon"],["Large Laser","weapon"],["Medium Laser","weapon"],["Endo Steel","struct"],["Endo Steel","struct"],["Endo Steel","struct"],"—","—","—","—","—","—"],
+  "Right Arm":   ["Shoulder","Upper Arm","Lower Arm","Hand",["PPC","weapon"],["PPC","weapon"],["PPC","weapon"],["Medium Laser","weapon"],["Endo Steel","struct"],["Endo Steel","struct"],["Endo Steel","struct"],["Endo Steel","struct"]],
+  "Left Arm":    ["Shoulder","Upper Arm","Lower Arm","Hand",["Medium Laser","weapon"],["Endo Steel","struct"],["Endo Steel","struct"],["Endo Steel","struct"],["Endo Steel","struct"],["Endo Steel","struct"],["Endo Steel","struct"],["Endo Steel","struct"]],
+  "Right Leg":   ["Hip","Upper Leg","Lower Leg","Foot","—","—"],
+  "Left Leg":    ["Hip","Upper Leg","Lower Leg","Foot","—","—"]
+};
+const cbox = document.getElementById("crits");
+for (const [loc, slots] of Object.entries(crits)){
+  let items = "";
+  slots.forEach(s=>{
+    if (Array.isArray(s)) items += `<li class="${s[1]}">${s[0]}</li>`;
+    else if (s==="—") items += `<li class="empty">Roll Again</li>`;
+    else items += `<li class="fixed">${s}</li>`;
+  });
+  cbox.insertAdjacentHTML("beforeend",
+    `<div class="crit"><h3><span>${loc}</span><span>${slots.length} slots</span></h3><ol>${items}</ol></div>`);
+}
+
+// ---- Heat scale 0-30 ----
+const hs = document.getElementById("heatscale");
+for (let h=0; h<=30; h++){
+  let cls = "";
+  if (h>=14 && h<22) cls="warn";
+  else if (h>=22 && h<28) cls="bad";
+  else if (h>=28) cls="crit";
+  hs.insertAdjacentHTML("beforeend", `<div class="${cls}">${h}</div>`);
+}
+</script>
+</body>
+</html>

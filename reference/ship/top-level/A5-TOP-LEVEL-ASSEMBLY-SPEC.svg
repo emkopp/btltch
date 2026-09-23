@@ -1,0 +1,215 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000" role="img" aria-labelledby="title desc">
+  <title id="title">A5 top-level ship — general arrangement technical concept</title>
+  <desc id="desc">Plan-view general arrangement of the A5 top-level carrier: central engine core, workshop with three DropShip docks, bilaterally mirrored port/starboard arms (control room and storage, communications and crew training) ending in maneuvering thrusters, and an aft crew habitat with lounge, crew cabins, and navigation. Orange marks the seven numbered hallways, each fitted flush between its two modules; blue marks the three numbered DropShip docks, each flush on its module edge and protruding outward only. Conceptual, not a construction drawing.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0L10 5L0 10Z" fill="#72d8f7"/>
+    </marker>
+    <radialGradient id="bell" cx="30%" cy="50%" r="75%">
+      <stop offset="0%" stop-color="#1d5468"/>
+      <stop offset="100%" stop-color="#0c2431"/>
+    </radialGradient>
+    <radialGradient id="core" cx="50%" cy="50%" r="60%">
+      <stop offset="0%" stop-color="#f7d27a"/>
+      <stop offset="55%" stop-color="#b9791f"/>
+      <stop offset="100%" stop-color="#3a2a0c"/>
+    </radialGradient>
+    <style>
+      .hull{fill:#0f2c3b;stroke:#e7f8ff;stroke-width:4;stroke-linejoin:round}
+      .room{fill:#143d50;stroke:#9cecff;stroke-width:3;stroke-linejoin:round}
+      .confirmed{fill:none;stroke:#72d8f7;stroke-width:3;stroke-linejoin:round}
+      .fine{fill:none;stroke:#72d8f7;stroke-width:1.5}
+      .inferred{fill:none;stroke:#7ba3b2;stroke-width:2;stroke-dasharray:8 6}
+      .bell{fill:url(#bell);stroke:#e7f8ff;stroke-width:3}
+      .hall{fill:#e8791f;stroke:#ffc189;stroke-width:2;stroke-linejoin:round}
+      .dock{fill:#2f49c8;stroke:#89a0ff;stroke-width:2.5;stroke-linejoin:round}
+      .badge{fill:#08202b;stroke-width:2}
+      .title{fill:#fff;font:700 34px 'Segoe UI',sans-serif;letter-spacing:2px}
+      .section{fill:#72d8f7;font:700 19px 'Segoe UI',sans-serif;letter-spacing:2px}
+      .label{fill:#e7f8ff;font:700 16px 'Segoe UI',sans-serif;letter-spacing:1px}
+      .lab13{fill:#e7f8ff;font:700 13px 'Segoe UI',sans-serif;letter-spacing:.6px}
+      .lab12{fill:#e7f8ff;font:700 12px 'Segoe UI',sans-serif;letter-spacing:.4px}
+      .num{fill:#fff;font:700 15px 'Segoe UI',sans-serif}
+      .text{fill:#abd2df;font:15px 'Segoe UI',sans-serif}
+      .small{fill:#90b6c4;font:13px 'Segoe UI',sans-serif;letter-spacing:.4px}
+      .dim{fill:none;stroke:#72d8f7;stroke-width:1.5;marker-start:url(#arrow);marker-end:url(#arrow)}
+      .leader{fill:none;stroke:#72d8f7;stroke-width:1.5;marker-end:url(#arrow)}
+      .dleader{fill:none;stroke:#89a0ff;stroke-width:1.5;marker-end:url(#arrow)}
+      .ctr{fill:none;stroke:#5f97a8;stroke-width:1.5;stroke-dasharray:14 6 3 6}
+    </style>
+  </defs>
+
+  <rect width="1600" height="1000" fill="#071923"/>
+  <path d="M0 88H1600M1150 88V1000" stroke="#315d70" stroke-width="2"/>
+  <text x="48" y="56" class="title">A5 TOP-LEVEL SHIP</text>
+  <text x="1120" y="55" text-anchor="end" class="section">GENERAL ARRANGEMENT — PLAN</text>
+  <text x="1565" y="54" text-anchor="end" class="small">A5-TL-001 · REV 2</text>
+
+  <text x="55" y="125" class="section">01 / DECK ARRANGEMENT — PLAN VIEW</text>
+
+  <g transform="translate(48 120)">
+    <!-- Regularized centerlines: bilateral left-right symmetry about x=540; longitudinal spine. -->
+    <path class="ctr" d="M540 44V736"/>
+    <path class="ctr" d="M118 430H962"/>
+
+    <!-- ================= MODULES ================= -->
+    <!-- Workshop -->
+    <rect class="hull" x="415" y="105" width="250" height="200" rx="6"/>
+    <path class="fine" d="M430 150H650M430 245H650M470 150V245M610 150V245"/>
+    <rect class="fine" x="500" y="180" width="80" height="45"/>
+    <text x="540" y="205" text-anchor="middle" class="label">WORKSHOP</text>
+    <text x="540" y="262" text-anchor="middle" class="small">FABRICATION / REPAIR BAY</text>
+
+    <!-- Engine core -->
+    <rect class="hull" x="475" y="365" width="130" height="130" rx="14"/>
+    <circle cx="540" cy="418" r="18" fill="url(#core)" stroke="#ffe3a0" stroke-width="2"/>
+    <path class="fine" d="M540 400V436M522 418H558M528 405L552 431M552 405L528 431" stroke="#ffe3a0"/>
+    <text x="540" y="474" text-anchor="middle" class="label">ENGINE</text>
+
+    <!-- Left arm: Communications hex (flat vertical faces at x350 / x420 for flush hallways) -->
+    <path class="room" d="M420 410V450L385 490L350 450V410L385 370Z"/>
+    <path class="fine" d="M372 452A18 18 0 0 1 398 452M385 452V468M377 468H393"/>
+    <text x="385" y="430" text-anchor="middle" class="lab12" transform="rotate(-90 385 430)">COMMUNICATIONS</text>
+
+    <!-- Control room -->
+    <rect class="room" x="210" y="340" width="75" height="180" rx="4"/>
+    <path class="fine" d="M224 372H271M234 372A14 14 0 0 0 261 372"/>
+    <circle class="fine" cx="247" cy="392" r="4"/>
+    <text x="247" y="430" text-anchor="middle" class="label" transform="rotate(-90 247 430)">CONTROL ROOM</text>
+
+    <!-- Thruster 1 (flush to control room's outboard face at x210; nozzles extend outward) -->
+    <rect class="hull" x="150" y="350" width="60" height="160" rx="28"/>
+    <path class="bell" d="M150 372L128 366V398L150 392Z"/>
+    <path class="bell" d="M150 414L128 408V440L150 434Z"/>
+    <path class="bell" d="M150 456L128 450V482L150 476Z"/>
+    <text x="180" y="430" text-anchor="middle" class="lab12" transform="rotate(-90 180 430)">THRUSTER 1</text>
+
+    <!-- Right arm (mirror about x=540): Crew training hex -->
+    <path class="room" d="M660 410V450L695 490L730 450V410L695 370Z"/>
+    <path class="fine" d="M680 408H710M680 428H710M680 448H710"/>
+    <text x="695" y="430" text-anchor="middle" class="lab12" transform="rotate(-90 695 430)">CREW TRAINING</text>
+
+    <!-- Storage -->
+    <rect class="room" x="795" y="340" width="75" height="180" rx="4"/>
+    <path class="fine" d="M807 360H858V398H807ZM807 410H858V448H807ZM807 460H858V498H807Z"/>
+    <text x="832" y="430" text-anchor="middle" class="label" transform="rotate(-90 832 430)">STORAGE</text>
+
+    <!-- Thruster 2 (flush to storage's outboard face at x870; nozzles extend outward) -->
+    <rect class="hull" x="870" y="350" width="60" height="160" rx="28"/>
+    <path class="bell" d="M930 372L952 366V398L930 392Z"/>
+    <path class="bell" d="M930 414L952 408V440L930 434Z"/>
+    <path class="bell" d="M930 456L952 450V482L930 476Z"/>
+    <text x="900" y="430" text-anchor="middle" class="lab12" transform="rotate(-90 900 430)">THRUSTER 2</text>
+
+    <!-- Habitat (aft): flat top edge y560 for flush hallway 2 -->
+    <path class="hull" d="M490 560H590L630 600V680L590 720H490L450 680V600Z"/>
+    <circle class="fine" cx="485" cy="600" r="7"/>
+    <circle class="fine" cx="510" cy="600" r="7"/>
+    <circle class="fine" cx="485" cy="624" r="7"/>
+    <circle class="fine" cx="510" cy="624" r="7"/>
+    <path class="fine" d="M560 590H612M560 615H612M560 640H612M560 665H612"/>
+    <text x="497" y="632" text-anchor="middle" class="lab12" transform="rotate(-90 497 632)">LOUNGE</text>
+    <text x="583" y="632" text-anchor="middle" class="lab12" transform="rotate(-90 583 632)">CREW CABINS</text>
+    <rect class="room" x="500" y="700" width="80" height="24" rx="3"/>
+    <text x="540" y="717" text-anchor="middle" class="lab12">NAVIGATION</text>
+
+    <!-- ================= HALLWAYS (orange) — each spans flush from module edge to module edge ===== -->
+    <!-- 7: workshop(y305) to engine(y365) -->
+    <rect class="hall" x="520" y="305" width="40" height="60"/>
+    <!-- 2: engine(y495) to habitat(y560) -->
+    <rect class="hall" x="520" y="495" width="40" height="65"/>
+    <!-- 1: internal habitat spine, lounge | crew cabins -->
+    <rect class="hall" x="530" y="560" width="20" height="140"/>
+    <!-- 4: engine(x475) to communications(x420) -->
+    <rect class="hall" x="420" y="410" width="55" height="40"/>
+    <!-- 6: communications(x350) to control room(x285) -->
+    <rect class="hall" x="285" y="410" width="65" height="40"/>
+    <!-- 3: engine(x605) to crew training(x660) -->
+    <rect class="hall" x="605" y="410" width="55" height="40"/>
+    <!-- 5: crew training(x730) to storage(x795) -->
+    <rect class="hall" x="730" y="410" width="65" height="40"/>
+
+    <!-- ================= DROP SHIP DOCKS (blue) — flush on the workshop edge, protruding outward only ===== -->
+    <!-- Dock 2: dorsal, sits on the workshop crown (bottom edge y105) -->
+    <rect class="dock" x="500" y="65" width="80" height="40" rx="5"/>
+    <ellipse cx="540" cy="71" rx="24" ry="6" fill="none" stroke="#cdd8ff" stroke-width="2"/>
+    <!-- Dock 1: starboard, flush to workshop right edge x665 -->
+    <rect class="dock" x="665" y="150" width="45" height="66" rx="5"/>
+    <ellipse cx="705" cy="183" rx="6" ry="24" fill="none" stroke="#cdd8ff" stroke-width="2"/>
+    <!-- Dock 3: canted, inner edge flush on workshop left edge x415 (deliberate source asymmetry) -->
+    <path class="dock" d="M415 150L415 182L337 138L337 106Z"/>
+    <ellipse cx="343" cy="122" rx="5" ry="11" fill="none" stroke="#cdd8ff" stroke-width="2"/>
+
+    <circle class="badge" cx="540" cy="87" r="12" stroke="#89a0ff"/><text x="540" y="92" text-anchor="middle" class="num">2</text>
+    <circle class="badge" cx="687" cy="183" r="12" stroke="#89a0ff"/><text x="687" y="188" text-anchor="middle" class="num">1</text>
+    <circle class="badge" cx="378" cy="120" r="12" stroke="#89a0ff"/><text x="378" y="125" text-anchor="middle" class="num">3</text>
+
+    <text x="360" y="40" text-anchor="middle" class="lab13">DROP SHIP DOCKS</text>
+    <path class="dleader" d="M430 44L520 62"/>
+    <path class="dleader" d="M300 44L343 108"/>
+    <path class="dleader" d="M455 40H700V150"/>
+
+    <!-- ================= HALLWAY NUMBER BADGES ================= -->
+    <circle class="badge" cx="540" cy="335" r="12" stroke="#ffc189"/><text x="540" y="340" text-anchor="middle" class="num">7</text>
+    <circle class="badge" cx="540" cy="527" r="12" stroke="#ffc189"/><text x="540" y="532" text-anchor="middle" class="num">2</text>
+    <circle class="badge" cx="540" cy="640" r="12" stroke="#ffc189"/><text x="540" y="645" text-anchor="middle" class="num">1</text>
+    <circle class="badge" cx="447" cy="430" r="12" stroke="#ffc189"/><text x="447" y="435" text-anchor="middle" class="num">4</text>
+    <circle class="badge" cx="317" cy="430" r="12" stroke="#ffc189"/><text x="317" y="435" text-anchor="middle" class="num">6</text>
+    <circle class="badge" cx="632" cy="430" r="12" stroke="#ffc189"/><text x="632" y="435" text-anchor="middle" class="num">3</text>
+    <circle class="badge" cx="762" cy="430" r="12" stroke="#ffc189"/><text x="762" y="435" text-anchor="middle" class="num">5</text>
+
+    <!-- Dimensions unknown without a supplied scale. -->
+    <path class="dim" d="M150 762H930"/>
+    <text x="540" y="788" text-anchor="middle" class="text">OVERALL BEAM (THRUSTER TO THRUSTER) · TBD</text>
+    <path class="dim" d="M1000 55V732"/>
+    <text x="1022" y="395" text-anchor="middle" class="text" transform="rotate(-90 1022 395)">OVERALL LENGTH · TBD</text>
+
+    <!-- Callouts kept inside the sheet margins; leaders point to their components. -->
+    <path class="leader" d="M180 264V350"/>
+    <text x="0" y="236" class="lab13">MANEUVERING THRUSTER</text>
+    <text x="0" y="256" class="small">Thruster 1 &amp; 2 · inferred nozzles</text>
+    <path class="leader" d="M247 322V340"/>
+    <text x="0" y="300" class="lab13">BRIDGE / COMMAND</text>
+    <text x="0" y="320" class="small">Control room detail · inferred</text>
+  </g>
+
+  <!-- ================= INFO PANEL ================= -->
+  <g transform="translate(1180 118)">
+    <text x="0" y="20" class="section">ROLE</text>
+    <text x="0" y="52" class="text">Modular carrier hull hosting</text>
+    <text x="0" y="74" class="text">DropShip docks, workshop,</text>
+    <text x="0" y="96" class="text">crew habitat, and paired</text>
+    <text x="0" y="118" class="text">maneuvering thrusters.</text>
+    <text x="0" y="146" class="small">Vessel class / interstellar drive · inferred</text>
+
+    <path d="M0 172H392" stroke="#315d70"/>
+    <text x="0" y="206" class="section">COLOR KEY</text>
+    <rect x="0" y="222" width="26" height="16" class="hall"/><text x="38" y="235" class="text">Numbered hallways · 1–7 · flush fit</text>
+    <rect x="0" y="248" width="26" height="16" class="dock"/><text x="38" y="261" class="text">DropShip docks · 1–3 · protrude out</text>
+    <rect x="0" y="274" width="26" height="16" fill="#143d50" stroke="#9cecff" stroke-width="3"/><text x="38" y="287" class="text">Pressurized compartment</text>
+    <path d="M0 300H26" class="inferred"/><text x="38" y="304" class="text">Dashed · inferred subsystem</text>
+
+    <path d="M0 326H392" stroke="#315d70"/>
+    <text x="0" y="360" class="section">CONFIRMED LAYOUT</text>
+    <text x="0" y="393" class="text">● Central engine core</text>
+    <text x="0" y="421" class="text">● Workshop w/ three DropShip docks</text>
+    <text x="0" y="449" class="text">● Port / stbd thrusters (1 &amp; 2)</text>
+    <text x="0" y="477" class="text">● Control room ↔ Storage (mirrored)</text>
+    <text x="0" y="505" class="text">● Comms ↔ Crew training (mirrored)</text>
+    <text x="0" y="533" class="text">● Crew cabins · lounge · navigation</text>
+    <text x="0" y="561" class="text">● Seven numbered hallways</text>
+
+    <path d="M0 585H392" stroke="#315d70"/>
+    <text x="0" y="619" class="section">OPEN DESIGN VALUES</text>
+    <text x="0" y="652" class="text">Mass / dimensions</text><text x="378" y="652" text-anchor="end" class="label" fill="#f2bf52">TBD</text>
+    <text x="0" y="682" class="text">Propulsion / thrust</text><text x="378" y="682" text-anchor="end" class="label" fill="#f2bf52">TBD</text>
+    <text x="0" y="712" class="text">Crew / accommodations</text><text x="378" y="712" text-anchor="end" class="label" fill="#f2bf52">TBD</text>
+    <text x="0" y="742" class="text">Armor / weapons</text><text x="378" y="742" text-anchor="end" class="label" fill="#f2bf52">TBD</text>
+    <text x="0" y="772" class="text">Power / endurance</text><text x="378" y="772" text-anchor="end" class="label" fill="#f2bf52">TBD</text>
+  </g>
+
+  <rect x="1180" y="912" width="390" height="60" fill="#102b39" stroke="#72d8f7"/>
+  <text x="1200" y="937" class="small">DESIGN STATUS</text>
+  <text x="1200" y="960" class="label">CONCEPT / NOT A CONSTRUCTION DRAWING</text>
+  <text x="48" y="972" class="small">SOURCE: LABELED LAYOUT SKETCH · BILATERAL SYMMETRY REGULARIZED · HALLWAYS FLUSH TO MODULES · DOCKS PROTRUDE OUTWARD ONLY · ORANGE/BLUE SOURCE COLOR CODE PRESERVED</text>
+</svg>

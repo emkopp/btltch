@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A5 General Arrangement — Interactive Deck Plan</title>
+  <style>
+    :root {
+      --bg: #05131b;
+      --card-bg: rgba(10, 31, 44, 0.95);
+      --cyan: #72d8f7;
+      --cyan-glow: rgba(114, 216, 247, 0.4);
+      --orange: #f28c28;
+      --orange-glow: rgba(242, 140, 40, 0.5);
+      --blue: #3f6fd8;
+      --blue-glow: rgba(63, 111, 216, 0.5);
+      --text: #e7f8ff;
+      --text-dim: #90b6c4;
+      --border: #315d70;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 24px 16px;
+      overflow-x: hidden;
+    }
+
+    header {
+      width: 100%;
+      max-width: 1400px;
+      margin-bottom: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      border-bottom: 2px solid var(--border);
+      padding-bottom: 12px;
+    }
+
+    h1 {
+      font-size: 26px;
+      letter-spacing: 2px;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .subtitle {
+      color: var(--cyan);
+      font-size: 14px;
+      letter-spacing: 2px;
+      font-weight: 600;
+      margin-top: 4px;
+    }
+
+    .badge {
+      font-size: 13px;
+      letter-spacing: 1px;
+      color: var(--text-dim);
+      background: rgba(49, 93, 112, 0.3);
+      padding: 4px 10px;
+      border-radius: 4px;
+      border: 1px solid var(--border);
+    }
+
+    .main-container {
+      position: relative;
+      width: 100%;
+      max-width: 1400px;
+      background: #071923;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
+      overflow: hidden;
+    }
+
+    svg {
+      display: block;
+      width: 100%;
+      height: auto;
+      max-height: 85vh;
+    }
+
+    /* Interactive hover styling on SVG elements */
+    .interactive {
+      cursor: pointer;
+      transition: filter 0.15s ease, opacity 0.15s ease;
+    }
+
+    .interactive:hover {
+      filter: drop-shadow(0 0 10px var(--cyan-glow)) brightness(1.25);
+    }
+
+    .interactive.is-hall:hover {
+      filter: drop-shadow(0 0 12px var(--orange-glow)) brightness(1.3);
+    }
+
+    .interactive.is-dock:hover {
+      filter: drop-shadow(0 0 14px var(--blue-glow)) brightness(1.35);
+    }
+
+    .interactive.active {
+      filter: drop-shadow(0 0 16px var(--cyan)) brightness(1.4);
+    }
+
+    /* Floating Popup Card */
+    #popup {
+      position: absolute;
+      pointer-events: none;
+      opacity: 0;
+      transform: scale(0.96) translateY(6px);
+      transition: opacity 0.18s cubic-bezier(0.16, 1, 0.3, 1), transform 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+      background: var(--card-bg);
+      border: 1px solid var(--cyan);
+      border-radius: 8px;
+      padding: 14px 18px;
+      width: 290px;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.7), 0 0 20px var(--cyan-glow);
+      z-index: 100;
+    }
+
+    #popup.visible {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+    }
+
+    #popup.type-hallway {
+      border-color: var(--orange);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.7), 0 0 20px var(--orange-glow);
+    }
+
+    #popup.type-dock {
+      border-color: var(--blue);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.7), 0 0 20px var(--blue-glow);
+    }
+
+    .popup-tag {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      font-weight: 700;
+      display: inline-block;
+      margin-bottom: 4px;
+      color: var(--cyan);
+    }
+
+    #popup.type-hallway .popup-tag {
+      color: var(--orange);
+    }
+
+    #popup.type-dock .popup-tag {
+      color: #9cc0ff;
+    }
+
+    .popup-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 6px;
+      letter-spacing: 0.5px;
+    }
+
+    .popup-desc {
+      font-size: 13px;
+      line-height: 1.45;
+      color: var(--text-dim);
+      margin-bottom: 10px;
+    }
+
+    .popup-meta {
+      border-top: 1px solid rgba(114, 216, 247, 0.2);
+      padding-top: 8px;
+      font-size: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .popup-meta-row {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .popup-meta-label {
+      color: var(--text-dim);
+    }
+
+    .popup-meta-value {
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    /* Status Bar / Bottom Helper */
+    .status-bar {
+      width: 100%;
+      max-width: 1400px;
+      margin-top: 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 13px;
+      color: var(--text-dim);
+      padding: 0 4px;
+    }
+
+    .shortcuts {
+      display: flex;
+      gap: 16px;
+    }
+
+    .key-hint {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 2px;
+      display: inline-block;
+    }
+    .dot.orange { background: var(--orange); }
+    .dot.blue { background: var(--blue); }
+    .dot.module-dot { background: #173a4d; border: 1px solid #9cc0cf; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div>
+      <h1>A5 GENERAL ARRANGEMENT</h1>
+      <div class="subtitle">INTERACTIVE MODULE / HALLWAY / DOCK PLAN</div>
+    </div>
+    <div class="badge">INTERACTIVE EXPLORER · HOVER ANY COMPONENT</div>
+  </header>
+
+  <div class="main-container" id="container">
+    <!-- Inline SVG with semantic IDs, classes, and dataset attributes for rich hover popups -->
+    <svg id="deck-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 1040" role="img" aria-labelledby="title desc">
+      <title id="title">A5 general arrangement — interactive deck plan</title>
+      <desc id="desc">Interactive schematic deck plan with hover popups for modules, hallways, and drop-ship docks.</desc>
+      <defs>
+        <style>
+          .bg{fill:#071923}
+          .module-shape{fill:#173a4d;stroke:#e7f8ff;stroke-width:3;stroke-linejoin:round}
+          .engine-shape{fill:#123246;stroke:#e7f8ff;stroke-width:3}
+          .thruster-shape{fill:#0f2c3b;stroke:#e7f8ff;stroke-width:3}
+          .hex-shape{fill:#153a4c;stroke:#e7f8ff;stroke-width:3;stroke-linejoin:round}
+          .hall-shape{fill:#f28c28;stroke:#7a3d05;stroke-width:1.5}
+          .dock-shape{fill:#3f6fd8;stroke:#cddaf7;stroke-width:2;stroke-linejoin:round}
+          .div-line{fill:none;stroke:#9cc0cf;stroke-width:1.5;pointer-events:none}
+          .ctr-line{fill:none;stroke:#5f97a8;stroke-width:1.5;stroke-dasharray:14 6 3 6;pointer-events:none}
+          .title-text{fill:#fff;font:700 30px 'Segoe UI',sans-serif;letter-spacing:2px;pointer-events:none}
+          .sub-text{fill:#72d8f7;font:700 17px 'Segoe UI',sans-serif;letter-spacing:2px;pointer-events:none}
+          .mod-text{fill:#eaf6fb;font:700 18px 'Segoe UI',sans-serif;letter-spacing:1px;pointer-events:none}
+          .mods-text{fill:#eaf6fb;font:700 13px 'Segoe UI',sans-serif;letter-spacing:.5px;pointer-events:none}
+          .hnum-text{fill:#0e2036;font:700 20px 'Segoe UI',sans-serif;pointer-events:none}
+          .dnum-text{fill:#ffffff;font:700 20px 'Segoe UI',sans-serif;pointer-events:none}
+          .dockcap-text{fill:#9cc0ff;font:700 15px 'Segoe UI',sans-serif;letter-spacing:2px;pointer-events:none}
+          .leg-text{fill:#cfe4ee;font:15px 'Segoe UI',sans-serif;pointer-events:none}
+          .legb-text{fill:#eaf6fb;font:700 15px 'Segoe UI',sans-serif;letter-spacing:1px;pointer-events:none}
+          .small-text{fill:#90b6c4;font:13px 'Segoe UI',sans-serif;pointer-events:none}
+          .tbd-text{fill:#f2bf52;font:700 15px 'Segoe UI',sans-serif;pointer-events:none}
+        </style>
+      </defs>
+
+      <rect class="bg" width="1400" height="1040"/>
+      <text x="70" y="52" class="title-text">A5 GENERAL ARRANGEMENT</text>
+      <text x="70" y="82" class="sub-text">MODULE / HALLWAY / DOCK DECK PLAN</text>
+      <text x="1330" y="52" text-anchor="end" class="sub-text">GA-A5-001 · REV 1</text>
+      <path d="M70 96H1330" stroke="#315d70" stroke-width="2" style="pointer-events:none;"/>
+
+      <!-- Centerline axis -->
+      <path class="ctr-line" d="M700 150V812"/>
+
+      <!-- ================= HALLWAYS (tight fit between modules) ================= -->
+      <!-- Hallway 7: Workshop <-> Engine -->
+      <g id="hall-7" class="interactive is-hall" 
+         data-type="hallway" 
+         data-id="Hallway 7" 
+         data-title="Hallway 7" 
+         data-desc="Main longitudinal access corridor connecting the primary Workshop to the central Engine compartment."
+         data-connects="Workshop ↔ Engine"
+         data-spec="Tight fit: y350 to y395 (45m span)">
+        <rect class="hall-shape" x="685" y="350" width="30" height="45"/>
+        <text x="700" y="380" text-anchor="middle" class="hnum-text">7</text>
+      </g>
+
+      <!-- Hallway 2: Engine <-> Crew Module -->
+      <g id="hall-2" class="interactive is-hall" 
+         data-type="hallway" 
+         data-id="Hallway 2" 
+         data-title="Hallway 2" 
+         data-desc="Aft longitudinal corridor running between the Engine core and the forward bulkhead of the Crew living module."
+         data-connects="Engine ↔ Crew Module"
+         data-spec="Tight fit: y545 to y620 (75m span)">
+        <rect class="hall-shape" x="685" y="545" width="30" height="75"/>
+        <text x="700" y="590" text-anchor="middle" class="hnum-text">2</text>
+      </g>
+
+      <!-- Hallway 6: Control Room <-> Communications -->
+      <g id="hall-6" class="interactive is-hall" 
+         data-type="hallway" 
+         data-id="Hallway 6" 
+         data-title="Hallway 6" 
+         data-desc="Port transverse passageway linking Control Room operations directly to the Communications pod."
+         data-connects="Control Room ↔ Communications"
+         data-spec="Tight fit: x500 to x525 (25m span)">
+        <rect class="hall-shape" x="500" y="455" width="25" height="30"/>
+        <text x="512" y="477" text-anchor="middle" class="hnum-text">6</text>
+      </g>
+
+      <!-- Hallway 4: Communications <-> Engine -->
+      <g id="hall-4" class="interactive is-hall" 
+         data-type="hallway" 
+         data-id="Hallway 4" 
+         data-title="Hallway 4" 
+         data-desc="Inner port transverse corridor connecting Communications to the central Engine room."
+         data-connects="Communications ↔ Engine"
+         data-spec="Tight fit: x595 to x625 (30m span)">
+        <rect class="hall-shape" x="595" y="455" width="30" height="30"/>
+        <text x="610" y="477" text-anchor="middle" class="hnum-text">4</text>
+      </g>
+
+      <!-- Hallway 3: Engine <-> Crew Training -->
+      <g id="hall-3" class="interactive is-hall" 
+         data-type="hallway" 
+         data-id="Hallway 3" 
+         data-title="Hallway 3" 
+         data-desc="Inner starboard transverse corridor connecting the central Engine core to the Crew Training facility."
+         data-connects="Engine ↔ Crew Training"
+         data-spec="Tight fit: x775 to x805 (30m span)">
+        <rect class="hall-shape" x="775" y="455" width="30" height="30"/>
+        <text x="790" y="477" text-anchor="middle" class="hnum-text">3</text>
+      </g>
+
+      <!-- Hallway 5: Crew Training <-> Storage -->
+      <g id="hall-5" class="interactive is-hall" 
+         data-type="hallway" 
+         data-id="Hallway 5" 
+         data-title="Hallway 5" 
+         data-desc="Starboard transverse passageway giving crew members direct transit from Training into primary Cargo Storage."
+         data-connects="Crew Training ↔ Storage"
+         data-spec="Tight fit: x875 to x900 (25m span)">
+        <rect class="hall-shape" x="875" y="455" width="25" height="30"/>
+        <text x="887" y="477" text-anchor="middle" class="hnum-text">5</text>
+      </g>
+
+      <!-- ================= DOCKS (extending outward only) ================= -->
+      <!-- Dock 2: Dorsal -->
+      <g id="dock-2" class="interactive is-dock" 
+         data-type="dock" 
+         data-id="Drop-Ship Dock 2" 
+         data-title="Drop-Ship Dock 2 (Dorsal)" 
+         data-desc="Top-center docking collar. Sits flush along the dorsal face of the Workshop and extends outward to receive DropShips."
+         data-connects="Workshop (Dorsal Face)"
+         data-spec="Flush at y170 · Outward span 50m">
+        <rect class="dock-shape" x="675" y="120" width="50" height="50"/>
+        <text x="700" y="152" text-anchor="middle" class="dnum-text">2</text>
+      </g>
+
+      <!-- Dock 1: Starboard -->
+      <g id="dock-1" class="interactive is-dock" 
+         data-type="dock" 
+         data-id="Drop-Ship Dock 1" 
+         data-title="Drop-Ship Dock 1 (Starboard)" 
+         data-desc="Right-side docking collar. Mounted flush to the starboard wall of the Workshop, extending outward to berth a docked vessel."
+         data-connects="Workshop (Starboard Face)"
+         data-spec="Flush at x810 · Outward span 50m">
+        <rect class="dock-shape" x="810" y="210" width="50" height="60"/>
+        <text x="835" y="248" text-anchor="middle" class="dnum-text">1</text>
+      </g>
+
+      <!-- Dock 3: Port-Forward Angled -->
+      <g id="dock-3" class="interactive is-dock" 
+         data-type="dock" 
+         data-id="Drop-Ship Dock 3" 
+         data-title="Drop-Ship Dock 3 (Port-Forward)" 
+         data-desc="Angled docking collar. Inner edge flush to Workshop port wall; extends obliquely forward-outward."
+         data-connects="Workshop (Port Face)"
+         data-spec="Angled 45° · Outward cantilever">
+        <polygon class="dock-shape" points="590,205 590,245 490,195 490,155"/>
+        <text x="540" y="182" text-anchor="middle" class="dnum-text">3</text>
+      </g>
+
+      <!-- ================= MODULES ================= -->
+      <!-- Workshop -->
+      <g id="mod-workshop" class="interactive" 
+         data-type="module" 
+         data-id="Workshop Module" 
+         data-title="Workshop & Mech Maintenance" 
+         data-desc="Heavy repair bay and fabrication workshop equipped for lance-level BattleMech refits, armor repair, and DropShip service."
+         data-connects="Docks 1, 2, 3 · Hallway 7"
+         data-spec="Size: 220m × 180m · Hardpoints: 3 Docks">
+        <rect class="module-shape" x="590" y="170" width="220" height="180"/>
+        <text x="700" y="266" text-anchor="middle" class="mod-text">WORKSHOP</text>
+      </g>
+
+      <!-- Thruster 1 (Port) -->
+      <g id="mod-thruster-1" class="interactive" 
+         data-type="module" 
+         data-id="Thruster 1" 
+         data-title="Thruster 1 (Port Propulsion)" 
+         data-desc="Primary portside maneuvering thruster and reaction-control pod mounted flush to the outer wall of the Control Room."
+         data-connects="Control Room (Structural Mount)"
+         data-spec="Size: 80m × 160m · Reaction thruster">
+        <rect class="thruster-shape" x="300" y="390" width="80" height="160" rx="18"/>
+        <text x="340" y="470" text-anchor="middle" class="mod-text" transform="rotate(-90 340 470)">THRUSTER 1</text>
+      </g>
+
+      <!-- Control Room -->
+      <g id="mod-control" class="interactive" 
+         data-type="module" 
+         data-id="Control Room" 
+         data-title="Operations & Control Room" 
+         data-desc="Vessel operations center, tactical plot, sensor monitoring stations, and manual reaction control interfaces."
+         data-connects="Thruster 1 · Hallway 6"
+         data-spec="Size: 120m × 140m · Primary Command">
+        <rect class="module-shape" x="380" y="400" width="120" height="140"/>
+        <text x="440" y="470" text-anchor="middle" class="mod-text" transform="rotate(-90 440 470)">CONTROL ROOM</text>
+      </g>
+
+      <!-- Communications -->
+      <g id="mod-comms" class="interactive" 
+         data-type="module" 
+         data-id="Communications Pod" 
+         data-title="Communications & Relay Hub" 
+         data-desc="Hexagonal signal processing and HPG/laser com relay station situated between Command and the Engine core."
+         data-connects="Hallway 6 (Control) · Hallway 4 (Engine)"
+         data-spec="Type: Hexagonal Module · High-gain relay">
+        <polygon class="hex-shape" points="525,455 545,435 575,435 595,455 595,485 575,505 545,505 525,485"/>
+        <text x="560" y="474" text-anchor="middle" class="mods-text">COMMS</text>
+      </g>
+
+      <!-- Engine -->
+      <g id="mod-engine" class="interactive" 
+         data-type="module" 
+         data-id="Engine Core" 
+         data-title="Primary Engine & Fusion Core" 
+         data-desc="Central fusion reactor room, power distribution bus, and magnetic confinement drives supplying ship-wide energy."
+         data-connects="Hallways 7 (Workshop), 4 (Comms), 3 (Training), 2 (Crew)"
+         data-spec="Size: 150m × 150m · Central Powerplant">
+        <rect class="engine-shape" x="625" y="395" width="150" height="150" rx="18"/>
+        <text x="700" y="476" text-anchor="middle" class="mod-text">ENGINE</text>
+      </g>
+
+      <!-- Crew Training -->
+      <g id="mod-training" class="interactive" 
+         data-type="module" 
+         data-id="Crew Training" 
+         data-title="Crew Training & Sim Pod" 
+         data-desc="Hexagonal simulation pod and physical conditioning bay mirrored opposite the communications facility."
+         data-connects="Hallway 3 (Engine) · Hallway 5 (Storage)"
+         data-spec="Type: Hexagonal Module · Battle Simulators">
+        <polygon class="hex-shape" points="875,455 855,435 825,435 805,455 805,485 825,505 855,505 875,485"/>
+        <text x="840" y="466" text-anchor="middle" class="mods-text">CREW</text>
+        <text x="840" y="483" text-anchor="middle" class="mods-text">TRAIN</text>
+      </g>
+
+      <!-- Storage -->
+      <g id="mod-storage" class="interactive" 
+         data-type="module" 
+         data-id="Storage Bay" 
+         data-title="Main Storage & Cargo Hold" 
+         data-desc="Secure cargo deck for ordnance, Mech replacement components, fuel cells, life-support consumables, and spares."
+         data-connects="Hallway 5 · Thruster 2"
+         data-spec="Size: 120m × 140m · Heavy Cargo">
+        <rect class="module-shape" x="900" y="400" width="120" height="140"/>
+        <text x="960" y="470" text-anchor="middle" class="mod-text" transform="rotate(-90 960 470)">STORAGE</text>
+      </g>
+
+      <!-- Thruster 2 (Starboard) -->
+      <g id="mod-thruster-2" class="interactive" 
+         data-type="module" 
+         data-id="Thruster 2" 
+         data-title="Thruster 2 (Starboard Propulsion)" 
+         data-desc="Primary starboard maneuvering thruster and attitude control array mirroring Thruster 1."
+         data-connects="Storage (Structural Mount)"
+         data-spec="Size: 80m × 160m · Reaction thruster">
+        <rect class="thruster-shape" x="1020" y="390" width="80" height="160" rx="18"/>
+        <text x="1060" y="470" text-anchor="middle" class="mod-text" transform="rotate(-90 1060 470)">THRUSTER 2</text>
+      </g>
+
+      <!-- Crew Living Habitat -->
+      <polygon class="module-shape" points="650,620 750,620 800,670 800,750 750,800 650,800 600,750 600,670" style="pointer-events:none;"/>
+      
+      <!-- Lounge (Port Sub-compartment) -->
+      <g id="mod-lounge" class="interactive" 
+         data-type="module" 
+         data-id="Crew Lounge" 
+         data-title="Crew Lounge & Mess Facility" 
+         data-desc="Recreational and dining quarters for ship officers, crewmen, MechWarriors, and technical support staff."
+         data-connects="Hallway 1 (Central Corridor)"
+         data-spec="Portside living space · Life support">
+        <polygon class="module-shape" points="650,620 690,620 690,768 600,768 600,670"/>
+        <text x="645" y="700" text-anchor="middle" class="mod-text" transform="rotate(-90 645 700)">LOUNGE</text>
+      </g>
+
+      <!-- Crew Cabins (Starboard Sub-compartment) -->
+      <g id="mod-cabins" class="interactive" 
+         data-type="module" 
+         data-id="Crew Cabins" 
+         data-title="Crew Cabins & Bunks" 
+         data-desc="Private and shared staterooms, sleep berths, environmental scrubbers, and personal storage lockers."
+         data-connects="Hallway 1 (Central Corridor)"
+         data-spec="Starboard quarters · Grav-dampened">
+        <polygon class="module-shape" points="710,620 750,620 800,670 800,768 710,768"/>
+        <text x="756" y="700" text-anchor="middle" class="mod-text" transform="rotate(-90 756 700)">CREW CABINS</text>
+      </g>
+
+      <!-- Hallway 1: Lounge <-> Crew Cabins -->
+      <g id="hall-1" class="interactive is-hall" 
+         data-type="hallway" 
+         data-id="Hallway 1" 
+         data-title="Hallway 1 (Crew Spine)" 
+         data-desc="Central internal hallway running between the Lounge and Crew Cabins down to the Navigation forward station."
+         data-connects="Lounge ↔ Cabins ↔ Navigation"
+         data-spec="Spine corridor: y635 to y775">
+        <rect class="hall-shape" x="690" y="635" width="20" height="140"/>
+        <text x="700" y="712" text-anchor="middle" class="hnum-text">1</text>
+      </g>
+
+      <!-- Navigation Compartment -->
+      <g id="mod-nav" class="interactive" 
+         data-type="module" 
+         data-id="Navigation Station" 
+         data-title="Navigation & Astrogation" 
+         data-desc="Forward prow observation post, jump-point astrogation calculators, star charts, and collision-avoidance radar."
+         data-connects="Hallway 1"
+         data-spec="Forward Prow · Jump Navigation">
+        <polygon class="module-shape" points="600,768 800,768 750,800 650,800"/>
+        <text x="700" y="789" text-anchor="middle" class="mods-text">NAVIGATION</text>
+      </g>
+
+      <path class="div-line" d="M690 620V800M710 620V800M600 768H800"/>
+
+      <!-- Dock Caption & Legend -->
+      <text x="700" y="112" text-anchor="middle" class="dockcap-text">DROP-SHIP DOCKS</text>
+
+      <rect x="60" y="852" width="1280" height="160" fill="#0c2734" stroke="#315d70" style="pointer-events:none;"/>
+      <rect x="80" y="872" width="26" height="18" class="hall-shape" style="pointer-events:none;"/>
+      <text x="116" y="887" class="leg-text">HALLWAY — numbered corridor; tight fit, shares module edges (no gap, no overlap).</text>
+      <rect x="80" y="902" width="26" height="18" class="dock-shape" style="pointer-events:none;"/>
+      <text x="116" y="917" class="leg-text">DOCK — numbered drop-ship dock; flush to its module and extends beyond it only.</text>
+      <rect x="80" y="932" width="26" height="18" class="module-shape" style="pointer-events:none;"/>
+      <text x="116" y="947" class="leg-text">MODULE / compartment. Layout mirror-symmetric about the centerline; docks deliberately asymmetric.</text>
+
+      <text x="80" y="976" class="legb-text">HALLWAY INDEX <tspan class="leg-text">1 Lounge-Cabins · 2 Engine-Crew · 3 Engine-Crew Train · 4 Comms-Engine · 5 Crew Train-Storage · 6 Control-Comms · 7 Workshop-Engine</tspan></text>
+      <text x="80" y="998" class="legb-text">DOCK INDEX <tspan class="leg-text">1 Workshop starboard · 2 Workshop dorsal · 3 Workshop port-forward (angled)</tspan></text>
+      <text x="760" y="998" class="tbd-text">SCALE / DIMENSIONS: TBD</text>
+      <text x="1000" y="998" class="small-text">CONCEPT — NOT A CONSTRUCTION DRAWING</text>
+    </svg>
+
+    <!-- Interactive Hover Popup Card -->
+    <div id="popup" role="tooltip" aria-hidden="true">
+      <div class="popup-tag" id="p-tag">MODULE</div>
+      <div class="popup-title" id="p-title">Workshop</div>
+      <div class="popup-desc" id="p-desc">Description goes here.</div>
+      <div class="popup-meta">
+        <div class="popup-meta-row">
+          <span class="popup-meta-label">Connects To:</span>
+          <span class="popup-meta-value" id="p-connects">Engine</span>
+        </div>
+        <div class="popup-meta-row">
+          <span class="popup-meta-label">Design Spec:</span>
+          <span class="popup-meta-value" id="p-spec">Tight Fit</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="status-bar">
+    <div class="shortcuts">
+      <span class="key-hint"><span class="dot module-dot"></span> Modules</span>
+      <span class="key-hint"><span class="dot orange"></span> Hallways (1–7)</span>
+      <span class="key-hint"><span class="dot blue"></span> Drop-Ship Docks (1–3)</span>
+    </div>
+    <div id="status-text">Hover any module, hallway, or dock for details.</div>
+  </div>
+
+  <script>
+    const container = document.getElementById('container');
+    const popup = document.getElementById('popup');
+    const pTag = document.getElementById('p-tag');
+    const pTitle = document.getElementById('p-title');
+    const pDesc = document.getElementById('p-desc');
+    const pConnects = document.getElementById('p-connects');
+    const pSpec = document.getElementById('p-spec');
+    const statusText = document.getElementById('status-text');
+
+    const interactiveElements = document.querySelectorAll('.interactive');
+
+    interactiveElements.forEach(el => {
+      el.addEventListener('mouseenter', (e) => {
+        const type = el.getAttribute('data-type') || 'module';
+        const title = el.getAttribute('data-title') || el.getAttribute('data-id');
+        const desc = el.getAttribute('data-desc') || '';
+        const connects = el.getAttribute('data-connects') || 'N/A';
+        const spec = el.getAttribute('data-spec') || 'Confirmed Concept';
+
+        // Update popup content
+        pTag.textContent = type.toUpperCase();
+        pTitle.textContent = title;
+        pDesc.textContent = desc;
+        pConnects.textContent = connects;
+        pSpec.textContent = spec;
+
+        // Apply class based on type
+        popup.className = `visible type-${type}`;
+        popup.setAttribute('aria-hidden', 'false');
+
+        statusText.textContent = `Inspecting: ${title} (${connects})`;
+        updatePosition(e);
+      });
+
+      el.addEventListener('mousemove', (e) => {
+        updatePosition(e);
+      });
+
+      el.addEventListener('mouseleave', () => {
+        popup.classList.remove('visible');
+        popup.setAttribute('aria-hidden', 'true');
+        statusText.textContent = 'Hover any module, hallway, or dock for details.';
+      });
+    });
+
+    function updatePosition(e) {
+      const rect = container.getBoundingClientRect();
+      const mouseX = e.clientX - rect.left;
+      const mouseY = e.clientY - rect.top;
+
+      const popupWidth = popup.offsetWidth || 290;
+      const popupHeight = popup.offsetHeight || 160;
+
+      // Position to the right-bottom with fallback if near edges
+      let posX = mouseX + 18;
+      let posY = mouseY + 18;
+
+      if (posX + popupWidth > rect.width - 12) {
+        posX = mouseX - popupWidth - 18;
+      }
+      if (posY + popupHeight > rect.height - 12) {
+        posY = mouseY - popupHeight - 18;
+      }
+
+      popup.style.left = `${Math.max(12, posX)}px`;
+      popup.style.top = `${Math.max(12, posY)}px`;
+    }
+  </script>
+</body>
+</html>

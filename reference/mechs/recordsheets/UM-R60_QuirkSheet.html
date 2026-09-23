@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Design Quirk Sheet — UrbanMech UM-R60</title>
+<style>
+  :root{
+    --ink:#111; --line:#222; --accent:#7a1f1f;
+    --panel:#f4f1e8; --panel2:#ebe6d6;
+    --pos:#1f6b3a; --neg:#a12626;
+  }
+  *{box-sizing:border-box;}
+  body{font-family:"Arial Narrow","Segoe UI",Arial,sans-serif;color:var(--ink);background:#d9d4c5;margin:0;padding:18px;}
+  .sheet{max-width:1000px;margin:0 auto;background:var(--panel);border:3px solid var(--line);padding:14px 16px 22px;box-shadow:0 6px 24px rgba(0,0,0,.3);}
+  h1{font-family:"Arial Black",Impact,sans-serif;letter-spacing:1px;margin:0;font-size:24px;text-transform:uppercase;border-bottom:3px solid var(--accent);padding-bottom:6px;color:var(--accent);}
+  h1 small{color:var(--ink);font-size:12px;font-weight:normal;letter-spacing:0;}
+  .intro{border:2px solid var(--line);background:#fff;padding:10px 12px;margin:12px 0;font-size:13px;}
+  .intro h2{margin:-10px -12px 8px;padding:4px 12px;font-size:12px;letter-spacing:1px;text-transform:uppercase;background:var(--line);color:#fff;}
+  .balance{display:flex;gap:10px;margin:12px 0;text-align:center;}
+  .balance div{flex:1;border:2px solid var(--line);background:#fff;padding:6px;}
+  .balance b{display:block;font-size:22px;}
+  .balance .p{color:var(--pos);} .balance .n{color:var(--neg);}
+  .balance small{font-size:10px;text-transform:uppercase;letter-spacing:.5px;}
+  .section-title{font-family:"Arial Black",sans-serif;text-transform:uppercase;letter-spacing:1px;font-size:14px;margin:16px 0 8px;border-bottom:2px solid var(--line);padding-bottom:3px;}
+  .quirk{border:2px solid var(--line);background:#fff;margin-bottom:12px;}
+  .quirk h3{margin:0;padding:6px 10px;font-size:15px;display:flex;justify-content:space-between;align-items:center;color:#fff;}
+  .quirk.pos h3{background:var(--pos);}
+  .quirk.neg h3{background:var(--neg);}
+  .quirk h3 .tag{font-size:11px;font-weight:normal;text-transform:uppercase;letter-spacing:.5px;background:rgba(255,255,255,.25);padding:2px 8px;border-radius:10px;}
+  .quirk .body{padding:8px 12px;font-size:13px;}
+  .quirk .row{display:flex;gap:10px;padding:3px 0;border-bottom:1px dotted #ccc;}
+  .quirk .row:last-child{border-bottom:none;}
+  .quirk .row .lbl{flex:0 0 130px;font-weight:bold;text-transform:uppercase;font-size:11px;color:#555;padding-top:2px;}
+  .quirk .row .val{flex:1;}
+  .quirk .urban{background:var(--panel2);border-left:4px solid var(--accent);padding:6px 10px;margin-top:6px;font-style:italic;font-size:12.5px;}
+  .foot{font-size:10px;color:#666;margin-top:14px;text-align:center;}
+  @media print{body{background:#fff;padding:0;}.sheet{box-shadow:none;border:2px solid #000;}}
+</style>
+</head>
+<body>
+<div class="sheet">
+  <h1>Design Quirk Sheet &nbsp;<small>UrbanMech UM-R60 &nbsp;•&nbsp; 30 Tons &nbsp;•&nbsp; Inner Sphere Light 'Mech</small></h1>
+
+  <div class="intro">
+    <h2>What are Design Quirks?</h2>
+    <b>Design Quirks</b> are an <em>optional</em> BattleTech rules set (first in <em>Strategic Operations</em>,
+    fully collected in the <em>BattleMech Manual</em>). They give an individual 'Mech design special
+    positive or negative traits that normal construction rules don't capture — the little things that
+    make one chassis feel different from another on the battlefield. Each quirk has a <b>point value</b>;
+    positive quirks cost points and negative quirks refund them, and a "balanced" design is meant to
+    offset the two. Quirks are <b>not</b> counted in Battle Value, so both players must agree to use them.
+  </div>
+
+  <div class="balance">
+    <div><b class="p">+3</b><small>Extended Torso Twist</small></div>
+    <div><b class="p">+3</b><small>Narrow / Low Profile</small></div>
+    <div><b class="n">−2</b><small>No / Minimal Arms</small></div>
+    <div><b>+4</b><small>Net Quirk Points</small></div>
+  </div>
+
+  <div class="section-title">Positive Quirks</div>
+
+  <div class="quirk pos">
+    <h3>Extended Torso Twist <span class="tag">Positive · 3 pts</span></h3>
+    <div class="body">
+      <div class="row"><div class="lbl">What is it?</div><div class="val">The 'Mech's waist/torso is unusually flexible, letting it rotate its upper body farther to bring weapons to bear on targets to the side without moving its legs.</div></div>
+      <div class="row"><div class="lbl">BattleTech effect</div><div class="val">When it torso-twists, it may twist <b>one extra hexside</b> beyond the normal one-hexside limit (so up to two hexsides left or right). This widens its arc of fire each turn.</div></div>
+      <div class="row"><div class="lbl">Alpha Strike</div><div class="val">Gains a full <b>360° arc of fire</b> (it still keeps a Rear arc for taking damage).</div></div>
+      <div class="urban">On the UrbanMech this is the famous "spinning trash can" trait — a slow, nearly immobile ambusher that compensates for its 2/3 movement by swiveling to shoot attackers coming from almost any direction without having to waddle around. (Note: MechWarrior Online's continuous 360° spin is an <em>apocryphal</em> exaggeration of this quirk.)</div>
+    </div>
+  </div>
+
+  <div class="quirk pos">
+    <h3>Narrow / Low Profile <span class="tag">Positive · 3 pts</span></h3>
+    <div class="body">
+      <div class="row"><div class="lbl">What is it?</div><div class="val">The chassis presents a very small, squat silhouette to incoming fire, making it a harder target to hit.</div></div>
+      <div class="row"><div class="lbl">BattleTech effect</div><div class="val">Enemy units suffer a <b>+1 penalty to their to-hit target numbers</b> when shooting at this 'Mech (ranged attacks only — physical attacks are unaffected).</div></div>
+      <div class="row"><div class="lbl">Alpha Strike</div><div class="val">Attacks against this unit take an additional <b>+1 modifier</b> (not applied to physical attacks).</div></div>
+      <div class="urban">The UrbanMech's short, hunched "garbage-can" build is exactly what this represents. Combined with hiding in city terrain, that +1 to be hit makes the little 'Mech surprisingly survivable for its tonnage and light armor.</div>
+    </div>
+  </div>
+
+  <div class="section-title">Negative Quirks</div>
+
+  <div class="quirk neg">
+    <h3>No / Minimal Arms <span class="tag">Negative · −2 pts</span></h3>
+    <div class="body">
+      <div class="row"><div class="lbl">What is it?</div><div class="val">The 'Mech either has no arms or has arms too stubby/weak to be useful for bracing, catching itself, or manipulating objects.</div></div>
+      <div class="row"><div class="lbl">BattleTech effect</div><div class="val">Takes a <b>penalty to Piloting Skill Rolls made to stand up</b> after a fall (it can't push itself upright with its arms). It <b>cannot make physical attacks</b> (punches) or <b>carry/lift items</b> with its arms.</div></div>
+      <div class="row"><div class="lbl">Alpha Strike</div><div class="val">Cannot use the External Cargo or Climbing rules.</div></div>
+      <div class="urban">The UrbanMech's arms are little more than weapon mounts (right arm = AC/10, left arm = small laser), with the lower-arm and hand actuators stripped out. It can't punch and struggles to get back on its feet — so keeping it upright, ideally dug into cover, matters.</div>
+    </div>
+  </div>
+
+  <div class="foot">
+    Quirks per <em>BattleMech Manual</em>, p. 95 (UrbanMech entry). Rules text summarized from
+    <em>Strategic Operations</em> / <em>BattleMech Manual</em> and the Alpha Strike Companion via Sarna.net.
+    Design Quirks are an optional rule; both players must agree to use them.
+  </div>
+</div>
+</body>
+</html>

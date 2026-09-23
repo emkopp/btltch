@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Design Quirk Sheet — Wasp WSP-1A</title>
+<style>
+  :root{
+    --ink:#111; --line:#222; --accent:#7a1f1f;
+    --panel:#f4f1e8; --panel2:#ebe6d6;
+    --pos:#1f6b3a; --neg:#a12626;
+  }
+  *{box-sizing:border-box;}
+  body{font-family:"Arial Narrow","Segoe UI",Arial,sans-serif;color:var(--ink);background:#d9d4c5;margin:0;padding:18px;}
+  .sheet{max-width:1000px;margin:0 auto;background:var(--panel);border:3px solid var(--line);padding:14px 16px 22px;box-shadow:0 6px 24px rgba(0,0,0,.3);}
+  h1{font-family:"Arial Black",Impact,sans-serif;letter-spacing:1px;margin:0;font-size:24px;text-transform:uppercase;border-bottom:3px solid var(--accent);padding-bottom:6px;color:var(--accent);}
+  h1 small{color:var(--ink);font-size:12px;font-weight:normal;letter-spacing:0;}
+  .intro{border:2px solid var(--line);background:#fff;padding:10px 12px;margin:12px 0;font-size:13px;}
+  .intro h2{margin:-10px -12px 8px;padding:4px 12px;font-size:12px;letter-spacing:1px;text-transform:uppercase;background:var(--line);color:#fff;}
+  .balance{display:flex;gap:10px;margin:12px 0;text-align:center;}
+  .balance div{flex:1;border:2px solid var(--line);background:#fff;padding:6px;}
+  .balance b{display:block;font-size:22px;}
+  .balance .p{color:var(--pos);} .balance .n{color:var(--neg);}
+  .balance small{font-size:10px;text-transform:uppercase;letter-spacing:.5px;}
+  .section-title{font-family:"Arial Black",sans-serif;text-transform:uppercase;letter-spacing:1px;font-size:14px;margin:16px 0 8px;border-bottom:2px solid var(--line);padding-bottom:3px;}
+  .quirk{border:2px solid var(--line);background:#fff;margin-bottom:12px;}
+  .quirk h3{margin:0;padding:6px 10px;font-size:15px;display:flex;justify-content:space-between;align-items:center;color:#fff;}
+  .quirk.pos h3{background:var(--pos);}
+  .quirk.neg h3{background:var(--neg);}
+  .quirk h3 .tag{font-size:11px;font-weight:normal;text-transform:uppercase;letter-spacing:.5px;background:rgba(255,255,255,.25);padding:2px 8px;border-radius:10px;}
+  .quirk .body{padding:8px 12px;font-size:13px;}
+  .quirk .row{display:flex;gap:10px;padding:3px 0;border-bottom:1px dotted #ccc;}
+  .quirk .row:last-child{border-bottom:none;}
+  .quirk .row .lbl{flex:0 0 130px;font-weight:bold;text-transform:uppercase;font-size:11px;color:#555;padding-top:2px;}
+  .quirk .row .val{flex:1;}
+  .quirk .urban{background:var(--panel2);border-left:4px solid var(--accent);padding:6px 10px;margin-top:6px;font-style:italic;font-size:12.5px;}
+  .foot{font-size:10px;color:#666;margin-top:14px;text-align:center;}
+  @media print{body{background:#fff;padding:0;}.sheet{box-shadow:none;border:2px solid #000;}}
+</style>
+</head>
+<body>
+<div class="sheet">
+  <h1>Design Quirk Sheet &nbsp;<small>Wasp WSP-1A &nbsp;•&nbsp; 20 Tons &nbsp;•&nbsp; Inner Sphere Light 'Mech</small></h1>
+
+  <div class="intro">
+    <h2>What are Design Quirks?</h2>
+    <b>Design Quirks</b> are an <em>optional</em> BattleTech rules set (from <em>Strategic Operations</em>,
+    collected in the <em>BattleMech Manual</em>) that give an individual 'Mech special positive or negative
+    traits normal construction rules don't capture. Each has a <b>point value</b> — positives cost points,
+    negatives refund them — and they're not counted in Battle Value, so both players must agree to use them.
+    The Wasp is an all-positive design: a cheap, rugged, everywhere-you-look recon 'Mech.
+  </div>
+
+  <div class="balance">
+    <div><b class="p">+1</b><small>Easy to Maintain</small></div>
+    <div><b class="p">+3</b><small>Extended Torso Twist</small></div>
+    <div><b class="p">+1</b><small>Ubiquitous</small></div>
+    <div><b>+5</b><small>Net Quirk Points</small></div>
+  </div>
+
+  <div class="section-title">Positive Quirks</div>
+
+  <div class="quirk pos">
+    <h3>Easy to Maintain <span class="tag">Positive · 1 pt</span></h3>
+    <div class="body">
+      <div class="row"><div class="lbl">What is it?</div><div class="val">The 'Mech is built with accessibility and simplicity in mind — panels open easily, parts are standard, and techs don't have to fight the chassis to service it.</div></div>
+      <div class="row"><div class="lbl">Game effect</div><div class="val">Grants a <b>bonus to the target-number modifier for Repair and replacement rolls</b> (campaign/maintenance rules). It's faster and more reliable to fix between battles.</div></div>
+      <div class="urban">A recon 'Mech lives or dies on uptime. The Wasp's simple GM-built frame keeps it in the field with minimal fuss, which is a big reason so many are still running centuries later.</div>
+    </div>
+  </div>
+
+  <div class="quirk pos">
+    <h3>Extended Torso Twist <span class="tag">Positive · 3 pts</span></h3>
+    <div class="body">
+      <div class="row"><div class="lbl">What is it?</div><div class="val">The waist can rotate farther than a normal 'Mech, letting it bring its arm/torso weapons around to the sides without turning its legs.</div></div>
+      <div class="row"><div class="lbl">BattleTech effect</div><div class="val">May torso-twist <b>one extra hexside</b> beyond the normal one-hexside limit (up to two each way), widening its firing arc each turn.</div></div>
+      <div class="row"><div class="lbl">Alpha Strike</div><div class="val">Gains a full <b>360° arc of fire</b> (still keeps a Rear arc for taking damage).</div></div>
+      <div class="urban">Perfect for a jump-and-fade skirmisher: the Wasp can leap into a firing position, then twist to cover threats from several directions before bounding away again.</div>
+    </div>
+  </div>
+
+  <div class="quirk pos">
+    <h3>Ubiquitous <span class="tag">Positive · 1 pt</span></h3>
+    <div class="body">
+      <div class="row"><div class="lbl">What is it?</div><div class="val">The design has been mass-produced for centuries by many manufacturers, so spare parts are everywhere.</div></div>
+      <div class="row"><div class="lbl">Game effect</div><div class="val"><b>Easier to find replacement parts.</b> Rolls to locate/obtain spares are simpler because the chassis is so common across the Inner Sphere.</div></div>
+      <div class="urban">The Wasp is literally <em>the</em> most-produced BattleMech in the setting — tens of thousands built across every Great House. If something breaks, a replacement is almost always nearby.</div>
+    </div>
+  </div>
+
+  <div class="foot">
+    Quirks per <em>BattleMech Manual</em>, p. 95 (Wasp entry). Rules summarized from
+    <em>Strategic Operations</em> / <em>BattleMech Manual</em> via Sarna.net. Design Quirks are optional;
+    both players must agree to use them. (The primitive <em>WSP-1</em> prototype instead has Hard to Pilot and Weak Legs.)
+  </div>
+</div>
+</body>
+</html>

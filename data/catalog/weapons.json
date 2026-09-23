@@ -1,0 +1,2182 @@
+[
+  {
+    "_id": "weapon:is-er-large-laser",
+    "type": "weapon",
+    "techBase": "IS",
+    "name": "ER Large Laser",
+    "heat": 12,
+    "attacks": 1,
+    "damagePerAttack": 8,
+    "totalDamage": 8,
+    "missile": false,
+    "range": {
+      "min": 0,
+      "short": 7,
+      "medium": 14,
+      "long": 21
+    },
+    "hasAmmo": false,
+    "ammoName": null,
+    "ammoPerTon": null
+  },
+  {
+    "_id": "weapon:is-er-medium-laser",
+    "type": "weapon",
+    "techBase": "IS",
+    "name": "ER Medium Laser",
+    "heat": 5,
+    "attacks": 1,
+    "damagePerAttack": 5,
+    "totalDamage": 5,
+    "missile": false,
+    "range": {
+      "min": 0,
+      "short": 4,
+      "medium": 8,
+      "long": 12
+    },
+    "hasAmmo": false,
+    "ammoName": null,
+    "ammoPerTon": null
+  },
+  {
+    "_id": "weapon:is-er-small-laser",
+    "type": "weapon",
+    "techBase": "IS",
+    "name": "ER Small Laser",
+    "heat": 2,
+    "attacks": 1,
+    "damagePerAttack": 3,
+    "totalDamage": 3,
+    "missile": false,
+    "range": {
+      "min": 0,
+      "short": 2,
+      "medium": 4,
+      "long": 6
+    },
+    "hasAmmo": false,
+    "ammoName": null,
+    "ammoPerTon": null
+  },
+  {
+    "_id": "weapon:is-flamer",
+    "type": "weapon",
+    "techBase": "IS",
+    "name": "Flamer",
+    "heat": 3,
+    "attacks": 1,
+    "damagePerAttack": 2,
+    "totalDamage": 2,
+    "missile": false,
+    "range": {
+      "min": 0,
+      "short": 1,
+      "medium": 2,
+      "long": 3
+    },
+    "hasAmmo": false,
+    "ammoName": null,
+    "ammoPerTon": null
+  },
+  {
+    "_id": "weapon:is-large-laser",
+    "type": "weapon",
+    "techBase": "IS",
+    "name": "Large Laser",
+    "heat": 8,
+    "attacks": 1,
+    "damagePerAttack": 8,
+    "totalDamage": 8,
+    "missile": false,
+    "range": {
+      "min": 0,
+      "short": 5,
+      "medium": 10,
+      "long": 15
+    },
+    "hasAmmo": false,
+    "ammoName": null,
+    "ammoPerTon": null
+  },
+  {
+    "_id": "weapon:is-medium-laser",
+    "type": "weapon",
+    "techBase": "IS",
+    "name": "Medium Laser",
+    "heat": 3,
+    "attacks": 1,
+    "damagePerAttack": 5,
+    "totalDamage": 5,
+    "missile": false,
+    "range": {
+      "min": 0,
+      "short": 3,
+      "medium": 6,
+      "long": 9
+    },
+    "hasAmmo": false,
+    "ammoName": null,
+    "ammoPerTon": null
+  },
+  {
+    "_id": "weapon:is-small-laser",
+    "type": "weapon",
+    "techBase": "IS",
+    "name": "Small Laser",
+    "heat": 1,
+    "attacks": 1,
+    "damagePerAttack": 3,
+    "totalDamage": 3,
+    "missile": false,
+    "range": {
+      "min": 0,
+      "short": 1,
+      "medium": 2,
+      "long": 3
+    },
+    "hasAmmo": false,
+    "ammoName": null,
+    "ammoPerTon": null
+  },
+  {
+    "_id": "weapon:is-ppc",
+    "type": "weapon",
+    "techBase": "IS",
+    "name": "PPC",
+    "heat": 10,
+    "attacks": 1,
+    "damagePerAttack": 10,
+    "totalDamage": 10,
+    "missile": false,
+    "range": {
+      "min": 3,
+      "short": 6,
+      "medium": 12,
+      "long": 18
+    },
+    "hasAmmo": false,
+    "ammoName": null,
+    "ammoPerTon": null
+  },
+  {
+    "_id": "weapon:is-er-ppc",
+    "type": "weapon",
+    "techBase": "IS",
+    "name": "ER PPC",
+    "heat": 15,
+    "attacks": 1,
+    "damagePerAttack": 10,
+    "totalDamage": 10,
+    "missile": false,
+    "range": {
+      "min": 0,
+      "short": 7,
+      "medium": 14,
+      "long": 21
+    },
+    "hasAmmo": false,
+    "ammoName": null,
+    "ammoPerTon": null
+  },
+  {
+    "_id": "weapon:is-pulse-large-laser",
+    "type": "weapon",
+    "techBase": "IS",
+    "name": "Pulse Large Laser",
+    "heat": 10,
+    "attacks": 1,
+    "damagePerAttack": 9,
+    "totalDamage": 9,
+    "missile": false,
+    "range": {
+      "min": 0,
+      "short": 3,
+      "medium": 6,
+      "long": 9
+    },
+    "hasAmmo": false,
+    "ammoName": null,
+    "ammoPerTon": null
+  },
+  {
+    "_id": "weapon:is-pulse-medium-laser",
+    "type": "weapon",
+    "techBase": "IS",
+    "name": "Pulse Medium Laser",
+    "heat": 4,
+    "attacks": 1,
+    "damagePerAttack": 6,
+    "totalDamage": 6,
+    "missile": false,
+    "range": {
+      "min": 0,
+      "short": 2,
+      "medium": 4,
+      "long": 6
+    },
+    "hasAmmo": false,
+    "ammoName": null,
+    "ammoPerTon": null
+  },
+  {
+    "_id": "weapon:is-pulse-small-laser",
+    "type": "weapon",
+    "techBase": "IS",
+    "name": "Pulse Small Laser",
+    "heat": 2,
+    "attacks": 1,
+    "damagePerAttack": 3,
+    "totalDamage": 3,
+    "missile": false,
+    "range": {
+      "min": 0,
+      "short": 1,
+      "medium": 2,
+      "long": 3
+    },
+    "hasAmmo": false,
+    "ammoName": null,
+    "ammoPerTon": null
+  },
+  {
+    "_id": "weapon:is-anti-missile-system",
+    "type": "weapon",
+    "techBase": "IS",
+    "name": "Anti-Missile System",
+    "heat": 1,
+    "attacks": "X",
+    "damagePerAttack": "S",
+    "totalDamage": "S",
+    "missile": true,
+    "range": {
+      "min": 0,
+      "short": 0,
+      "medium": 0,
+      "long": 0
+    },
+    "hasAmmo": true,
+    "ammoName": "Ammo Anit-Missile",
+    "ammoPerTon": 12
+  },
+  {
+    "_id": "weapon:is-auto-cannon-2",
+    "type": "weapon",
+    "techBase": "IS",
+    "name": "Auto Cannon/2",
+    "heat": 1,
+    "attacks": 1,
+    "damagePerAttack": 2,
+    "totalDamage": 2,
+    "missile": false,
+    "range": {
+      "min": 4,
+      "short": 8,
+      "medium": 16,
+      "long": 24
+    },
+    "hasAmmo": true,
+    "ammoName": "Ammo AC/2",
+    "ammoPerTon": 45
+  },
+  {
+    "_id": "weapon:is-auto-cannon-5",
+    "type": "weapon",
+    "techBase": "IS",
+    "name": "Auto Cannon/5",
+    "heat": 1,
+    "attacks": 1,
+    "damagePerAttack": 5,
+    "totalDamage": 5,
+    "missile": false,
+    "range": {
+      "min": 3,
+      "short": 6,
+      "medium": 12,
+      "long": 18
+    },
+    "hasAmmo": true,
+    "ammoName": "Ammo AC/5",
+    "ammoPerTon": 20
+  },
+  {
+    "_id": "weapon:is-auto-cannon-10",
+    "type": "weapon",
+    "techBase": "IS",
+    "name": "Auto Cannon/10",
+    "heat": 3,
+    "attacks": 1,
+    "damagePerAttack": 10,
+    "totalDamage": 10,
+    "missile": false,
+    "range": {
+      "min": 0,
+      "short": 5,
+      "medium": 10,
+      "long": 15
+    },
+    "hasAmmo": true,
+    "ammoName": "Ammo AC/10",
+    "ammoPerTon": 10
+  },
+  {
+    "_id": "weapon:is-auto-cannon-20",
+    "type": "weapon",
+    "techBase": "IS",
+    "name": "Auto Cannon/20",
+    "heat": 7,
+    "attacks": 1,
+    "damagePerAttack": 20,
+    "totalDamage": 20,
+    "missile": false,
+    "range": {
+      "min": 0,
+      "short": 3,
+      "medium": 6,
+      "long": 9
+    },
+    "hasAmmo": true,
+    "ammoName": "Ammo AC/20",
+    "ammoPerTon": 5
+  },
+  {
+    "_id": "weapon:is-gauss-rifle",
+    "type": "weapon",
+    "techBase": "IS",
+    "name": "Gauss Rifle",
+    "heat": 1,
+    "attacks": 1,
+    "damagePerAttack": 15,
+    "totalDamage": 15,
+    "missile": false,
+    "range": {
+      "min": 2,
+      "short": 7,
+      "medium": 14,
+      "long": 21
+    },
+    "hasAmmo": true,
+    "ammoName": "Ammo Gauss",
+    "ammoPerTon": 8
+  },
+  {
+    "_id": "weapon:is-light-gauss-rifle",
+    "type": "weapon",
+    "techBase": "IS",
+    "name": "Light Gauss Rifle",
+    "heat": 1,
+    "attacks": 8,
+    "damagePerAttack": 8,
+    "totalDamage": 64,
+    "missile": false,
+    "range": {
+      "min": 3,
+      "short": 8,
+      "medium": 16,
+      "long": 24
+    },
+    "hasAmmo": true,
+    "ammoName": null,
+    "ammoPerTon": null
+  },
+  {
+    "_id": "weapon:is-lb-2-x-ac",
+    "type": "weapon",
+    "techBase": "IS",
+    "name": "LB 2-X AC",
+    "heat": 1,
+    "attacks": 2,
+    "damagePerAttack": 1,
+    "totalDamage": 2,
+    "missile": true,
+    "range": {
+      "min": 4,
+      "short": 9,
+      "medium": 18,
+      "long": 27
+    },
+    "hasAmmo": true,
+    "ammoName": "Ammo 2-X",
+    "ammoPerTon": 45
+  },
+  {
+    "_id": "weapon:is-lb-5-x-ac",
+    "type": "weapon",
+    "techBase": "IS",
+    "name": "LB 5-X AC",
+    "heat": 1,
+    "attacks": 5,
+    "damagePerAttack": 1,
+    "totalDamage": 5,
+    "missile": true,
+    "range": {
+      "min": 3,
+      "short": 7,
+      "medium": 14,
+      "long": 21
+    },
+    "hasAmmo": true,
+    "ammoName": "Ammo 5-X",
+    "ammoPerTon": 20
+  },
+  {
+    "_id": "weapon:is-lb-10-x-ac",
+    "type": "weapon",
+    "techBase": "IS",
+    "name": "LB 10-X AC",
+    "heat": 2,
+    "attacks": 10,
+    "damagePerAttack": 1,
+    "totalDamage": 10,
+    "missile": true,
+    "range": {
+      "min": 0,
+      "short": 6,
+      "medium": 12,
+      "long": 18
+    },
+    "hasAmmo": true,
+    "ammoName": "Ammo 10-X",
+    "ammoPerTon": 10
+  },
+  {
+    "_id": "weapon:is-lb-20-x-ac",
+    "type": "weapon",
+    "techBase": "IS",
+    "name": "LB 20-X AC",
+    "heat": 6,
+    "attacks": 20,
+    "damagePerAttack": 1,
+    "totalDamage": 20,
+    "missile": true,
+    "range": {
+      "min": 0,
+      "short": 4,
+      "medium": 8,
+      "long": 12
+    },
+    "hasAmmo": true,
+    "ammoName": "Ammo 20-X",
+    "ammoPerTon": 5
+  },
+  {
+    "_id": "weapon:is-machine-gun",
+    "type": "weapon",
+    "techBase": "IS",
+    "name": "Machine Gun",
+    "heat": 0,
+    "attacks": 1,
+    "damagePerAttack": 2,
+    "totalDamage": 2,
+    "missile": false,
+    "range": {
+      "min": 0,
+      "short": 1,
+      "medium": 2,
+      "long": 3
+    },
+    "hasAmmo": true,
+    "ammoName": "Ammo MG - Full",
+    "ammoPerTon": 200
+  },
+  {
+    "_id": "weapon:is-ultra-ac-2",
+    "type": "weapon",
+    "techBase": "IS",
+    "name": "Ultra AC/2",
+    "heat": 2,
+    "attacks": 2,
+    "damagePerAttack": 2,
+    "totalDamage": 4,
+    "missile": true,
+    "range": {
+      "min": 3,
+      "short": 8,
+      "medium": 16,
+      "long": 24
+    },
+    "hasAmmo": true,
+    "ammoName": "Ammo Ultra AC/2",
+    "ammoPerTon": 45
+  },
+  {
+    "_id": "weapon:is-ultra-ac-5",
+    "type": "weapon",
+    "techBase": "IS",
+    "name": "Ultra AC/5",
+    "heat": 2,
+    "attacks": 2,
+    "damagePerAttack": 5,
+    "totalDamage": 10,
+    "missile": true,
+    "range": {
+      "min": 2,
+      "short": 6,
+      "medium": 12,
+      "long": 18
+    },
+    "hasAmmo": true,
+    "ammoName": "Ammo Ultra AC/5",
+    "ammoPerTon": 20
+  },
+  {
+    "_id": "weapon:is-ultra-ac-10",
+    "type": "weapon",
+    "techBase": "IS",
+    "name": "Ultra AC/10",
+    "heat": 8,
+    "attacks": 2,
+    "damagePerAttack": 10,
+    "totalDamage": 20,
+    "missile": true,
+    "range": {
+      "min": 0,
+      "short": 6,
+      "medium": 12,
+      "long": 18
+    },
+    "hasAmmo": true,
+    "ammoName": "Ammo Ultra AC/10",
+    "ammoPerTon": 10
+  },
+  {
+    "_id": "weapon:is-ultra-ac-20",
+    "type": "weapon",
+    "techBase": "IS",
+    "name": "Ultra AC/20",
+    "heat": 16,
+    "attacks": 2,
+    "damagePerAttack": 20,
+    "totalDamage": 40,
+    "missile": true,
+    "range": {
+      "min": 0,
+      "short": 3,
+      "medium": 6,
+      "long": 9
+    },
+    "hasAmmo": true,
+    "ammoName": "Ammo Ultra AC/20",
+    "ammoPerTon": 5
+  },
+  {
+    "_id": "weapon:is-lrm-5",
+    "type": "weapon",
+    "techBase": "IS",
+    "name": "LRM-5",
+    "heat": 2,
+    "attacks": 5,
+    "damagePerAttack": 1,
+    "totalDamage": 5,
+    "missile": true,
+    "range": {
+      "min": 6,
+      "short": 7,
+      "medium": 14,
+      "long": 21
+    },
+    "hasAmmo": true,
+    "ammoName": "Ammo LRM-5",
+    "ammoPerTon": 24
+  },
+  {
+    "_id": "weapon:is-lrm-10",
+    "type": "weapon",
+    "techBase": "IS",
+    "name": "LRM-10",
+    "heat": 4,
+    "attacks": 10,
+    "damagePerAttack": 1,
+    "totalDamage": 10,
+    "missile": true,
+    "range": {
+      "min": 6,
+      "short": 7,
+      "medium": 14,
+      "long": 21
+    },
+    "hasAmmo": true,
+    "ammoName": "Ammo LRM-10",
+    "ammoPerTon": 12
+  },
+  {
+    "_id": "weapon:is-lrm-15",
+    "type": "weapon",
+    "techBase": "IS",
+    "name": "LRM-15",
+    "heat": 5,
+    "attacks": 15,
+    "damagePerAttack": 1,
+    "totalDamage": 15,
+    "missile": true,
+    "range": {
+      "min": 6,
+      "short": 7,
+      "medium": 14,
+      "long": 21
+    },
+    "hasAmmo": true,
+    "ammoName": "Ammo LRM-15",
+    "ammoPerTon": 8
+  },
+  {
+    "_id": "weapon:is-lrm-20",
+    "type": "weapon",
+    "techBase": "IS",
+    "name": "LRM-20",
+    "heat": 6,
+    "attacks": 20,
+    "damagePerAttack": 1,
+    "totalDamage": 20,
+    "missile": true,
+    "range": {
+      "min": 6,
+      "short": 7,
+      "medium": 14,
+      "long": 21
+    },
+    "hasAmmo": true,
+    "ammoName": "Ammo LRM-20",
+    "ammoPerTon": 6
+  },
+  {
+    "_id": "weapon:is-mrm-10",
+    "type": "weapon",
+    "techBase": "IS",
+    "name": "MRM-10",
+    "heat": 4,
+    "attacks": 10,
+    "damagePerAttack": 1,
+    "totalDamage": 10,
+    "missile": true,
+    "range": {
+      "min": 0,
+      "short": 4,
+      "medium": 8,
+      "long": 12
+    },
+    "hasAmmo": true,
+    "ammoName": null,
+    "ammoPerTon": null
+  },
+  {
+    "_id": "weapon:is-mrm-20",
+    "type": "weapon",
+    "techBase": "IS",
+    "name": "MRM-20",
+    "heat": 6,
+    "attacks": 20,
+    "damagePerAttack": 1,
+    "totalDamage": 20,
+    "missile": true,
+    "range": {
+      "min": 0,
+      "short": 4,
+      "medium": 8,
+      "long": 12
+    },
+    "hasAmmo": true,
+    "ammoName": null,
+    "ammoPerTon": null
+  },
+  {
+    "_id": "weapon:is-mrm-30",
+    "type": "weapon",
+    "techBase": "IS",
+    "name": "MRM-30",
+    "heat": 10,
+    "attacks": 30,
+    "damagePerAttack": 1,
+    "totalDamage": 30,
+    "missile": true,
+    "range": {
+      "min": 0,
+      "short": 4,
+      "medium": 8,
+      "long": 12
+    },
+    "hasAmmo": true,
+    "ammoName": null,
+    "ammoPerTon": null
+  },
+  {
+    "_id": "weapon:is-mrm-40",
+    "type": "weapon",
+    "techBase": "IS",
+    "name": "MRM-40",
+    "heat": 12,
+    "attacks": 40,
+    "damagePerAttack": 1,
+    "totalDamage": 40,
+    "missile": true,
+    "range": {
+      "min": 0,
+      "short": 4,
+      "medium": 8,
+      "long": 12
+    },
+    "hasAmmo": true,
+    "ammoName": null,
+    "ammoPerTon": null
+  },
+  {
+    "_id": "weapon:is-narc-beacon",
+    "type": "weapon",
+    "techBase": "IS",
+    "name": "Narc Beacon",
+    "heat": 0,
+    "attacks": "S",
+    "damagePerAttack": "S",
+    "totalDamage": "S",
+    "missile": true,
+    "range": {
+      "min": 0,
+      "short": 0,
+      "medium": 0,
+      "long": 0
+    },
+    "hasAmmo": true,
+    "ammoName": "Ammo Narc",
+    "ammoPerTon": 6
+  },
+  {
+    "_id": "weapon:is-srm-2",
+    "type": "weapon",
+    "techBase": "IS",
+    "name": "SRM-2",
+    "heat": 2,
+    "attacks": 2,
+    "damagePerAttack": 2,
+    "totalDamage": 4,
+    "missile": true,
+    "range": {
+      "min": 0,
+      "short": 3,
+      "medium": 6,
+      "long": 9
+    },
+    "hasAmmo": true,
+    "ammoName": "Ammo SRM-2",
+    "ammoPerTon": 50
+  },
+  {
+    "_id": "weapon:is-srm-4",
+    "type": "weapon",
+    "techBase": "IS",
+    "name": "SRM-4",
+    "heat": 3,
+    "attacks": 4,
+    "damagePerAttack": 2,
+    "totalDamage": 8,
+    "missile": true,
+    "range": {
+      "min": 0,
+      "short": 3,
+      "medium": 6,
+      "long": 9
+    },
+    "hasAmmo": true,
+    "ammoName": "Ammo SRM-4",
+    "ammoPerTon": 25
+  },
+  {
+    "_id": "weapon:is-srm-6",
+    "type": "weapon",
+    "techBase": "IS",
+    "name": "SRM-6",
+    "heat": 4,
+    "attacks": 6,
+    "damagePerAttack": 2,
+    "totalDamage": 12,
+    "missile": true,
+    "range": {
+      "min": 0,
+      "short": 3,
+      "medium": 6,
+      "long": 9
+    },
+    "hasAmmo": true,
+    "ammoName": "Ammo SRM-6",
+    "ammoPerTon": 15
+  },
+  {
+    "_id": "weapon:is-streak-srm-2",
+    "type": "weapon",
+    "techBase": "IS",
+    "name": "Streak SRM-2",
+    "heat": 2,
+    "attacks": 2,
+    "damagePerAttack": 2,
+    "totalDamage": 4,
+    "missile": false,
+    "range": {
+      "min": 0,
+      "short": 3,
+      "medium": 6,
+      "long": 9
+    },
+    "hasAmmo": true,
+    "ammoName": "Ammo Streak-2",
+    "ammoPerTon": 50
+  },
+  {
+    "_id": "weapon:is-streak-srm-4",
+    "type": "weapon",
+    "techBase": "IS",
+    "name": "Streak SRM-4",
+    "heat": 3,
+    "attacks": 4,
+    "damagePerAttack": 2,
+    "totalDamage": 8,
+    "missile": false,
+    "range": {
+      "min": 0,
+      "short": 3,
+      "medium": 6,
+      "long": 9
+    },
+    "hasAmmo": true,
+    "ammoName": "Ammo Streak-4",
+    "ammoPerTon": 25
+  },
+  {
+    "_id": "weapon:is-streak-srm-6",
+    "type": "weapon",
+    "techBase": "IS",
+    "name": "Streak SRM-6",
+    "heat": 4,
+    "attacks": 6,
+    "damagePerAttack": 2,
+    "totalDamage": 12,
+    "missile": false,
+    "range": {
+      "min": 0,
+      "short": 3,
+      "medium": 6,
+      "long": 9
+    },
+    "hasAmmo": true,
+    "ammoName": "Ammo Streak-6",
+    "ammoPerTon": 15
+  },
+  {
+    "_id": "weapon:is-arrow-iv-system",
+    "type": "weapon",
+    "techBase": "IS",
+    "name": "Arrow IV System",
+    "heat": 10,
+    "attacks": 1,
+    "damagePerAttack": 20,
+    "totalDamage": 20,
+    "missile": false,
+    "range": {
+      "min": 20,
+      "short": 20,
+      "medium": 40,
+      "long": 60
+    },
+    "hasAmmo": true,
+    "ammoName": null,
+    "ammoPerTon": null
+  },
+  {
+    "_id": "weapon:is-long-tom",
+    "type": "weapon",
+    "techBase": "IS",
+    "name": "Long Tom",
+    "heat": 20,
+    "attacks": 1,
+    "damagePerAttack": 20,
+    "totalDamage": 20,
+    "missile": false,
+    "range": {
+      "min": 20,
+      "short": 80,
+      "medium": 160,
+      "long": 240
+    },
+    "hasAmmo": true,
+    "ammoName": null,
+    "ammoPerTon": null
+  },
+  {
+    "_id": "weapon:is-sniper",
+    "type": "weapon",
+    "techBase": "IS",
+    "name": "Sniper",
+    "heat": 10,
+    "attacks": 1,
+    "damagePerAttack": 10,
+    "totalDamage": 10,
+    "missile": false,
+    "range": {
+      "min": 20,
+      "short": 40,
+      "medium": 80,
+      "long": 120
+    },
+    "hasAmmo": true,
+    "ammoName": null,
+    "ammoPerTon": null
+  },
+  {
+    "_id": "weapon:is-thumper",
+    "type": "weapon",
+    "techBase": "IS",
+    "name": "Thumper",
+    "heat": 6,
+    "attacks": 1,
+    "damagePerAttack": 5,
+    "totalDamage": 5,
+    "missile": false,
+    "range": {
+      "min": 20,
+      "short": 60,
+      "medium": 120,
+      "long": 180
+    },
+    "hasAmmo": true,
+    "ammoName": null,
+    "ammoPerTon": null
+  },
+  {
+    "_id": "weapon:is-anti-personnel-pod",
+    "type": "weapon",
+    "techBase": "IS",
+    "name": "Anti-Personnel Pod",
+    "heat": "-",
+    "attacks": "-",
+    "damagePerAttack": "-",
+    "totalDamage": "-",
+    "missile": false,
+    "range": {
+      "min": 0,
+      "short": 0,
+      "medium": 0,
+      "long": 0
+    },
+    "hasAmmo": false,
+    "ammoName": null,
+    "ammoPerTon": null
+  },
+  {
+    "_id": "weapon:is-artemis-iv-fcs",
+    "type": "weapon",
+    "techBase": "IS",
+    "name": "Artemis IV FCS",
+    "heat": "-",
+    "attacks": "-",
+    "damagePerAttack": "-",
+    "totalDamage": "-",
+    "missile": false,
+    "range": {
+      "min": 0,
+      "short": 0,
+      "medium": 0,
+      "long": 0
+    },
+    "hasAmmo": false,
+    "ammoName": null,
+    "ammoPerTon": null
+  },
+  {
+    "_id": "weapon:is-beagle-active-probe",
+    "type": "weapon",
+    "techBase": "IS",
+    "name": "Beagle Active Probe",
+    "heat": "-",
+    "attacks": "-",
+    "damagePerAttack": "-",
+    "totalDamage": "-",
+    "missile": false,
+    "range": {
+      "min": 0,
+      "short": 0,
+      "medium": 0,
+      "long": 0
+    },
+    "hasAmmo": false,
+    "ammoName": null,
+    "ammoPerTon": null
+  },
+  {
+    "_id": "weapon:is-case",
+    "type": "weapon",
+    "techBase": "IS",
+    "name": "CASE",
+    "heat": "-",
+    "attacks": "-",
+    "damagePerAttack": "-",
+    "totalDamage": "-",
+    "missile": false,
+    "range": {
+      "min": 0,
+      "short": 0,
+      "medium": 0,
+      "long": 0
+    },
+    "hasAmmo": false,
+    "ammoName": null,
+    "ammoPerTon": null
+  },
+  {
+    "_id": "weapon:is-c3-slave",
+    "type": "weapon",
+    "techBase": "IS",
+    "name": "C3 Slave",
+    "heat": "-",
+    "attacks": "-",
+    "damagePerAttack": "-",
+    "totalDamage": "-",
+    "missile": false,
+    "range": {
+      "min": 0,
+      "short": 0,
+      "medium": 0,
+      "long": 0
+    },
+    "hasAmmo": false,
+    "ammoName": null,
+    "ammoPerTon": null
+  },
+  {
+    "_id": "weapon:is-c3-master",
+    "type": "weapon",
+    "techBase": "IS",
+    "name": "C3 Master",
+    "heat": "-",
+    "attacks": "-",
+    "damagePerAttack": "-",
+    "totalDamage": "-",
+    "missile": false,
+    "range": {
+      "min": 0,
+      "short": 0,
+      "medium": 0,
+      "long": 0
+    },
+    "hasAmmo": false,
+    "ammoName": null,
+    "ammoPerTon": null
+  },
+  {
+    "_id": "weapon:is-gurdian-ecm-suite",
+    "type": "weapon",
+    "techBase": "IS",
+    "name": "Gurdian ECM Suite",
+    "heat": "-",
+    "attacks": "-",
+    "damagePerAttack": "-",
+    "totalDamage": "-",
+    "missile": false,
+    "range": {
+      "min": 0,
+      "short": 0,
+      "medium": 0,
+      "long": 0
+    },
+    "hasAmmo": false,
+    "ammoName": null,
+    "ammoPerTon": null
+  },
+  {
+    "_id": "weapon:is-hatchet",
+    "type": "weapon",
+    "techBase": "IS",
+    "name": "Hatchet",
+    "heat": "-",
+    "attacks": "-",
+    "damagePerAttack": "-",
+    "totalDamage": "-",
+    "missile": false,
+    "range": {
+      "min": 0,
+      "short": 0,
+      "medium": 0,
+      "long": 0
+    },
+    "hasAmmo": false,
+    "ammoName": null,
+    "ammoPerTon": null
+  },
+  {
+    "_id": "weapon:is-masc",
+    "type": "weapon",
+    "techBase": "IS",
+    "name": "MASC",
+    "heat": "-",
+    "attacks": "-",
+    "damagePerAttack": "-",
+    "totalDamage": "-",
+    "missile": false,
+    "range": {
+      "min": 0,
+      "short": 0,
+      "medium": 0,
+      "long": 0
+    },
+    "hasAmmo": false,
+    "ammoName": null,
+    "ammoPerTon": null
+  },
+  {
+    "_id": "weapon:is-sword",
+    "type": "weapon",
+    "techBase": "IS",
+    "name": "Sword",
+    "heat": "-",
+    "attacks": "-",
+    "damagePerAttack": "-",
+    "totalDamage": "-",
+    "missile": false,
+    "range": {
+      "min": 0,
+      "short": 0,
+      "medium": 0,
+      "long": 0
+    },
+    "hasAmmo": false,
+    "ammoName": null,
+    "ammoPerTon": null
+  },
+  {
+    "_id": "weapon:is-tag",
+    "type": "weapon",
+    "techBase": "IS",
+    "name": "TAG",
+    "heat": "-",
+    "attacks": "-",
+    "damagePerAttack": "-",
+    "totalDamage": "-",
+    "missile": false,
+    "range": {
+      "min": 0,
+      "short": 0,
+      "medium": 0,
+      "long": 0
+    },
+    "hasAmmo": false,
+    "ammoName": null,
+    "ammoPerTon": null
+  },
+  {
+    "_id": "weapon:cl-er-large-laser",
+    "type": "weapon",
+    "techBase": "Clan",
+    "name": "ER Large Laser",
+    "heat": 12,
+    "attacks": 1,
+    "damagePerAttack": 10,
+    "totalDamage": 10,
+    "missile": false,
+    "range": {
+      "min": 0,
+      "short": 8,
+      "medium": 16,
+      "long": 24
+    },
+    "hasAmmo": false,
+    "ammoName": null,
+    "ammoPerTon": null
+  },
+  {
+    "_id": "weapon:cl-er-medium-laser",
+    "type": "weapon",
+    "techBase": "Clan",
+    "name": "ER Medium Laser",
+    "heat": 5,
+    "attacks": 1,
+    "damagePerAttack": 7,
+    "totalDamage": 7,
+    "missile": false,
+    "range": {
+      "min": 0,
+      "short": 5,
+      "medium": 10,
+      "long": 15
+    },
+    "hasAmmo": false,
+    "ammoName": null,
+    "ammoPerTon": null
+  },
+  {
+    "_id": "weapon:cl-er-small-laser",
+    "type": "weapon",
+    "techBase": "Clan",
+    "name": "ER Small Laser",
+    "heat": 2,
+    "attacks": 1,
+    "damagePerAttack": 5,
+    "totalDamage": 5,
+    "missile": false,
+    "range": {
+      "min": 0,
+      "short": 2,
+      "medium": 4,
+      "long": 6
+    },
+    "hasAmmo": false,
+    "ammoName": null,
+    "ammoPerTon": null
+  },
+  {
+    "_id": "weapon:cl-er-micro-laser",
+    "type": "weapon",
+    "techBase": "Clan",
+    "name": "ER Micro Laser",
+    "heat": 1,
+    "attacks": 1,
+    "damagePerAttack": 2,
+    "totalDamage": null,
+    "missile": false,
+    "range": {
+      "min": 0,
+      "short": 1,
+      "medium": 2,
+      "long": 3
+    },
+    "hasAmmo": false,
+    "ammoName": null,
+    "ammoPerTon": null
+  },
+  {
+    "_id": "weapon:cl-heavy-large-laser",
+    "type": "weapon",
+    "techBase": "Clan",
+    "name": "Heavy Large Laser",
+    "heat": 18,
+    "attacks": 1,
+    "damagePerAttack": 16,
+    "totalDamage": 16,
+    "missile": false,
+    "range": {
+      "min": 0,
+      "short": 5,
+      "medium": 10,
+      "long": 15
+    },
+    "hasAmmo": false,
+    "ammoName": null,
+    "ammoPerTon": null
+  },
+  {
+    "_id": "weapon:cl-heavy-medium-laser",
+    "type": "weapon",
+    "techBase": "Clan",
+    "name": "Heavy Medium Laser",
+    "heat": 7,
+    "attacks": 1,
+    "damagePerAttack": 10,
+    "totalDamage": 10,
+    "missile": false,
+    "range": {
+      "min": 0,
+      "short": 3,
+      "medium": 6,
+      "long": 9
+    },
+    "hasAmmo": false,
+    "ammoName": null,
+    "ammoPerTon": null
+  },
+  {
+    "_id": "weapon:cl-heavy-small-laser",
+    "type": "weapon",
+    "techBase": "Clan",
+    "name": "Heavy Small Laser",
+    "heat": 3,
+    "attacks": 1,
+    "damagePerAttack": 6,
+    "totalDamage": 6,
+    "missile": false,
+    "range": {
+      "min": 0,
+      "short": 1,
+      "medium": 2,
+      "long": 3
+    },
+    "hasAmmo": false,
+    "ammoName": null,
+    "ammoPerTon": null
+  },
+  {
+    "_id": "weapon:cl-flamer",
+    "type": "weapon",
+    "techBase": "Clan",
+    "name": "Flamer",
+    "heat": 3,
+    "attacks": 1,
+    "damagePerAttack": 2,
+    "totalDamage": 2,
+    "missile": false,
+    "range": {
+      "min": 0,
+      "short": 1,
+      "medium": 2,
+      "long": 3
+    },
+    "hasAmmo": false,
+    "ammoName": null,
+    "ammoPerTon": null
+  },
+  {
+    "_id": "weapon:cl-er-ppc",
+    "type": "weapon",
+    "techBase": "Clan",
+    "name": "ER PPC",
+    "heat": 15,
+    "attacks": 1,
+    "damagePerAttack": 15,
+    "totalDamage": 15,
+    "missile": false,
+    "range": {
+      "min": 0,
+      "short": 7,
+      "medium": 14,
+      "long": 21
+    },
+    "hasAmmo": false,
+    "ammoName": null,
+    "ammoPerTon": null
+  },
+  {
+    "_id": "weapon:cl-pulse-large-laser",
+    "type": "weapon",
+    "techBase": "Clan",
+    "name": "Pulse Large Laser",
+    "heat": 10,
+    "attacks": 1,
+    "damagePerAttack": 10,
+    "totalDamage": 10,
+    "missile": false,
+    "range": {
+      "min": 0,
+      "short": 6,
+      "medium": 12,
+      "long": 18
+    },
+    "hasAmmo": false,
+    "ammoName": null,
+    "ammoPerTon": null
+  },
+  {
+    "_id": "weapon:cl-pulse-medium-laser",
+    "type": "weapon",
+    "techBase": "Clan",
+    "name": "Pulse Medium Laser",
+    "heat": 4,
+    "attacks": 1,
+    "damagePerAttack": 7,
+    "totalDamage": 7,
+    "missile": false,
+    "range": {
+      "min": 0,
+      "short": 5,
+      "medium": 10,
+      "long": 15
+    },
+    "hasAmmo": false,
+    "ammoName": null,
+    "ammoPerTon": null
+  },
+  {
+    "_id": "weapon:cl-pulse-small-laser",
+    "type": "weapon",
+    "techBase": "Clan",
+    "name": "Pulse Small Laser",
+    "heat": 2,
+    "attacks": 1,
+    "damagePerAttack": 3,
+    "totalDamage": 3,
+    "missile": false,
+    "range": {
+      "min": 0,
+      "short": 2,
+      "medium": 4,
+      "long": 6
+    },
+    "hasAmmo": false,
+    "ammoName": null,
+    "ammoPerTon": null
+  },
+  {
+    "_id": "weapon:cl-pulse-micro-laser",
+    "type": "weapon",
+    "techBase": "Clan",
+    "name": "Pulse Micro Laser",
+    "heat": 1,
+    "attacks": 1,
+    "damagePerAttack": 3,
+    "totalDamage": 3,
+    "missile": false,
+    "range": {
+      "min": 0,
+      "short": 1,
+      "medium": 2,
+      "long": 3
+    },
+    "hasAmmo": false,
+    "ammoName": null,
+    "ammoPerTon": null
+  },
+  {
+    "_id": "weapon:cl-anti-missile-system",
+    "type": "weapon",
+    "techBase": "Clan",
+    "name": "Anti-Missile System",
+    "heat": 1,
+    "attacks": 1,
+    "damagePerAttack": 0,
+    "totalDamage": 0,
+    "missile": false,
+    "range": {
+      "min": 0,
+      "short": 0,
+      "medium": 0,
+      "long": 0
+    },
+    "hasAmmo": true,
+    "ammoName": "Ammo Anti Missile System",
+    "ammoPerTon": 24
+  },
+  {
+    "_id": "weapon:cl-gauss-rifle",
+    "type": "weapon",
+    "techBase": "Clan",
+    "name": "Gauss Rifle",
+    "heat": 1,
+    "attacks": 1,
+    "damagePerAttack": 15,
+    "totalDamage": 15,
+    "missile": false,
+    "range": {
+      "min": 2,
+      "short": 7,
+      "medium": 14,
+      "long": 21
+    },
+    "hasAmmo": true,
+    "ammoName": "Ammo Gauss",
+    "ammoPerTon": 8
+  },
+  {
+    "_id": "weapon:cl-lb-2-x-ac",
+    "type": "weapon",
+    "techBase": "Clan",
+    "name": "LB 2-X AC",
+    "heat": 1,
+    "attacks": 2,
+    "damagePerAttack": 1,
+    "totalDamage": 2,
+    "missile": true,
+    "range": {
+      "min": 4,
+      "short": 10,
+      "medium": 20,
+      "long": 30
+    },
+    "hasAmmo": true,
+    "ammoName": "Ammo 2-X",
+    "ammoPerTon": 45
+  },
+  {
+    "_id": "weapon:cl-lb-5-x-ac",
+    "type": "weapon",
+    "techBase": "Clan",
+    "name": "LB 5-X AC",
+    "heat": 1,
+    "attacks": 5,
+    "damagePerAttack": 1,
+    "totalDamage": 5,
+    "missile": true,
+    "range": {
+      "min": 3,
+      "short": 8,
+      "medium": 16,
+      "long": 24
+    },
+    "hasAmmo": true,
+    "ammoName": "Ammo 5-X",
+    "ammoPerTon": 20
+  },
+  {
+    "_id": "weapon:cl-lb-10-x-ac",
+    "type": "weapon",
+    "techBase": "Clan",
+    "name": "LB 10-X AC",
+    "heat": 2,
+    "attacks": 10,
+    "damagePerAttack": 1,
+    "totalDamage": 10,
+    "missile": true,
+    "range": {
+      "min": 0,
+      "short": 6,
+      "medium": 12,
+      "long": 18
+    },
+    "hasAmmo": true,
+    "ammoName": "Ammo 10-X",
+    "ammoPerTon": 10
+  },
+  {
+    "_id": "weapon:cl-lb-20-x-ac",
+    "type": "weapon",
+    "techBase": "Clan",
+    "name": "LB 20-X AC",
+    "heat": 6,
+    "attacks": 20,
+    "damagePerAttack": 1,
+    "totalDamage": 20,
+    "missile": true,
+    "range": {
+      "min": 0,
+      "short": 4,
+      "medium": 8,
+      "long": 12
+    },
+    "hasAmmo": true,
+    "ammoName": "Ammo 20-X",
+    "ammoPerTon": 5
+  },
+  {
+    "_id": "weapon:cl-heavy-machine-gun",
+    "type": "weapon",
+    "techBase": "Clan",
+    "name": "Heavy Machine Gun",
+    "heat": 0,
+    "attacks": 1,
+    "damagePerAttack": 3,
+    "totalDamage": 3,
+    "missile": false,
+    "range": {
+      "min": 0,
+      "short": 1,
+      "medium": 2,
+      "long": 3
+    },
+    "hasAmmo": true,
+    "ammoName": "Ammo HMG",
+    "ammoPerTon": 100
+  },
+  {
+    "_id": "weapon:cl-machine-gun",
+    "type": "weapon",
+    "techBase": "Clan",
+    "name": "Machine Gun",
+    "heat": 0,
+    "attacks": 1,
+    "damagePerAttack": 2,
+    "totalDamage": 2,
+    "missile": false,
+    "range": {
+      "min": 0,
+      "short": 1,
+      "medium": 2,
+      "long": 3
+    },
+    "hasAmmo": true,
+    "ammoName": "Ammo MG - Full",
+    "ammoPerTon": 200
+  },
+  {
+    "_id": "weapon:cl-light-machine-gun",
+    "type": "weapon",
+    "techBase": "Clan",
+    "name": "Light Machine Gun",
+    "heat": 0,
+    "attacks": 1,
+    "damagePerAttack": 1,
+    "totalDamage": 1,
+    "missile": false,
+    "range": {
+      "min": 0,
+      "short": 2,
+      "medium": 4,
+      "long": 6
+    },
+    "hasAmmo": true,
+    "ammoName": "Ammo LMG",
+    "ammoPerTon": 200
+  },
+  {
+    "_id": "weapon:cl-ultra-ac-2",
+    "type": "weapon",
+    "techBase": "Clan",
+    "name": "Ultra AC/2",
+    "heat": 1,
+    "attacks": 2,
+    "damagePerAttack": 2,
+    "totalDamage": 4,
+    "missile": true,
+    "range": {
+      "min": 2,
+      "short": 9,
+      "medium": 18,
+      "long": 27
+    },
+    "hasAmmo": true,
+    "ammoName": "Ammo Ultra AC/2",
+    "ammoPerTon": 45
+  },
+  {
+    "_id": "weapon:cl-ultra-ac-5",
+    "type": "weapon",
+    "techBase": "Clan",
+    "name": "Ultra AC/5",
+    "heat": 1,
+    "attacks": 2,
+    "damagePerAttack": 5,
+    "totalDamage": 10,
+    "missile": true,
+    "range": {
+      "min": 0,
+      "short": 7,
+      "medium": 14,
+      "long": 21
+    },
+    "hasAmmo": true,
+    "ammoName": "Ammo Ultra AC/5",
+    "ammoPerTon": 20
+  },
+  {
+    "_id": "weapon:cl-ultra-ac-10",
+    "type": "weapon",
+    "techBase": "Clan",
+    "name": "Ultra AC/10",
+    "heat": 3,
+    "attacks": 2,
+    "damagePerAttack": 10,
+    "totalDamage": 20,
+    "missile": true,
+    "range": {
+      "min": 0,
+      "short": 6,
+      "medium": 12,
+      "long": 18
+    },
+    "hasAmmo": true,
+    "ammoName": "Ammo Ultra AC/10",
+    "ammoPerTon": 10
+  },
+  {
+    "_id": "weapon:cl-ultra-ac-20",
+    "type": "weapon",
+    "techBase": "Clan",
+    "name": "Ultra AC/20",
+    "heat": 7,
+    "attacks": 2,
+    "damagePerAttack": 20,
+    "totalDamage": 40,
+    "missile": true,
+    "range": {
+      "min": 0,
+      "short": 4,
+      "medium": 8,
+      "long": 12
+    },
+    "hasAmmo": true,
+    "ammoName": "Ammo Ultra AC/20",
+    "ammoPerTon": 5
+  },
+  {
+    "_id": "weapon:cl-lrm-5",
+    "type": "weapon",
+    "techBase": "Clan",
+    "name": "LRM-5",
+    "heat": 2,
+    "attacks": 5,
+    "damagePerAttack": 1,
+    "totalDamage": 5,
+    "missile": true,
+    "range": {
+      "min": 0,
+      "short": 7,
+      "medium": 14,
+      "long": 21
+    },
+    "hasAmmo": true,
+    "ammoName": "Ammo LRM-5",
+    "ammoPerTon": 24
+  },
+  {
+    "_id": "weapon:cl-lrm-10",
+    "type": "weapon",
+    "techBase": "Clan",
+    "name": "LRM-10",
+    "heat": 4,
+    "attacks": 10,
+    "damagePerAttack": 1,
+    "totalDamage": 10,
+    "missile": true,
+    "range": {
+      "min": 0,
+      "short": 7,
+      "medium": 14,
+      "long": 21
+    },
+    "hasAmmo": true,
+    "ammoName": "Ammo LRM-10",
+    "ammoPerTon": 12
+  },
+  {
+    "_id": "weapon:cl-lrm-15",
+    "type": "weapon",
+    "techBase": "Clan",
+    "name": "LRM-15",
+    "heat": 5,
+    "attacks": 15,
+    "damagePerAttack": 1,
+    "totalDamage": 15,
+    "missile": true,
+    "range": {
+      "min": 0,
+      "short": 7,
+      "medium": 14,
+      "long": 21
+    },
+    "hasAmmo": true,
+    "ammoName": "Ammo LRM-15",
+    "ammoPerTon": 8
+  },
+  {
+    "_id": "weapon:cl-lrm-20",
+    "type": "weapon",
+    "techBase": "Clan",
+    "name": "LRM-20",
+    "heat": 6,
+    "attacks": 20,
+    "damagePerAttack": 1,
+    "totalDamage": 20,
+    "missile": true,
+    "range": {
+      "min": 0,
+      "short": 7,
+      "medium": 14,
+      "long": 21
+    },
+    "hasAmmo": true,
+    "ammoName": "Ammo LRM-20",
+    "ammoPerTon": 6
+  },
+  {
+    "_id": "weapon:cl-narc-beacon",
+    "type": "weapon",
+    "techBase": "Clan",
+    "name": "Narc Beacon",
+    "heat": 0,
+    "attacks": 1,
+    "damagePerAttack": 1,
+    "totalDamage": 1,
+    "missile": true,
+    "range": {
+      "min": 0,
+      "short": 4,
+      "medium": 8,
+      "long": 12
+    },
+    "hasAmmo": true,
+    "ammoName": "Ammo Narc",
+    "ammoPerTon": 6
+  },
+  {
+    "_id": "weapon:cl-srm-2",
+    "type": "weapon",
+    "techBase": "Clan",
+    "name": "SRM-2",
+    "heat": 2,
+    "attacks": 2,
+    "damagePerAttack": 2,
+    "totalDamage": 4,
+    "missile": true,
+    "range": {
+      "min": 0,
+      "short": 3,
+      "medium": 6,
+      "long": 9
+    },
+    "hasAmmo": true,
+    "ammoName": "Ammo SRM-2",
+    "ammoPerTon": 50
+  },
+  {
+    "_id": "weapon:cl-srm-4",
+    "type": "weapon",
+    "techBase": "Clan",
+    "name": "SRM-4",
+    "heat": 3,
+    "attacks": 4,
+    "damagePerAttack": 2,
+    "totalDamage": 8,
+    "missile": true,
+    "range": {
+      "min": 0,
+      "short": 3,
+      "medium": 6,
+      "long": 9
+    },
+    "hasAmmo": true,
+    "ammoName": "Ammo SRM-4",
+    "ammoPerTon": 25
+  },
+  {
+    "_id": "weapon:cl-srm-6",
+    "type": "weapon",
+    "techBase": "Clan",
+    "name": "SRM-6",
+    "heat": 4,
+    "attacks": 6,
+    "damagePerAttack": 2,
+    "totalDamage": 12,
+    "missile": true,
+    "range": {
+      "min": 0,
+      "short": 3,
+      "medium": 6,
+      "long": 9
+    },
+    "hasAmmo": true,
+    "ammoName": "Ammo SRM-6",
+    "ammoPerTon": 15
+  },
+  {
+    "_id": "weapon:cl-streak-srm-2",
+    "type": "weapon",
+    "techBase": "Clan",
+    "name": "Streak SRM-2",
+    "heat": 2,
+    "attacks": 2,
+    "damagePerAttack": 2,
+    "totalDamage": 4,
+    "missile": false,
+    "range": {
+      "min": 0,
+      "short": 4,
+      "medium": 8,
+      "long": 12
+    },
+    "hasAmmo": true,
+    "ammoName": "Ammo Streak-2",
+    "ammoPerTon": 50
+  },
+  {
+    "_id": "weapon:cl-streak-srm-4",
+    "type": "weapon",
+    "techBase": "Clan",
+    "name": "Streak SRM-4",
+    "heat": 3,
+    "attacks": 4,
+    "damagePerAttack": 2,
+    "totalDamage": 8,
+    "missile": false,
+    "range": {
+      "min": 0,
+      "short": 4,
+      "medium": 8,
+      "long": 12
+    },
+    "hasAmmo": true,
+    "ammoName": "Ammo Streak-4",
+    "ammoPerTon": 25
+  },
+  {
+    "_id": "weapon:cl-streak-srm-6",
+    "type": "weapon",
+    "techBase": "Clan",
+    "name": "Streak SRM-6",
+    "heat": 4,
+    "attacks": 6,
+    "damagePerAttack": 2,
+    "totalDamage": 12,
+    "missile": false,
+    "range": {
+      "min": 0,
+      "short": 4,
+      "medium": 8,
+      "long": 12
+    },
+    "hasAmmo": true,
+    "ammoName": "Ammo Streak-6",
+    "ammoPerTon": 15
+  },
+  {
+    "_id": "weapon:cl-arrow-iv-system",
+    "type": "weapon",
+    "techBase": "Clan",
+    "name": "Arrow IV System",
+    "heat": 10,
+    "attacks": 1,
+    "damagePerAttack": 20,
+    "totalDamage": 20,
+    "missile": false,
+    "range": {
+      "min": 0,
+      "short": 20,
+      "medium": 40,
+      "long": 60
+    },
+    "hasAmmo": true,
+    "ammoName": null,
+    "ammoPerTon": null
+  },
+  {
+    "_id": "weapon:cl-long-tom",
+    "type": "weapon",
+    "techBase": "Clan",
+    "name": "Long Tom",
+    "heat": 20,
+    "attacks": 1,
+    "damagePerAttack": 20,
+    "totalDamage": 20,
+    "missile": false,
+    "range": {
+      "min": 0,
+      "short": 80,
+      "medium": 160,
+      "long": 240
+    },
+    "hasAmmo": true,
+    "ammoName": null,
+    "ammoPerTon": null
+  },
+  {
+    "_id": "weapon:cl-sniper",
+    "type": "weapon",
+    "techBase": "Clan",
+    "name": "Sniper",
+    "heat": 10,
+    "attacks": 1,
+    "damagePerAttack": 10,
+    "totalDamage": 10,
+    "missile": false,
+    "range": {
+      "min": 0,
+      "short": 40,
+      "medium": 80,
+      "long": 120
+    },
+    "hasAmmo": true,
+    "ammoName": null,
+    "ammoPerTon": null
+  },
+  {
+    "_id": "weapon:cl-thumper",
+    "type": "weapon",
+    "techBase": "Clan",
+    "name": "Thumper",
+    "heat": 6,
+    "attacks": 1,
+    "damagePerAttack": 5,
+    "totalDamage": 5,
+    "missile": false,
+    "range": {
+      "min": 0,
+      "short": 60,
+      "medium": 120,
+      "long": 180
+    },
+    "hasAmmo": true,
+    "ammoName": null,
+    "ammoPerTon": null
+  },
+  {
+    "_id": "weapon:cl-active-probe",
+    "type": "weapon",
+    "techBase": "Clan",
+    "name": "Active Probe",
+    "heat": "-",
+    "attacks": "-",
+    "damagePerAttack": "-",
+    "totalDamage": "-",
+    "missile": false,
+    "range": {
+      "min": 0,
+      "short": 0,
+      "medium": 0,
+      "long": 0
+    },
+    "hasAmmo": false,
+    "ammoName": null,
+    "ammoPerTon": null
+  },
+  {
+    "_id": "weapon:cl-light-active-probe",
+    "type": "weapon",
+    "techBase": "Clan",
+    "name": "Light Active Probe",
+    "heat": "-",
+    "attacks": "-",
+    "damagePerAttack": "-",
+    "totalDamage": "-",
+    "missile": false,
+    "range": {
+      "min": 0,
+      "short": 0,
+      "medium": 0,
+      "long": 0
+    },
+    "hasAmmo": false,
+    "ammoName": null,
+    "ammoPerTon": null
+  },
+  {
+    "_id": "weapon:cl-anti-personnel-pod",
+    "type": "weapon",
+    "techBase": "Clan",
+    "name": "Anti-Personnel Pod",
+    "heat": "-",
+    "attacks": "-",
+    "damagePerAttack": "-",
+    "totalDamage": "-",
+    "missile": false,
+    "range": {
+      "min": 0,
+      "short": 0,
+      "medium": 0,
+      "long": 0
+    },
+    "hasAmmo": false,
+    "ammoName": null,
+    "ammoPerTon": null
+  },
+  {
+    "_id": "weapon:cl-artemis-iv-fcs",
+    "type": "weapon",
+    "techBase": "Clan",
+    "name": "Artemis IV FCS",
+    "heat": "-",
+    "attacks": "-",
+    "damagePerAttack": "-",
+    "totalDamage": "-",
+    "missile": false,
+    "range": {
+      "min": 0,
+      "short": 0,
+      "medium": 0,
+      "long": 0
+    },
+    "hasAmmo": false,
+    "ammoName": null,
+    "ammoPerTon": null
+  },
+  {
+    "_id": "weapon:cl-case",
+    "type": "weapon",
+    "techBase": "Clan",
+    "name": "CASE",
+    "heat": "-",
+    "attacks": "-",
+    "damagePerAttack": "-",
+    "totalDamage": "-",
+    "missile": false,
+    "range": {
+      "min": 0,
+      "short": 0,
+      "medium": 0,
+      "long": 0
+    },
+    "hasAmmo": false,
+    "ammoName": null,
+    "ammoPerTon": null
+  },
+  {
+    "_id": "weapon:cl-ecm-suite",
+    "type": "weapon",
+    "techBase": "Clan",
+    "name": "ECM Suite",
+    "heat": "-",
+    "attacks": "-",
+    "damagePerAttack": "-",
+    "totalDamage": "-",
+    "missile": false,
+    "range": {
+      "min": 0,
+      "short": 0,
+      "medium": 0,
+      "long": 0
+    },
+    "hasAmmo": false,
+    "ammoName": null,
+    "ammoPerTon": null
+  },
+  {
+    "_id": "weapon:cl-masc",
+    "type": "weapon",
+    "techBase": "Clan",
+    "name": "MASC",
+    "heat": "-",
+    "attacks": "-",
+    "damagePerAttack": "-",
+    "totalDamage": "-",
+    "missile": false,
+    "range": {
+      "min": 0,
+      "short": 0,
+      "medium": 0,
+      "long": 0
+    },
+    "hasAmmo": false,
+    "ammoName": null,
+    "ammoPerTon": null
+  },
+  {
+    "_id": "weapon:cl-tag",
+    "type": "weapon",
+    "techBase": "Clan",
+    "name": "TAG",
+    "heat": "-",
+    "attacks": "-",
+    "damagePerAttack": "-",
+    "totalDamage": "-",
+    "missile": false,
+    "range": {
+      "min": 0,
+      "short": 0,
+      "medium": 0,
+      "long": 0
+    },
+    "hasAmmo": false,
+    "ammoName": null,
+    "ammoPerTon": null
+  },
+  {
+    "_id": "weapon:cl-light-tag",
+    "type": "weapon",
+    "techBase": "Clan",
+    "name": "Light TAG",
+    "heat": "-",
+    "attacks": "-",
+    "damagePerAttack": "-",
+    "totalDamage": "-",
+    "missile": false,
+    "range": {
+      "min": 0,
+      "short": 0,
+      "medium": 0,
+      "long": 0
+    },
+    "hasAmmo": false,
+    "ammoName": null,
+    "ammoPerTon": null
+  },
+  {
+    "_id": "weapon:cl-targeting-compute",
+    "type": "weapon",
+    "techBase": "Clan",
+    "name": "Targeting Compute",
+    "heat": "-",
+    "attacks": "-",
+    "damagePerAttack": "-",
+    "totalDamage": "-",
+    "missile": false,
+    "range": {
+      "min": 0,
+      "short": 0,
+      "medium": 0,
+      "long": 0
+    },
+    "hasAmmo": false,
+    "ammoName": null,
+    "ammoPerTon": null
+  }
+]

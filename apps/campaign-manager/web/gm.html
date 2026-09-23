@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Game Master — Mercenary Manager</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <a class="home" href="/">&#9664; Home</a>
+    <h1>Game Master</h1>
+    <span id="gm-status" class="summary">&nbsp;</span>
+  </header>
+  <div class="gm-layout">
+    <nav class="sidebar" id="gm-nav">
+      <button data-panel="team" class="active">Team</button>
+      <button data-panel="missions">Missions</button>
+      <button data-panel="time">Time</button>
+    </nav>
+    <main class="main gm-main">
+      <section id="panel-team" class="gm-section active">
+        <div class="panel">
+          <h2>Company</h2>
+          <form class="grid" id="company-form">
+            <label>Name<input name="name" placeholder="Company name" /></label>
+            <label>Founded<input name="founded" placeholder="e.g. 12 Aug 3025" /></label>
+            <label>Experience
+              <select name="experience">
+                <option>Green</option>
+                <option>Regular</option>
+                <option>Veteran</option>
+                <option>Elite</option>
+              </select>
+            </label>
+            <label>Dragoon rating
+              <select name="dragoon">
+                <option value="">&mdash;</option>
+                <option>F</option>
+                <option>D</option>
+                <option>C</option>
+                <option>B</option>
+                <option>A</option>
+                <option>AAA</option>
+              </select>
+            </label>
+            <label>Reputation (0&ndash;100)<input name="reputation" type="number" min="0" max="100" /></label>
+            <label>Wins<input name="wins" type="number" min="0" /></label>
+            <label>Losses<input name="losses" type="number" min="0" /></label>
+            <label>Insignia (short)<input name="insignia" maxlength="4" placeholder="SF" /></label>
+            <label>Color<input name="color" type="color" /></label>
+            <div class="actions"><button class="btn" type="submit">Save company</button></div>
+          </form>
+        </div>
+        <div class="panel">
+          <h2>Current Location</h2>
+          <div id="location-current" class="summary-line">&nbsp;</div>
+          <form class="grid" id="location-form">
+            <label>System<input name="system" list="systems-datalist" placeholder="System name" autocomplete="off" /></label>
+            <div class="actions"><button class="btn" type="submit">Set location</button></div>
+          </form>
+          <datalist id="systems-datalist"></datalist>
+        </div>
+        <div class="panel">
+          <h2>Finances</h2>
+          <div id="finances-summary" class="summary-line">&nbsp;</div>
+          <form class="grid" id="txn-form">
+            <label>Date<input name="date" type="date" required /></label>
+            <label>Category<input name="category" placeholder="contract, maintenance&hellip;" /></label>
+            <label>Description<input name="description" placeholder="What happened" required /></label>
+            <label>Amount (C-Bills)<input name="amount" type="number" step="1" required placeholder="+ income / &minus; expense" /></label>
+            <div class="actions"><button class="btn" type="submit">Add transaction</button></div>
+          </form>
+        </div>
+
+        <div class="panel">
+          <h2>Stable &amp; Pilot Assignment</h2>
+          <table class="data" id="stable-table">
+            <thead><tr><th>Variant</th><th>Chassis</th><th>Tons</th><th>Condition</th><th>Pilot</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+
+        <div class="panel">
+          <h2>Pilots</h2>
+          <table class="data" id="pilots-table">
+            <thead><tr><th>Callsign</th><th>Gun/Pil</th><th>Rating</th><th>Assigned 'Mech</th><th>Salary</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="panel-missions" class="gm-section">
+        <div class="panel">
+          <h2>New Mission / Contract</h2>
+          <form class="grid" id="mission-form">
+            <label>Employer<select name="employer" id="employer-select" required></select></label>
+            <label>Mission type<select name="missionType" id="missiontype-select"></select></label>
+            <label>Location / system
+              <span class="loc-picker">
+                <input name="location" list="systems-datalist" placeholder="Search system&hellip;" autocomplete="off" />
+                <a class="map-pick" href="/map/?pick=1" target="_blank" rel="noopener" title="Pick a system on the map">&#8599; map</a>
+              </span>
+            </label>
+            <label>Length (months)<input name="lengthMonths" type="number" min="1" value="6" /></label>
+            <label>Base pay (C-Bills / mo)<input name="basePay" type="number" step="1000" value="0" /></label>
+            <label>Salvage rights (%)<input name="salvagePct" type="number" min="0" max="100" value="50" /></label>
+            <label>Command rights
+              <select name="commandRights">
+                <option>Independent</option>
+                <option>House</option>
+                <option>Liaison</option>
+                <option>Integrated</option>
+              </select>
+            </label>
+            <label>Support
+              <select name="support">
+                <option>Straight Support</option>
+                <option>Battle Loss Compensation</option>
+                <option>None</option>
+              </select>
+            </label>
+            <label>Transport<select name="transport" id="transport-select"></select></label>
+            <label class="wide">Objectives<textarea name="objectives" rows="2" placeholder="Primary and secondary objectives"></textarea></label>
+            <label class="check"><input type="checkbox" name="visibleToMerc" /> Visible to Mercenary team</label>
+            <div class="actions"><button class="btn" type="submit">Create mission</button></div>
+          </form>
+        </div>
+
+        <div class="panel">
+          <h2>Missions</h2>
+          <table class="data" id="missions-table">
+            <thead><tr><th>Employer</th><th>Type</th><th>Location</th><th>Length</th><th>Base pay</th><th>Salvage</th><th>Status</th><th>Visible</th><th></th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="panel-time" class="gm-section">
+        <div class="panel">
+          <h2>Time Management</h2>
+          <div id="time-current" class="summary-line">&nbsp;</div>
+          <button class="btn" id="advance-time">Advance one month</button>
+        </div>
+        <div class="panel">
+          <h2>Last Advance</h2>
+          <div id="time-log" class="hint">Advance time to post monthly support payments to the ledger.</div>
+        </div>
+      </section>
+    </main>
+  </div>
+  <div id="mission-modal" class="modal" hidden>
+    <div class="modal-backdrop"></div>
+    <div class="modal-content modal-form">
+      <button id="mission-close" class="modal-close" aria-label="Close">&times;</button>
+      <h2 id="mission-modal-title">Negotiate Contract</h2>
+      <form id="mission-edit-form" class="grid">
+        <label>Status
+          <select name="status">
+            <option>Negotiating</option>
+            <option>Agreement</option>
+            <option>Active</option>
+            <option>Awarded</option>
+            <option>Completed</option>
+            <option>Failed</option>
+          </select>
+        </label>
+        <label>Base pay (C-Bills / mo)<input name="basePay" type="number" step="1000" /></label>
+        <label>Salvage rights (%)<input name="salvagePct" type="number" min="0" max="100" /></label>
+        <div class="wide rewards-block">
+          <div class="rewards-head">
+            <span>Rewards &amp; offerings</span>
+            <button type="button" class="btn ghost small" id="add-reward">+ Add reward</button>
+          </div>
+          <div id="rewards-list"></div>
+        </div>
+        <label class="wide">Condition notes<textarea name="conditionNotes" rows="3" placeholder="Special terms, restrictions, briefing notes&hellip;"></textarea></label>
+        <div class="actions"><button class="btn" type="submit">Save contract</button></div>
+      </form>
+    </div>
+  </div>
+  <script src="gm.js"></script>
+</body>
+</html>
