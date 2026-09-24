@@ -54,6 +54,29 @@ module.exports = function createMissionRouter({ store, crypto }) {
         continue;
       }
 
+      if (reward.kind === 'rare') {
+        const itemType = reward.itemType === 'weapon' ? 'weapon' : 'equipment';
+        const baseName = String(reward.baseItemName || '').trim();
+        const name = String(reward.name || '').trim()
+          || `${reward.templateName || 'Rare'} ${baseName || itemType}`;
+        const item = store.put({
+          _id: `item:${crypto.randomUUID()}`,
+          type: 'item',
+          itemType,
+          name,
+          condition: 'functional',
+          rarity: reward.rarity || 'Lostech',
+          catalogId: null,
+          baseItemName: baseName || null,
+          rareTemplateId: reward.templateId || null,
+          modifiers: reward.modifiers || {},
+          source: 'contract reward',
+          contractId: current._id,
+        });
+        granted.push({ kind: 'rare', name: item.name, itemType });
+        continue;
+      }
+
       const names = Array.isArray(reward.items)
         ? reward.items
         : (reward.description ? [reward.description] : []);
@@ -93,6 +116,7 @@ module.exports = function createMissionRouter({ store, crypto }) {
           granted.push({ kind: itemType, name });
         }
       }
+
     }
 
     const contract = store.put({

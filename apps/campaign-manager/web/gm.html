@@ -16,6 +16,7 @@
     <nav class="sidebar" id="gm-nav">
       <button data-panel="team" class="active">Team</button>
       <button data-panel="staff">Staff</button>
+      <button data-panel="metadata">Metadata</button>
       <button data-panel="missions">Missions</button>
       <button data-panel="time">Time</button>
     </nav>
@@ -242,6 +243,69 @@
         </div>
       </section>
 
+      <section id="panel-metadata" class="gm-section">
+        <div class="panel">
+          <div class="section-title-actions">
+            <div>
+              <h2>System Tag Manager</h2>
+              <p class="hint">Capital, Lostech, and pirate tags control rare-market availability.</p>
+            </div>
+            <a class="btn" href="/gm-map">Open GM Tagged Map</a>
+          </div>
+          <div id="system-tag-summary" class="summary-line">&nbsp;</div>
+          <form class="grid" id="system-tag-form">
+            <label class="wide">System
+              <input name="systemName" list="tag-system-list" autocomplete="off" placeholder="Search for a system" required />
+            </label>
+            <datalist id="tag-system-list"></datalist>
+            <div class="wide tag-checkboxes" id="system-tag-checkboxes"></div>
+            <div class="wide" id="system-market-status"></div>
+            <div class="actions">
+              <button class="btn" type="submit">Save system tags</button>
+              <button class="btn ghost" id="regenerate-system-market" type="button">Reroll rare stock</button>
+            </div>
+          </form>
+        </div>
+
+        <div class="panel">
+          <h2>Rare Equipment Maker</h2>
+          <p class="hint">Templates are used when a system's rare-stock roll succeeds. Leave the base item blank to select one randomly.</p>
+          <form class="grid" id="rare-template-form">
+            <label>Name<input name="name" maxlength="100" required placeholder="Prototype Heat Baffle" /></label>
+            <label>Template ID<input name="id" maxlength="100" placeholder="Generated from name" /></label>
+            <label>Item type
+              <select name="itemType">
+                <option value="weapon">Weapon</option>
+                <option value="equipment">Equipment</option>
+              </select>
+            </label>
+            <label>Generated item prefix<input name="namePrefix" maxlength="40" required placeholder="Prototype" /></label>
+            <label>Specific base item<select name="baseItemName"><option value="">Any matching item</option></select></label>
+            <label>Base rare price<input name="basePrice" type="number" min="1000" max="100000000" step="1000" value="150000" required /></label>
+            <label>Heat modifier<input name="heat" type="number" min="-10" max="10" value="0" /></label>
+            <label>Range modifier<input name="range" type="number" min="-10" max="10" value="0" /></label>
+            <label>Damage modifier<input name="damage" type="number" min="-10" max="10" value="0" /></label>
+            <label>Tonnage modifier<input name="tonnage" type="number" min="-10" max="10" value="0" /></label>
+            <label class="wide">Description<textarea name="description" maxlength="500" rows="2" required></textarea></label>
+            <div class="actions"><button class="btn" type="submit">Create rare-item template</button></div>
+          </form>
+          <h3>Rare Equipment Database</h3>
+          <table class="data" id="rare-template-table">
+            <thead><tr><th>Name</th><th>Type</th><th>Base item</th><th>Price</th><th>Modifiers</th><th></th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+
+        <div class="panel">
+          <h2>Rare Item Sale Negotiations</h2>
+          <p class="hint">Rare equipment remains in company inventory until a negotiated price is approved.</p>
+          <table class="data" id="rare-sale-table">
+            <thead><tr><th>Item</th><th>Type</th><th>System</th><th>Modifiers</th><th>Suggested</th><th>Negotiated price</th><th>Actions</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </section>
+
       <section id="panel-missions" class="gm-section">
         <div class="panel">
           <h2>New Mission / Contract</h2>
@@ -279,14 +343,16 @@
             <label>Transport<select name="transport" id="transport-select"></select></label>
             <label class="wide">Objectives<textarea name="objectives" rows="2" placeholder="Primary and secondary objectives"></textarea></label>
             <label class="check"><input type="checkbox" name="visibleToMerc" /> Visible to Mercenary team</label>
-            <div class="actions"><button class="btn" type="submit">Create mission</button></div>
+            <div class="actions">
+              <button class="btn" type="submit">Review promised rewards</button>
+            </div>
           </form>
         </div>
 
         <div class="panel">
           <h2>Missions</h2>
           <table class="data" id="missions-table">
-            <thead><tr><th>Employer</th><th>Type</th><th>Location</th><th>Length</th><th>Base pay</th><th>Salvage</th><th>XP</th><th>Status</th><th>Visible</th><th></th></tr></thead>
+            <thead><tr><th>Employer</th><th>Type</th><th>Location</th><th>Length</th><th>Base pay</th><th>Salvage</th><th>Promises</th><th>XP</th><th>Status</th><th>Visible</th><th></th></tr></thead>
             <tbody></tbody>
           </table>
         </div>
@@ -307,9 +373,10 @@
   </div>
   <div id="mission-modal" class="modal" hidden>
     <div class="modal-backdrop"></div>
-    <div class="modal-content modal-form">
+    <div class="modal-content modal-form mission-terms-modal">
       <button id="mission-close" class="modal-close" aria-label="Close">&times;</button>
-      <h2 id="mission-modal-title">Negotiate Contract</h2>
+      <h2 id="mission-modal-title">Mission Promised Rewards</h2>
+      <p id="mission-modal-context" class="mission-modal-context"></p>
       <form id="mission-edit-form" class="grid">
         <label>Status
           <select name="status">
@@ -321,24 +388,19 @@
             <option>Failed</option>
           </select>
         </label>
-        <label>Base pay (C-Bills / mo)<input name="basePay" type="number" step="1000" /></label>
-        <label>Salvage rights (%)<input name="salvagePct" type="number" min="0" max="100" /></label>
-        <label>Completion XP award
-          <select name="xpAward">
-            <option value="20">20 XP</option>
-            <option value="40">40 XP</option>
-            <option value="80">80 XP</option>
-          </select>
-        </label>
         <div class="wide rewards-block">
           <div class="rewards-head">
-            <span>Rewards &amp; offerings</span>
-            <button type="button" class="btn ghost small" id="add-reward">+ Add reward</button>
+            <span>Promised rewards beyond monthly pay and salvage</span>
+            <button type="button" class="btn ghost small" id="add-reward">+ Add promised reward</button>
           </div>
+          <p class="hint reward-help">Promise BattleMechs, standard weapons or equipment, rare modified items, or a completion bonus.</p>
           <div id="rewards-list"></div>
         </div>
         <label class="wide">Condition notes<textarea name="conditionNotes" rows="3" placeholder="Special terms, restrictions, briefing notes&hellip;"></textarea></label>
-        <div class="actions"><button class="btn" type="submit">Save contract</button></div>
+        <div class="actions">
+          <button class="btn" type="submit" id="mission-save">Save mission</button>
+          <button class="btn ghost" type="button" id="mission-cancel">Cancel</button>
+        </div>
       </form>
     </div>
   </div>

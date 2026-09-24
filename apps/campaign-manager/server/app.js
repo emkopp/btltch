@@ -9,6 +9,7 @@ const paths = require('./config/paths');
 const createCatalogRouter = require('./modules/catalog/routes');
 const createDocumentRouter = require('./modules/documents/routes');
 const createFinanceRouter = require('./modules/finance/routes');
+const createMarketRouter = require('./modules/market/routes');
 const createMechRouter = require('./modules/mechs/routes');
 const createMissionRouter = require('./modules/missions/routes');
 const createPilotRouter = require('./modules/pilots/routes');
@@ -57,7 +58,7 @@ app.get('/api/events', (req, res) => {
   });
 });
 
-for (const page of ['merc', 'gm', 'lexicon', 'perks', 'staff-skills']) {
+for (const page of ['merc', 'gm', 'lexicon', 'perks', 'staff-skills', 'gm-map']) {
   app.get(`/${page}`, (req, res) => (
     res.sendFile(path.join(paths.webRoot, `${page}.html`))
   ));
@@ -70,6 +71,7 @@ app.use(createTravelRouter({ store }));
 app.use(createMissionRouter({ store, crypto }));
 app.use(createPilotRouter({ store }));
 app.use(createStaffRouter({ store, crypto }));
+app.use(createMarketRouter({ store, crypto }));
 app.use(createCatalogRouter({ store }));
 app.use(createDocumentRouter({ store, crypto }));
 

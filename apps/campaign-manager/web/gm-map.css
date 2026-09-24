@@ -1,0 +1,27 @@
+.gm-tag-filters { display: grid; gap: 0.45rem; margin-top: 0.7rem; }
+.gm-tag-filter {
+  display: grid;
+  grid-template-columns: auto 12px 1fr auto;
+  align-items: center;
+  gap: 0.45rem;
+  color: var(--text);
+  font-size: 0.78rem;
+}
+.gm-tag-filter i { width: 10px; height: 10px; border-radius: 50%; }
+.gm-tag-filter small { color: var(--muted); }
+.gm-selected-tags { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-top: 0.7rem; }
+.gm-selected-tags span {
+  border: 1px solid currentColor;
+  border-radius: 12px;
+  padding: 0.15rem 0.5rem;
+  font-size: 0.68rem;
+}
+.gm-market-facts {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.35rem 0.75rem;
+  margin: 0.8rem 0 0;
+  font-size: 0.76rem;
+}
+.gm-market-facts dt { color: var(--muted); }
+.gm-market-facts dd { margin: 0; color: var(--text); font-weight: 700; }

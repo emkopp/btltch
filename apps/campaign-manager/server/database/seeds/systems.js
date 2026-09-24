@@ -12,6 +12,10 @@ const paths = require('../../config/paths');
 const SRC = paths.systemsDataFile;
 
 const raw = JSON.parse(fs.readFileSync(SRC, 'utf8'));
+const existingTags = new Map(store.list('system').map(system => [
+  String(system.name).toLowerCase(),
+  Array.isArray(system.tags) ? system.tags : null,
+]));
 
 function slug(s) {
   return String(s).toLowerCase().trim().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
@@ -40,6 +44,9 @@ for (const s of raw) {
     neighbors: (Array.isArray(s.neighbors) ? s.neighbors : [])
       .map(index => raw[index] && raw[index].name)
       .filter(Boolean),
+    ...(existingTags.get(String(s.name).toLowerCase())
+      ? { tags: existingTags.get(String(s.name).toLowerCase()) }
+      : {}),
   });
 }
 

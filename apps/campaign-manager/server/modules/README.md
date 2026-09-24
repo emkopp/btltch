@@ -7,6 +7,8 @@ capability while sharing the same Express process and SQLite store.
 - `finance/`: balances, payroll, and ledger summaries
 - `missions/`: contract availability and rewards
 - `pilots/`: pilot cards, scoped combat perks, and XP purchases
+- `staff/`: staff profiles, type-specific advancement trees, and XP purchases
+- `market/`: system tags, rare-stock generation, item templates, and purchases
 - `travel/`: company location, systems, and route calculations
 - `catalog/`: reference designs, weapons, and equipment
 - `time/`: campaign clock and monthly processing

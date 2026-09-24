@@ -1,7 +1,9 @@
 # BattleTech Mercenary Campaign Manager
 
 One web application for managing a BattleTech mercenary company: personnel, BattleMechs,
-ship assets, travel, missions, inventory, and finances.
+ship assets, travel, missions, inventory, and finances. Mission contracts support explicit
+promised rewards, including BattleMechs, standard equipment, rare modified items, and
+completion bonuses, which the Game Master can revise before awarding the contract.
 
 ## Project layout
 
@@ -18,6 +20,11 @@ The Campaign Navigator is integrated at `/map/`. It displays every known system,
 limits travel choices to destinations reachable within three jumps, and retains
 the company's visited-system and route history. Reference documents are served
 read-only at `/reference/`.
+
+The Mercenary Team marketplace offers infinite standard catalog stock in every
+system and finite rare inventory generated from local system metadata. Game Masters
+can assign capital, Lostech, and pirate tags, inspect them on a private map, reroll
+system stock, and create additional rare-item templates.
 
 ## Run locally
 
@@ -87,7 +94,11 @@ running while the package is built.
 
 ### 3. Install and start
 
-For local access on the host:
+For the simplest launch, double-click `Start-Server.cmd` in the extracted folder.
+It runs `npm install` followed by `npm start`; keep the command window open while
+using the application and press `Ctrl+C` to stop it.
+
+For a permanent installation with host management scripts, run:
 
 ```powershell
 .\host\Install.ps1

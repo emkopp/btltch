@@ -110,6 +110,9 @@ const COLLECTIONS = [
     id: 'work', label: 'Work', custom: true, render: renderWorkView,
   },
   {
+    id: 'shop', label: 'Marketplace', custom: true, render: renderShopView,
+  },
+  {
     id: 'ownedWeapons', label: 'Weapons', custom: true, render: container => renderInventory(container, 'weapon'),
   },
   {
@@ -1126,9 +1129,13 @@ function rewardsSummary(rewards) {
   const parts = [];
   for (const r of rewards) {
     if (r.kind === 'bonus') { parts.push('+' + money(r.amount) + ' bonus'); continue; }
+    if (r.kind === 'rare') {
+      parts.push('Rare item: ' + (r.name || `${r.templateName || 'Rare'} ${r.baseItemName || 'item'}`));
+      continue;
+    }
     const names = Array.isArray(r.items) ? r.items : (r.description ? [r.description] : []);
     if (!names.length) continue;
-    parts.push((r.kind === 'mech' ? "'Mech: " : 'Item: ') + names.join(', '));
+    parts.push((r.kind === 'mech' ? "'Mech: " : 'Item: ') + batchLabels(names).join(', '));
   }
   return parts.join('; ');
 }
@@ -1160,9 +1167,19 @@ function buildContractDetail(c) {
         ul.appendChild(li);
         continue;
       }
+      if (r.kind === 'rare') {
+        const li = document.createElement('li');
+        const modifiers = Object.entries(r.modifiers || {})
+          .map(([key, value]) => `${key} ${Number(value) > 0 ? '+' : ''}${value}`)
+          .join(', ');
+        li.textContent = `Rare item: ${r.name || `${r.templateName || 'Rare'} ${r.baseItemName || 'item'}`}` +
+          `${modifiers ? ` (${modifiers})` : ''}`;
+        ul.appendChild(li);
+        continue;
+      }
       const names = Array.isArray(r.items) ? r.items : (r.description ? [r.description] : []);
       const label = r.kind === 'mech' ? "'Mech" : 'Item';
-      for (const n of names) {
+      for (const n of batchLabels(names)) {
         const li = document.createElement('li');
         li.textContent = `${label}: ${n}`;
         ul.appendChild(li);
@@ -1173,6 +1190,12 @@ function buildContractDetail(c) {
   add('Condition notes', c.conditionNotes);
   wrap.appendChild(dl);
   return wrap;
+}
+
+function batchLabels(names) {
+  const counts = new Map();
+  for (const name of names || []) counts.set(name, (counts.get(name) || 0) + 1);
+  return [...counts].map(([name, count]) => count > 1 ? `${count}\u00d7 ${name}` : name);
 }
 
 function workContractsPanel(contracts) {
@@ -1307,9 +1330,201 @@ function advCard(a) {
 }
 
 // ---- Owned inventory (weapons / equipment), grouped by name; each unit has a UUID ----
+async function shopRequest(url, options) {
+  const response = await fetch(url, options);
+  const body = await response.json().catch(() => ({}));
+  if (!response.ok) throw new Error(body.error || `HTTP ${response.status}`);
+  return body;
+}
+
+function renderMarketTag(tag) {
+  const chip = document.createElement('span');
+  chip.className = `market-tag market-tag-${tag}`;
+  chip.textContent = tag === 'lostech' ? 'Lostech' : tag.charAt(0).toUpperCase() + tag.slice(1);
+  return chip;
+}
+
+function renderModifierList(modifiers) {
+  const labels = { heat: 'Heat', range: 'Range', damage: 'Damage', tonnage: 'Tonnage' };
+  return Object.entries(modifiers || {})
+    .map(([key, value]) => `${labels[key] || key} ${value > 0 ? '+' : ''}${value}`)
+    .join(' \u00b7 ');
+}
+
+async function purchaseMarketItem(payload, button, container) {
+  button.disabled = true;
+  const previous = button.textContent;
+  button.textContent = 'Purchasing\u2026';
+  try {
+    const result = await shopRequest('/api/shop/purchase', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+    cache.delete('txn');
+    await Promise.all([
+      loadSummary(),
+      renderShopState(container, result.shop, `${result.item.name} added to company inventory.`),
+    ]);
+  } catch (error) {
+    button.disabled = false;
+    button.textContent = previous;
+    window.alert(error.message);
+  }
+}
+
+function renderBasicMarketTable(container, state, items, title) {
+  const section = document.createElement('section');
+  section.className = 'market-catalog';
+  const heading = document.createElement('h3');
+  heading.textContent = `${title} \u00b7 Infinite supply`;
+  const search = document.createElement('input');
+  search.type = 'search';
+  search.placeholder = `Search ${title.toLowerCase()}\u2026`;
+  search.className = 'market-search';
+  const table = document.createElement('table');
+  table.className = 'data';
+  const head = document.createElement('thead');
+  head.innerHTML = '<tr><th>Item</th><th>Details</th><th>Price</th><th></th></tr>';
+  const body = document.createElement('tbody');
+  table.append(head, body);
+
+  function renderRows() {
+    const filter = search.value.trim().toLowerCase();
+    body.replaceChildren();
+    for (const item of items.filter(entry => !filter || entry.name.toLowerCase().includes(filter))) {
+      const row = document.createElement('tr');
+      const details = item.itemType === 'weapon'
+        ? `Heat ${item.heat ?? '\u2014'} \u00b7 Damage ${item.damage ?? '\u2014'} \u00b7 Long range ${item.range ? item.range.long : '\u2014'}`
+        : item.description || 'Standard equipment';
+      const action = document.createElement('td');
+      const buy = document.createElement('button');
+      buy.type = 'button';
+      buy.className = 'btn small';
+      buy.textContent = 'Buy';
+      buy.disabled = state.balance < item.price;
+      buy.title = buy.disabled ? 'Insufficient C-Bills' : `Buy ${item.name}`;
+      buy.addEventListener('click', () => purchaseMarketItem({
+        kind: 'basic',
+        itemType: item.itemType,
+        catalogId: item.id,
+      }, buy, container));
+      action.appendChild(buy);
+      row.append(td(item.name), td(details), td(money(item.price)), action);
+      body.appendChild(row);
+    }
+  }
+  search.addEventListener('input', renderRows);
+  renderRows();
+  section.append(heading, search, table);
+  return section;
+}
+
+async function renderShopState(container, state, message) {
+  container.replaceChildren();
+  const header = document.createElement('div');
+  header.className = 'panel market-header';
+  const title = document.createElement('div');
+  const heading = document.createElement('h2');
+  heading.textContent = `${state.system.name} Marketplace`;
+  const affiliation = document.createElement('p');
+  affiliation.className = 'hint';
+  affiliation.textContent = `${state.system.affiliation} \u00b7 ${Math.round(state.rareChance * 100)}% rare-stock chance`;
+  const tags = document.createElement('div');
+  tags.className = 'market-tags';
+  if (state.system.tags.length) {
+    for (const tag of state.system.tags) tags.appendChild(renderMarketTag(tag));
+  } else {
+    const standard = document.createElement('span');
+    standard.className = 'market-tag';
+    standard.textContent = 'Standard market';
+    tags.appendChild(standard);
+  }
+  title.append(heading, affiliation, tags);
+  const funds = document.createElement('div');
+  funds.className = 'market-balance';
+  funds.innerHTML = `<strong>${money(state.balance)}</strong><span>Available funds</span>`;
+  header.append(title, funds);
+  container.appendChild(header);
+
+  if (message) {
+    const notice = document.createElement('p');
+    notice.className = 'market-notice';
+    notice.textContent = message;
+    container.appendChild(notice);
+  }
+
+  const rarePanel = document.createElement('div');
+  rarePanel.className = 'panel';
+  const rareTitle = document.createElement('h2');
+  rareTitle.textContent = 'Rare Equipment';
+  const rareHint = document.createElement('p');
+  rareHint.className = 'hint';
+  rareHint.textContent = 'Rare inventory is unique to this system and has finite supply.';
+  const rareGrid = document.createElement('div');
+  rareGrid.className = 'rare-item-grid';
+  if (!state.rareItems.length) {
+    rareGrid.appendChild(hint('No rare equipment is available in this system.'));
+  }
+  for (const item of state.rareItems) {
+    const card = document.createElement('article');
+    card.className = 'rare-item-card';
+    const itemType = document.createElement('span');
+    itemType.className = 'eyebrow';
+    itemType.textContent = `${item.rarity} ${item.itemType}`;
+    const name = document.createElement('h3');
+    name.textContent = item.name;
+    const base = document.createElement('p');
+    base.className = 'hint';
+    base.textContent = `Based on ${item.baseItemName}`;
+    const description = document.createElement('p');
+    description.textContent = item.description;
+    const modifiers = document.createElement('strong');
+    modifiers.textContent = renderModifierList(item.modifiers);
+    const price = document.createElement('span');
+    price.className = 'rare-price';
+    price.textContent = money(item.price);
+    const buy = document.createElement('button');
+    buy.type = 'button';
+    buy.className = 'btn';
+    buy.textContent = 'Buy rare item';
+    buy.disabled = state.balance < item.price;
+    buy.title = buy.disabled ? 'Insufficient C-Bills' : `Buy ${item.name}`;
+    buy.addEventListener('click', () => purchaseMarketItem({
+      kind: 'rare',
+      stockId: item.stockId,
+    }, buy, container));
+    card.append(itemType, name, base, description, modifiers, price, buy);
+    rareGrid.appendChild(card);
+  }
+  rarePanel.append(rareTitle, rareHint, rareGrid);
+  container.appendChild(rarePanel);
+
+  const catalogs = document.createElement('div');
+  catalogs.className = 'market-catalog-grid';
+  catalogs.append(
+    renderBasicMarketTable(container, state, state.basic.weapons, 'Weapons'),
+    renderBasicMarketTable(container, state, state.basic.equipment, 'Equipment'),
+  );
+  container.appendChild(catalogs);
+}
+
+async function renderShopView(container) {
+  container.replaceChildren(hint('Loading current-system marketplace\u2026'));
+  try {
+    await renderShopState(container, await shopRequest('/api/shop'));
+  } catch (error) {
+    container.replaceChildren(hint(`Marketplace unavailable: ${error.message}`));
+  }
+}
+
 async function renderInventory(container, itemType) {
   container.replaceChildren(hint('Loading\u2026'));
-  const all = await fetch('/api/item').then(r => r.json()).catch(() => []);
+  const [all, quotes] = await Promise.all([
+    fetch('/api/item').then(r => r.json()).catch(() => []),
+    fetch('/api/shop/sale-quotes').then(r => r.json()).catch(() => []),
+  ]);
+  const quoteByItem = new Map(quotes.map(quote => [quote.itemId, quote]));
   const items = all.filter(i => i.itemType === itemType);
   const groups = new Map();
   for (const it of items) {
@@ -1333,7 +1548,7 @@ async function renderInventory(container, itemType) {
   const table = document.createElement('table');
   table.className = 'data';
   const thead = document.createElement('thead');
-  thead.innerHTML = '<tr><th>Item</th><th>Count</th><th>Item numbers</th></tr>';
+  thead.innerHTML = '<tr><th>Item</th><th>Count</th><th>Individual items and sale options</th></tr>';
   const tbody = document.createElement('tbody');
   for (const name of [...groups.keys()].sort()) {
     const list = groups.get(name);
@@ -1355,7 +1570,44 @@ async function renderInventory(container, itemType) {
     ul.className = 'uuid-list';
     for (const it of list) {
       const li = document.createElement('li');
-      li.textContent = it._id.replace(/^item:/, '');
+      const identity = document.createElement('span');
+      identity.textContent = `${it._id.replace(/^item:/, '')}${it.rarity && it.rarity !== 'Standard' ? ` \u00b7 ${it.rarity}` : ''}`;
+      const quote = quoteByItem.get(it._id);
+      const sell = document.createElement('button');
+      sell.type = 'button';
+      sell.className = quote && quote.kind === 'negotiation' ? 'btn ghost small' : 'btn small';
+      if (!quote || (quote.kind === 'standard' && quote.salePrice === null)) {
+        sell.textContent = 'No sale price';
+        sell.disabled = true;
+      } else if (quote.kind === 'negotiation') {
+        sell.textContent = quote.pending
+          ? 'Negotiation pending'
+          : `Negotiate sale${quote.suggestedValue ? ` (guide ${money(quote.suggestedValue)})` : ''}`;
+        sell.disabled = quote.pending;
+      } else {
+        sell.textContent = `Sell for ${money(quote.salePrice)}`;
+      }
+      sell.addEventListener('click', async () => {
+        if (quote.kind === 'standard'
+            && !window.confirm(`Sell ${it.name} for ${money(quote.salePrice)} at the current system?`)) return;
+        sell.disabled = true;
+        try {
+          const result = await shopRequest('/api/shop/sell', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ itemId: it._id }),
+          });
+          cache.delete('txn');
+          await Promise.all([loadSummary(), renderInventory(container, itemType)]);
+          window.alert(result.kind === 'negotiation'
+            ? `${it.name} was sent to the Game Master for price negotiation.`
+            : `${it.name} sold for ${money(result.salePrice)}.`);
+        } catch (error) {
+          window.alert(error.message);
+          sell.disabled = false;
+        }
+      });
+      li.append(identity, sell);
       ul.appendChild(li);
     }
     dc.appendChild(ul);

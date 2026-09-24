@@ -16,6 +16,7 @@ $archivePath = Join-Path $OutputDirectory "$packageName.zip"
 foreach ($requiredPath in @(
     (Join-Path $appSource 'package.json'),
     (Join-Path $appSource 'package-lock.json'),
+    (Join-Path $PSScriptRoot 'Start-Server.cmd'),
     (Join-Path $projectRoot 'data'),
     (Join-Path $projectRoot 'reference')
 )) {
@@ -58,6 +59,9 @@ Copy-Item -LiteralPath (Join-Path $projectRoot 'reference') -Destination (
 ) -Recurse
 Copy-Item -LiteralPath (Join-Path $projectRoot 'README.md') -Destination (
     Join-Path $stagingRoot 'README.md'
+)
+Copy-Item -LiteralPath (Join-Path $PSScriptRoot 'Start-Server.cmd') -Destination (
+    Join-Path $stagingRoot 'Start-Server.cmd'
 )
 Copy-Item -Path (Join-Path $PSScriptRoot 'host\*') -Destination (
     Join-Path $stagingRoot 'host'

@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>GM System Intelligence Map — Mercenary Manager</title>
+  <link rel="stylesheet" href="map/campaign-map.css" />
+  <link rel="stylesheet" href="gm-map.css" />
+</head>
+<body>
+  <header class="map-header">
+    <a href="/gm">&#9664; Game Master</a>
+    <div>
+      <h1>GM System Intelligence Map</h1>
+      <p>Private campaign metadata, market tags, and rare-stock visibility</p>
+    </div>
+    <label class="system-search">
+      Find system
+      <input id="gm-system-search" type="search" placeholder="Enter system name" autocomplete="off" />
+    </label>
+  </header>
+
+  <main class="navigator-layout">
+    <section class="map-stage" aria-label="GM tagged system map">
+      <canvas id="gm-system-map"></canvas>
+      <div id="gm-map-legend" class="map-legend"></div>
+      <div id="gm-map-tooltip" class="map-tooltip" hidden></div>
+    </section>
+
+    <aside class="navigation-panel">
+      <section>
+        <span class="eyebrow">GM-only filters</span>
+        <h2>System tags</h2>
+        <div id="gm-tag-filters" class="gm-tag-filters"></div>
+      </section>
+      <section>
+        <div class="section-heading">
+          <h2>Visible systems</h2>
+          <span id="gm-visible-count"></span>
+        </div>
+        <p>Tagged systems are color-coded. Enable untagged systems to inspect the full map.</p>
+      </section>
+      <section id="gm-map-selection">
+        <span class="eyebrow">Selected system</span>
+        <h2 id="gm-selected-name">Select a system</h2>
+        <p id="gm-selected-affiliation">Click a visible system to inspect its market.</p>
+        <div id="gm-selected-tags" class="gm-selected-tags"></div>
+        <dl class="gm-market-facts">
+          <dt>Rare-stock chance</dt><dd id="gm-selected-chance">&mdash;</dd>
+          <dt>Rare items available</dt><dd id="gm-selected-stock">&mdash;</dd>
+        </dl>
+      </section>
+    </aside>
+  </main>
+
+  <script src="gm-map.js"></script>
+</body>
+</html>

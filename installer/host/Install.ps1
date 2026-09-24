@@ -53,6 +53,7 @@ if (($OpenFirewall -or $RegisterStartup) -and -not (Test-Administrator)) {
 
 foreach ($requiredPath in @(
     (Join-Path $sourceApp 'package.json'),
+    (Join-Path $packageRoot 'Start-Server.cmd'),
     (Join-Path $packageRoot 'data'),
     (Join-Path $packageRoot 'reference')
 )) {
@@ -83,6 +84,9 @@ Copy-DirectoryContents -Source (Join-Path $packageRoot 'reference') -Target (
 Copy-DirectoryContents -Source $PSScriptRoot -Target (Join-Path $Destination 'host')
 Copy-Item -LiteralPath (Join-Path $packageRoot 'README.md') -Destination (
     Join-Path $Destination 'README.md'
+) -Force
+Copy-Item -LiteralPath (Join-Path $packageRoot 'Start-Server.cmd') -Destination (
+    Join-Path $Destination 'Start-Server.cmd'
 ) -Force
 
 New-Item -ItemType Directory -Force -Path (Join-Path $destinationApp 'storage') | Out-Null
