@@ -14,8 +14,10 @@ reference/              Rules, record sheets, maps, and ship material
 _ephemeral/             Reproducible working artifacts (not version-controlled)
 ```
 
-The Inner Sphere map is integrated into the campaign manager at `/map/`. Reference
-documents are served read-only at `/reference/`.
+The Campaign Navigator is integrated at `/map/`. It displays every known system,
+limits travel choices to destinations reachable within three jumps, and retains
+the company's visited-system and route history. Reference documents are served
+read-only at `/reference/`.
 
 ## Run locally
 

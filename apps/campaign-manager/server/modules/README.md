@@ -6,6 +6,7 @@ capability while sharing the same Express process and SQLite store.
 - `mechs/`: owned BattleMechs, assignments, and battle state
 - `finance/`: balances, payroll, and ledger summaries
 - `missions/`: contract availability and rewards
+- `pilots/`: pilot cards, scoped combat perks, and XP purchases
 - `travel/`: company location, systems, and route calculations
 - `catalog/`: reference designs, weapons, and equipment
 - `time/`: campaign clock and monthly processing

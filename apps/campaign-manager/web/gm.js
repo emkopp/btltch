@@ -12,7 +12,10 @@ async function api(method, url, body) {
     opt.body = JSON.stringify(body);
   }
   const res = await fetch(url, opt);
-  if (!res.ok) throw new Error(`HTTP ${res.status} on ${url}`);
+  if (!res.ok) {
+    const error = await res.json().catch(() => ({}));
+    throw new Error(error.error || `HTTP ${res.status} on ${url}`);
+  }
   return res.status === 204 ? null : res.json();
 }
 const get = url => api('GET', url);
@@ -38,6 +41,7 @@ gmNav.addEventListener('click', e => {
 let pilots = [];
 let designList = [];
 let itemCatalog = [];
+const selectedXpPilots = new Set();
 
 async function loadTeam() {
   const [fin, mechs, ps, company] = await Promise.all([
@@ -87,13 +91,420 @@ async function loadTeam() {
   pbody.replaceChildren();
   for (const p of pilots) {
     const tr = document.createElement('tr');
+    const selectCell = document.createElement('td');
+    const selectPilot = document.createElement('input');
+    selectPilot.type = 'checkbox';
+    selectPilot.checked = selectedXpPilots.has(p._id);
+    selectPilot.setAttribute('aria-label', `Select ${p.callsign} for bulk XP`);
+    selectPilot.addEventListener('change', () => {
+      if (selectPilot.checked) selectedXpPilots.add(p._id);
+      else selectedXpPilots.delete(p._id);
+      updateSelectAllPilots();
+    });
+    selectCell.appendChild(selectPilot);
     tr.append(
+      selectCell,
       td(p.callsign), td(`${p.gunnery}/${p.piloting}`), td(p.rating),
-      td(mechByPilot.get(p._id) || '\u2014'), td(money(p.salary)),
+      td(mechByPilot.get(p._id) || '\u2014'), td(money(p.salary)), td(p.xp || 0),
     );
+    const xpCell = document.createElement('td');
+    const xpForm = document.createElement('form');
+    xpForm.className = 'xp-award';
+    const operation = document.createElement('select');
+    operation.setAttribute('aria-label', `XP operation for ${p.callsign}`);
+    for (const [value, label] of [['add', 'Add'], ['remove', 'Remove'], ['set', 'Set']]) {
+      const option = document.createElement('option');
+      option.value = value;
+      option.textContent = label;
+      operation.appendChild(option);
+    }
+    const xpInput = document.createElement('input');
+    xpInput.type = 'number';
+    xpInput.min = '0';
+    xpInput.max = '10000';
+    xpInput.step = '1';
+    xpInput.value = '5';
+    xpInput.setAttribute('aria-label', `XP amount for ${p.callsign}`);
+    const xpButton = document.createElement('button');
+    xpButton.type = 'submit';
+    xpButton.className = 'btn small';
+    xpButton.textContent = 'Apply';
+    xpForm.append(operation, xpInput, xpButton);
+    xpForm.addEventListener('submit', async event => {
+      event.preventDefault();
+      xpButton.disabled = true;
+      try {
+        await api('POST', `/api/pilot/${p._id.replace(/^pilot:/, '')}/xp`, {
+          operation: operation.value,
+          amount: Number(xpInput.value),
+        });
+        await loadTeam();
+      } catch (error) {
+        window.alert(error.message);
+        xpButton.disabled = false;
+      }
+    });
+    xpCell.appendChild(xpForm);
+    tr.appendChild(xpCell);
     pbody.appendChild(tr);
   }
+  updateSelectAllPilots();
 }
+
+function updateSelectAllPilots() {
+  const selectAll = document.getElementById('select-all-pilots');
+  const selectedCount = pilots.filter(pilot => selectedXpPilots.has(pilot._id)).length;
+  selectAll.checked = pilots.length > 0 && selectedCount === pilots.length;
+  selectAll.indeterminate = selectedCount > 0 && selectedCount < pilots.length;
+}
+
+document.getElementById('select-all-pilots').addEventListener('change', event => {
+  selectedXpPilots.clear();
+  if (event.currentTarget.checked) {
+    for (const pilot of pilots) selectedXpPilots.add(pilot._id);
+  }
+  for (const checkbox of document.querySelectorAll('#pilots-table tbody input[type="checkbox"]')) {
+    checkbox.checked = event.currentTarget.checked;
+  }
+  updateSelectAllPilots();
+});
+
+document.getElementById('bulk-xp-form').addEventListener('submit', async event => {
+  event.preventDefault();
+  const submit = event.currentTarget.querySelector('button[type="submit"]');
+  submit.disabled = true;
+  try {
+    const selectedAward = event.currentTarget.amount.selectedOptions[0];
+    await api('POST', '/api/pilots/xp/add', {
+      amount: Number(selectedAward.dataset.amount),
+      contractId: selectedAward.dataset.contractId || null,
+      pilotIds: [...selectedXpPilots],
+    });
+    await Promise.all([loadTeam(), loadMissions()]);
+  } catch (error) {
+    window.alert(error.message);
+  } finally {
+    submit.disabled = false;
+  }
+});
+
+const resetXpButton = document.getElementById('reset-all-xp');
+const resetXpConfirmation = document.getElementById('reset-xp-confirmation');
+resetXpButton.addEventListener('click', () => {
+  resetXpButton.hidden = true;
+  resetXpConfirmation.hidden = false;
+});
+document.getElementById('cancel-reset-all-xp').addEventListener('click', () => {
+  resetXpConfirmation.hidden = true;
+  resetXpButton.hidden = false;
+});
+const confirmResetXpButton = document.getElementById('confirm-reset-all-xp');
+confirmResetXpButton.addEventListener('click', async () => {
+  confirmResetXpButton.disabled = true;
+  try {
+    await api('POST', '/api/pilots/xp/reset');
+    resetXpConfirmation.hidden = true;
+    resetXpButton.hidden = false;
+    await loadTeam();
+  } catch (error) {
+    window.alert(error.message);
+  } finally {
+    confirmResetXpButton.disabled = false;
+  }
+});
+
+// ---- Staff panel ----
+let staffMembers = [];
+const selectedXpStaff = new Set();
+const staffForm = document.getElementById('staff-form');
+const staffFormTitle = document.getElementById('staff-form-title');
+const cancelStaffEditButton = document.getElementById('cancel-staff-edit');
+
+function resetStaffForm() {
+  staffForm.reset();
+  staffForm.staffId.value = '';
+  staffForm.tier.value = 'normal';
+  staffForm.rating.value = '5';
+  staffForm.monthlyCost.value = '500';
+  staffForm.querySelector('button[type="submit"]').textContent = 'Add staff member';
+  staffFormTitle.textContent = 'Add Staff Member';
+  cancelStaffEditButton.hidden = true;
+}
+
+function beginStaffEdit(staff) {
+  staffForm.staffId.value = staff._id.replace(/^staff:/, '');
+  staffForm.name.value = staff.name || '';
+  staffForm.staffType.value = staff.staffType;
+  staffForm.tier.value = staff.tier;
+  staffForm.rating.value = staff.rating;
+  staffForm.monthlyCost.value = staff.monthlyCost;
+  staffForm.querySelector('button[type="submit"]').textContent = 'Save staff member';
+  staffFormTitle.textContent = `Edit ${staff.name}`;
+  cancelStaffEditButton.hidden = false;
+  staffForm.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function updateSelectAllStaff() {
+  const selectAll = document.getElementById('select-all-staff');
+  const selectedCount = staffMembers.filter(staff => selectedXpStaff.has(staff._id)).length;
+  selectAll.checked = staffMembers.length > 0 && selectedCount === staffMembers.length;
+  selectAll.indeterminate = selectedCount > 0 && selectedCount < staffMembers.length;
+}
+
+async function applyStaffXp(staff, operation, amount) {
+  await api('POST', `/api/staff/${staff._id.replace(/^staff:/, '')}/xp`, {
+    operation,
+    amount,
+  });
+  await loadStaff();
+}
+
+async function loadStaff() {
+  staffMembers = await get('/api/staff');
+  const currentIds = new Set(staffMembers.map(staff => staff._id));
+  for (const id of selectedXpStaff) {
+    if (!currentIds.has(id)) selectedXpStaff.delete(id);
+  }
+  const tbody = document.querySelector('#staff-table tbody');
+  tbody.replaceChildren();
+  for (const staff of staffMembers) {
+    const row = document.createElement('tr');
+    const selectCell = document.createElement('td');
+    const selectStaff = document.createElement('input');
+    selectStaff.type = 'checkbox';
+    selectStaff.checked = selectedXpStaff.has(staff._id);
+    selectStaff.setAttribute('aria-label', `Select ${staff.name} for bulk XP`);
+    selectStaff.addEventListener('change', () => {
+      if (selectStaff.checked) selectedXpStaff.add(staff._id);
+      else selectedXpStaff.delete(staff._id);
+      updateSelectAllStaff();
+    });
+    selectCell.appendChild(selectStaff);
+
+    const xpCell = document.createElement('td');
+    const xpForm = document.createElement('form');
+    xpForm.className = 'xp-award';
+    const operation = document.createElement('select');
+    operation.setAttribute('aria-label', `XP operation for ${staff.name}`);
+    for (const [value, label] of [['add', 'Add'], ['remove', 'Remove'], ['set', 'Set']]) {
+      const option = document.createElement('option');
+      option.value = value;
+      option.textContent = label;
+      operation.appendChild(option);
+    }
+    const amount = document.createElement('input');
+    amount.type = 'number';
+    amount.min = '0';
+    amount.max = '10000';
+    amount.step = '1';
+    amount.value = '5';
+    amount.setAttribute('aria-label', `XP amount for ${staff.name}`);
+    const apply = document.createElement('button');
+    apply.type = 'submit';
+    apply.className = 'btn small';
+    apply.textContent = 'Apply';
+    xpForm.append(operation, amount, apply);
+    xpForm.addEventListener('submit', async event => {
+      event.preventDefault();
+      apply.disabled = true;
+      try {
+        await applyStaffXp(staff, operation.value, Number(amount.value));
+      } catch (error) {
+        window.alert(error.message);
+        apply.disabled = false;
+      }
+    });
+    xpCell.appendChild(xpForm);
+
+    const actions = document.createElement('td');
+    actions.className = 'table-actions';
+    const skills = document.createElement('a');
+    skills.className = 'btn small';
+    skills.href = `/staff-skills?staff=${encodeURIComponent(staff._id.replace(/^staff:/, ''))}`;
+    skills.textContent = 'Skills';
+    const edit = document.createElement('button');
+    edit.type = 'button';
+    edit.className = 'btn ghost small';
+    edit.textContent = 'Edit';
+    edit.addEventListener('click', () => beginStaffEdit(staff));
+    const remove = document.createElement('button');
+    remove.type = 'button';
+    remove.className = 'btn danger small';
+    remove.textContent = 'Delete';
+    remove.addEventListener('click', async () => {
+      if (!window.confirm(`Delete ${staff.name}? This also removes their XP and purchased skills.`)) return;
+      remove.disabled = true;
+      try {
+        await api('DELETE', `/api/staff/${staff._id.replace(/^staff:/, '')}`);
+        if (staffForm.staffId.value === staff._id.replace(/^staff:/, '')) resetStaffForm();
+        await Promise.all([loadStaff(), loadTeam()]);
+      } catch (error) {
+        window.alert(error.message);
+        remove.disabled = false;
+      }
+    });
+    actions.append(skills, edit, remove);
+
+    row.append(
+      selectCell,
+      td(staff.name),
+      td(staff.staffType),
+      td(staff.tier),
+      td(staff.rating),
+      td(money(staff.monthlyCost)),
+      td(staff.xp || 0),
+      td(Array.isArray(staff.skills) ? staff.skills.length : 0),
+      xpCell,
+      actions,
+    );
+    tbody.appendChild(row);
+  }
+  updateSelectAllStaff();
+}
+
+staffForm.addEventListener('submit', async event => {
+  event.preventDefault();
+  const submit = staffForm.querySelector('button[type="submit"]');
+  submit.disabled = true;
+  const staffId = staffForm.staffId.value;
+  try {
+    const body = {
+      name: staffForm.name.value,
+      staffType: staffForm.staffType.value,
+      tier: staffForm.tier.value,
+      rating: Number(staffForm.rating.value),
+      monthlyCost: Number(staffForm.monthlyCost.value),
+    };
+    await api(staffId ? 'PUT' : 'POST', staffId ? `/api/staff/${staffId}` : '/api/staff', body);
+    resetStaffForm();
+    await Promise.all([loadStaff(), loadTeam()]);
+  } catch (error) {
+    window.alert(error.message);
+  } finally {
+    submit.disabled = false;
+  }
+});
+
+cancelStaffEditButton.addEventListener('click', resetStaffForm);
+
+document.getElementById('select-all-staff').addEventListener('change', event => {
+  selectedXpStaff.clear();
+  if (event.currentTarget.checked) {
+    for (const staff of staffMembers) selectedXpStaff.add(staff._id);
+  }
+  for (const checkbox of document.querySelectorAll('#staff-table tbody input[type="checkbox"]')) {
+    checkbox.checked = event.currentTarget.checked;
+  }
+  updateSelectAllStaff();
+});
+
+document.getElementById('bulk-staff-xp-form').addEventListener('submit', async event => {
+  event.preventDefault();
+  const submit = event.currentTarget.querySelector('button[type="submit"]');
+  submit.disabled = true;
+  try {
+    await api('POST', '/api/staff/xp/add', {
+      amount: Number(event.currentTarget.amount.value),
+      staffIds: [...selectedXpStaff],
+    });
+    await loadStaff();
+  } catch (error) {
+    window.alert(error.message);
+  } finally {
+    submit.disabled = false;
+  }
+});
+
+const resetStaffXpButton = document.getElementById('reset-all-staff-xp');
+const resetStaffXpConfirmation = document.getElementById('reset-staff-xp-confirmation');
+resetStaffXpButton.addEventListener('click', () => {
+  resetStaffXpButton.hidden = true;
+  resetStaffXpConfirmation.hidden = false;
+});
+document.getElementById('cancel-reset-all-staff-xp').addEventListener('click', () => {
+  resetStaffXpConfirmation.hidden = true;
+  resetStaffXpButton.hidden = false;
+});
+const confirmResetStaffXpButton = document.getElementById('confirm-reset-all-staff-xp');
+confirmResetStaffXpButton.addEventListener('click', async () => {
+  confirmResetStaffXpButton.disabled = true;
+  try {
+    await api('POST', '/api/staff/xp/reset');
+    resetStaffXpConfirmation.hidden = true;
+    resetStaffXpButton.hidden = false;
+    await loadStaff();
+  } catch (error) {
+    window.alert(error.message);
+  } finally {
+    confirmResetStaffXpButton.disabled = false;
+  }
+});
+
+async function loadPerks() {
+  const perks = await get('/api/pilot-perks');
+  const prerequisite = document.getElementById('perk-prerequisite');
+  const selected = prerequisite.value;
+  prerequisite.replaceChildren();
+  const none = document.createElement('option');
+  none.value = '';
+  none.textContent = 'None';
+  prerequisite.appendChild(none);
+  for (const perk of perks) {
+    const option = document.createElement('option');
+    option.value = perk.id;
+    option.textContent = `${perk.name} (${perk.id})`;
+    prerequisite.appendChild(option);
+  }
+  prerequisite.value = selected;
+
+  const tbody = document.querySelector('#perks-table tbody');
+  tbody.replaceChildren();
+  for (const perk of perks) {
+    const effect = Object.entries(perk.effect || {})[0] || [];
+    const row = document.createElement('tr');
+    row.append(
+      td(perk.name),
+      td(perk.category),
+      td(`${perk.cost} XP`),
+      td(perk.scope || 'All mechs'),
+      td(perk.tree ? `${perk.tree} / tier ${perk.tier}` : '—'),
+      td(effect.length ? `${effect[0]} ${effect[1] > 0 ? '+' : ''}${effect[1]}` : '—'),
+    );
+    tbody.appendChild(row);
+  }
+}
+
+document.getElementById('perk-form').addEventListener('submit', async event => {
+  event.preventDefault();
+  const form = event.currentTarget;
+  const submit = form.querySelector('button[type="submit"]');
+  submit.disabled = true;
+  try {
+    await api('POST', '/api/pilot-perks', {
+      name: form.name.value,
+      id: form.id.value,
+      category: form.category.value,
+      cost: Number(form.cost.value),
+      description: form.description.value,
+      scope: form.scope.value,
+      prerequisite: form.prerequisite.value,
+      tree: form.tree.value,
+      tier: Number(form.tier.value),
+      effectName: form.effectName.value,
+      effectValue: Number(form.effectValue.value),
+      matchPrerequisiteWeightClass: form.matchPrerequisiteWeightClass.checked,
+    });
+    form.reset();
+    form.cost.value = '20';
+    form.tier.value = '1';
+    form.effectValue.value = '-1';
+    await loadPerks();
+  } catch (error) {
+    window.alert(error.message);
+  } finally {
+    submit.disabled = false;
+  }
+});
 
 document.getElementById('txn-form').addEventListener('submit', async e => {
   e.preventDefault();
@@ -111,6 +522,7 @@ document.getElementById('txn-form').addEventListener('submit', async e => {
 // ---- Missions panel ----
 async function loadMissions() {
   const list = await get('/api/contract');
+  loadMissionXpAwards(list);
   const tbody = document.querySelector('#missions-table tbody');
   tbody.replaceChildren();
   for (const c of list) {
@@ -119,6 +531,7 @@ async function loadMissions() {
       td(c.employer), td(c.missionType), td(c.location),
       td(c.lengthMonths ? `${c.lengthMonths} mo` : ''),
       td(money(c.basePay)), td((c.salvagePct ?? '') + '%'),
+      td(c.xpAward ? `${c.xpAward} XP${c.xpAwarded ? ' awarded' : ''}` : '\u2014'),
     );
     const stCell = document.createElement('td');
     const badge = document.createElement('button');
@@ -156,12 +569,43 @@ async function loadMissions() {
   if (!list.length) {
     const tr = document.createElement('tr');
     const cell = document.createElement('td');
-    cell.colSpan = 9;
+    cell.colSpan = 10;
     cell.className = 'hint';
     cell.textContent = 'No missions yet. Create one above.';
     tr.appendChild(cell);
     tbody.appendChild(tr);
   }
+}
+
+function loadMissionXpAwards(contracts) {
+  const select = document.querySelector('#bulk-xp-form select[name="amount"]');
+  select.replaceChildren();
+  const standard = document.createElement('optgroup');
+  standard.label = 'Standard awards';
+  for (const amount of [20, 40, 80]) {
+    const option = document.createElement('option');
+    option.value = `standard:${amount}`;
+    option.dataset.amount = String(amount);
+    option.textContent = `${amount} XP`;
+    standard.appendChild(option);
+  }
+  select.appendChild(standard);
+
+  const completed = contracts
+    .filter(contract => contract.status === 'Completed' && !contract.xpAwarded && Number(contract.xpAward) > 0)
+    .sort((a, b) => String(a.missionType).localeCompare(String(b.missionType)));
+  if (!completed.length) return;
+  const missions = document.createElement('optgroup');
+  missions.label = 'Completed missions';
+  for (const contract of completed) {
+    const option = document.createElement('option');
+    option.value = contract._id;
+    option.dataset.amount = String(contract.xpAward);
+    option.dataset.contractId = contract._id;
+    option.textContent = `${contract.missionType} \u2014 ${contract.employer} (${contract.xpAward} XP)`;
+    missions.appendChild(option);
+  }
+  select.appendChild(missions);
 }
 
 // Near-system options carry a " (N jumps)" suffix for display; strip it before saving.
@@ -177,6 +621,7 @@ document.getElementById('mission-form').addEventListener('submit', async e => {
     lengthMonths: Number(f.lengthMonths.value) || null,
     basePay: Number(f.basePay.value) || 0,
     salvagePct: Number(f.salvagePct.value) || 0,
+    xpAward: Number(f.xpAward.value) || 0,
     commandRights: f.commandRights.value,
     support: f.support.value,
     transport: f.transport.value,
@@ -246,6 +691,9 @@ async function loadLocation() {
   document.getElementById('location-current').textContent = loc.currentSystem
     ? `${loc.currentSystem}${sys ? `  \u00b7  ${sys.affiliation}  \u00b7  (${sys.x}, ${sys.y})` : '  \u00b7  unknown system'}`
     : 'No location set.';
+  document.getElementById('travel-history-summary').textContent =
+    `${loc.travelHistoryCount || 0} recorded route${loc.travelHistoryCount === 1 ? '' : 's'}  \u00b7  ` +
+    `${(loc.visitedSystems || []).length} visited system${(loc.visitedSystems || []).length === 1 ? '' : 's'}`;
   const dl = document.getElementById('systems-datalist');
   dl.replaceChildren();
   const addOption = n => { const o = document.createElement('option'); o.value = n; dl.appendChild(o); };
@@ -258,6 +706,31 @@ document.getElementById('location-form').addEventListener('submit', async e => {
   e.preventDefault();
   await api('POST', '/api/location', { system: stripJumps(e.target.system.value) });
   await loadLocation();
+});
+
+const clearTravelButton = document.getElementById('clear-travel-history');
+const clearTravelConfirmation = document.getElementById('clear-travel-confirmation');
+const confirmClearTravelButton = document.getElementById('confirm-clear-travel-history');
+clearTravelButton.addEventListener('click', () => {
+  clearTravelButton.hidden = true;
+  clearTravelConfirmation.hidden = false;
+});
+document.getElementById('cancel-clear-travel-history').addEventListener('click', () => {
+  clearTravelConfirmation.hidden = true;
+  clearTravelButton.hidden = false;
+});
+confirmClearTravelButton.addEventListener('click', async () => {
+  confirmClearTravelButton.disabled = true;
+  try {
+    await api('DELETE', '/api/travel/history');
+    clearTravelConfirmation.hidden = true;
+    clearTravelButton.hidden = false;
+    await loadLocation();
+  } catch (error) {
+    window.alert(error.message);
+  } finally {
+    confirmClearTravelButton.disabled = false;
+  }
 });
 
 // Fill the mission location when a system is picked on the map (set via localStorage there).
@@ -278,6 +751,7 @@ function openMissionEditor(c) {
   f.status.value = c.status || 'Negotiating';
   f.basePay.value = c.basePay != null ? c.basePay : 0;
   f.salvagePct.value = c.salvagePct != null ? c.salvagePct : 0;
+  f.xpAward.value = String(c.xpAward || 20);
   f.conditionNotes.value = c.conditionNotes || '';
   const list = document.getElementById('rewards-list');
   list.replaceChildren();
@@ -416,6 +890,7 @@ document.getElementById('mission-edit-form').addEventListener('submit', async e 
   await api('PUT', `/api/contract/${slug}`, Object.assign({}, editingContract, {
     basePay: Number(f.basePay.value) || 0,
     salvagePct: Number(f.salvagePct.value) || 0,
+    xpAward: Number(f.xpAward.value) || 0,
     status: newStatus,
     rewards: rewards,
     conditionNotes: f.conditionNotes.value,
@@ -471,4 +946,6 @@ loadCompany().catch(() => {});
 loadLocation().catch(() => {});
 loadTime().catch(() => {});
 loadTeam().catch(err => { document.getElementById('gm-status').textContent = 'Error: ' + err.message; });
+loadStaff().catch(err => { document.getElementById('gm-status').textContent = 'Error: ' + err.message; });
+loadPerks().catch(err => { document.getElementById('gm-status').textContent = 'Error: ' + err.message; });
 loadMissions().catch(() => {});

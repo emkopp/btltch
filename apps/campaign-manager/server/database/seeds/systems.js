@@ -37,6 +37,9 @@ for (const s of raw) {
     y: s.y,
     affiliation: s.affiliation || 'Unknown',
     link: s.link || null,
+    neighbors: (Array.isArray(s.neighbors) ? s.neighbors : [])
+      .map(index => raw[index] && raw[index].name)
+      .filter(Boolean),
   });
 }
 

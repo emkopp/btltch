@@ -13,6 +13,8 @@ const company = {
   name: 'Unnamed Command',
   founded: null,
   currentSystem: 'New India',
+  visitedSystems: ['New India'],
+  travelHistory: [],
   color: '#7a1f1f',
   insignia: null,
   rating: { dragoon: null, experience: 'Regular', reputation: null },
@@ -86,10 +88,10 @@ const mechs = [
 ];
 
 const pilots = [
-  { _id: 'pilot:0001', type: 'pilot', callsign: 'Sabre', name: 'Unnamed', gunnery: 3, piloting: 4, rating: 'Veteran', xp: 0, injuries: 0, salary: 2400, role: 'Commander' },
-  { _id: 'pilot:0002', type: 'pilot', callsign: 'Grinder', name: 'Unnamed', gunnery: 4, piloting: 5, rating: 'Regular', xp: 0, injuries: 0, salary: 1500 },
-  { _id: 'pilot:0003', type: 'pilot', callsign: 'Ghost', name: 'Unnamed', gunnery: 4, piloting: 5, rating: 'Regular', xp: 0, injuries: 0, salary: 1500 },
-  { _id: 'pilot:0004', type: 'pilot', callsign: 'Sparrow', name: 'Unnamed', gunnery: 5, piloting: 6, rating: 'Green', xp: 0, injuries: 0, salary: 1000 },
+  { _id: 'pilot:0001', type: 'pilot', callsign: 'Sabre', name: 'Unnamed', gunnery: 3, piloting: 4, rating: 'Veteran', xp: 0, xpSpent: 0, perks: [], injuries: 0, salary: 2400, role: 'Commander' },
+  { _id: 'pilot:0002', type: 'pilot', callsign: 'Grinder', name: 'Unnamed', gunnery: 4, piloting: 5, rating: 'Regular', xp: 0, xpSpent: 0, perks: [], injuries: 0, salary: 1500 },
+  { _id: 'pilot:0003', type: 'pilot', callsign: 'Ghost', name: 'Unnamed', gunnery: 4, piloting: 5, rating: 'Regular', xp: 0, xpSpent: 0, perks: [], injuries: 0, salary: 1500 },
+  { _id: 'pilot:0004', type: 'pilot', callsign: 'Sparrow', name: 'Unnamed', gunnery: 5, piloting: 6, rating: 'Green', xp: 0, xpSpent: 0, perks: [], injuries: 0, salary: 1000 },
 ];
 
 const txns = [
@@ -116,7 +118,7 @@ function staffDoc(id, name, staffType, monthlyCost, tier, rating, specialSkills)
   return {
     _id: `staff:${id}`, type: 'staff', name, staffType, monthlyCost,
     tier, tierRank: t.rank, outputModifier: t.modifier, dimension: DIMENSION[staffType],
-    rating, specialSkills,
+    rating, specialSkills, xp: 0, xpSpent: 0, xpEarned: 0, skills: [],
   };
 }
 
@@ -208,6 +210,7 @@ for (let i = 1; i <= 5; i++) {
     support: pick(supportList),
     transport: pick(transportOptions).name,
     objectives: `${missionType.name} operation in the New India system for the Lyran Commonwealth.`,
+    xpAward: pick([20, 40, 80]),
     status: 'Negotiating',
     visibleToMerc: i <= 3,
   });

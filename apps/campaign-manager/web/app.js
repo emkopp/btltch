@@ -77,7 +77,7 @@ const COLLECTIONS = [
   {
     id: 'pilot', label: 'Pilots', endpoint: '/api/pilot',
     columns: [
-      { label: 'Callsign', get: p => p.callsign },
+      { label: 'Callsign', get: p => p.callsign, cell: p => renderPilotButton(p) },
       { label: 'Name', get: p => p.name },
       { label: 'Gun', get: p => p.gunnery, right: true },
       { label: 'Pil', get: p => p.piloting, right: true },
@@ -91,10 +91,11 @@ const COLLECTIONS = [
   {
     id: 'staff', label: 'Staff', endpoint: '/api/staff',
     columns: [
-      { label: 'Name', get: s => s.name },
+      { label: 'Name', get: s => s.name, cell: s => renderStaffButton(s) },
       { label: 'Type', get: s => s.staffType },
       { label: 'Tier', get: s => s.tier },
       { label: 'Rating', get: s => s.rating, right: true },
+      { label: 'XP', get: s => s.xp || 0, right: true },
       { label: 'Monthly', get: s => money(s.monthlyCost), right: true },
       { label: 'Skills', get: s => (s.specialSkills || []).join(', ') },
     ],
@@ -235,7 +236,12 @@ function applyView() {
     const tr = document.createElement('tr');
     tr.dataset.id = d._id;
     if (d._id === state.selectedId) tr.classList.add('selected');
-    for (const c of col.columns) tr.appendChild(td(c.get(d), c.right));
+    for (const c of col.columns) {
+      const cell = td('', c.right);
+      if (c.cell) cell.appendChild(c.cell(d));
+      else cell.textContent = c.get(d) === null || c.get(d) === undefined ? '' : String(c.get(d));
+      tr.appendChild(cell);
+    }
     tr.addEventListener('click', () => selectRow(d));
     els.tbody.appendChild(tr);
   }
@@ -283,6 +289,7 @@ function selectRow(doc) {
   for (const tr of els.tbody.children) tr.classList.toggle('selected', tr.dataset.id === doc._id);
   if (state.col.id === 'design') openDesignSheet(doc);
   else if (state.col.id === 'mech') renderMechDetail(doc);
+  else if (state.col.id === 'pilot') openPilotCard(doc._id);
   else renderDetail(state.col, doc);
 }
 
@@ -642,7 +649,165 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape' && !sheetModa
 function closeSheet() {
   sheetModal.hidden = true;
   sheetBody.replaceChildren();
+  sheetBody.className = '';
+  sheetModal.querySelector('.modal-content').classList.remove('pilot-modal-content');
   mechViews.sheet = null;
+}
+
+function renderPilotButton(pilot) {
+  const button = document.createElement('button');
+  button.type = 'button';
+  button.className = 'pilot-link';
+  button.textContent = pilot.callsign || pilot.name || 'Unnamed Pilot';
+  button.title = `Open ${button.textContent}'s pilot card`;
+  button.addEventListener('click', event => {
+    event.stopPropagation();
+    state.selectedId = pilot._id;
+    for (const row of els.tbody.children) {
+      row.classList.toggle('selected', row.dataset.id === pilot._id);
+    }
+    openPilotCard(pilot._id);
+  });
+  return button;
+}
+
+function renderStaffButton(staff) {
+  const link = document.createElement('a');
+  link.className = 'pilot-link';
+  link.href = `/staff-skills?staff=${encodeURIComponent(staff._id.replace(/^staff:/, ''))}`;
+  link.textContent = staff.name || 'Unnamed Staff';
+  link.title = `Open ${link.textContent}'s skill selection`;
+  link.addEventListener('click', event => event.stopPropagation());
+  return link;
+}
+
+const { EFFECT_LABELS, effectText, effectValueText } = window.PerkUi;
+
+function makeStat(label, value) {
+  const stat = document.createElement('div');
+  stat.className = 'pilot-stat';
+  const name = document.createElement('span');
+  name.textContent = label;
+  const amount = document.createElement('strong');
+  amount.textContent = value;
+  stat.append(name, amount);
+  return stat;
+}
+
+async function pilotRequest(url, options) {
+  const response = await fetch(url, options);
+  const body = await response.json().catch(() => ({}));
+  if (!response.ok) throw new Error(body.error || `HTTP ${response.status}`);
+  return body;
+}
+
+async function openPilotCard(pilotId) {
+  const slug = pilotId.replace(/^pilot:/, '');
+  sheetBody.className = 'pilot-card-body';
+  sheetModal.querySelector('.modal-content').classList.add('pilot-modal-content');
+  sheetBody.replaceChildren(hint('Loading pilot card…'));
+  sheetModal.hidden = false;
+  try {
+    renderPilotCard(await pilotRequest(`/api/pilot/${encodeURIComponent(slug)}/card`));
+  } catch (error) {
+    sheetBody.replaceChildren(hint(`Unable to load pilot: ${error.message}`));
+  }
+}
+
+function renderPilotCard(card) {
+  const { pilot, assignedMech, perks, combatEffects } = card;
+  const root = document.createElement('article');
+  root.className = 'pilot-card';
+
+  const header = document.createElement('header');
+  const identity = document.createElement('div');
+  const eyebrow = document.createElement('p');
+  eyebrow.className = 'pilot-eyebrow';
+  eyebrow.textContent = `${pilot.rating || 'Unrated'} MechWarrior`;
+  const title = document.createElement('h2');
+  title.textContent = pilot.callsign || pilot.name || 'Unnamed Pilot';
+  const realName = document.createElement('p');
+  realName.className = 'pilot-name';
+  realName.textContent = pilot.name && pilot.name !== 'Unnamed' ? pilot.name : 'Identity classified';
+  identity.append(eyebrow, title, realName);
+  const xp = document.createElement('div');
+  xp.className = 'pilot-xp';
+  xp.innerHTML = `<strong>${Number(pilot.xp) || 0}</strong><span>XP available</span><small>${Number(pilot.xpSpent) || 0} spent</small>`;
+  header.append(identity, xp);
+
+  const stats = document.createElement('div');
+  stats.className = 'pilot-stats';
+  stats.append(
+    makeStat('Gunnery', pilot.gunnery ?? '—'),
+    makeStat('Piloting', pilot.piloting ?? '—'),
+    makeStat('Injuries', pilot.injuries ?? 0),
+    makeStat('Assigned', assignedMech ? `${assignedMech.chassis} ${assignedMech.variant}` : 'Unassigned'),
+  );
+
+  const effectSection = document.createElement('section');
+  const effectTitle = document.createElement('h3');
+  effectTitle.textContent = assignedMech ? `Active effects in ${assignedMech.variant}` : 'Active effects';
+  const effectList = document.createElement('div');
+  effectList.className = 'effect-chips';
+  const activeEffects = Object.entries(combatEffects || {});
+  if (activeEffects.length) {
+    for (const [name, value] of activeEffects) {
+      const chip = document.createElement('span');
+      chip.textContent = `${EFFECT_LABELS[name] || name} ${effectValueText(name, value)}`;
+      effectList.appendChild(chip);
+    }
+  } else {
+    effectList.appendChild(hint(assignedMech ? 'No purchased perks affect this assignment yet.' : 'Assign this pilot to see contextual effects.'));
+  }
+  effectSection.append(effectTitle, effectList);
+
+  const ownedSection = document.createElement('section');
+  const ownedTitle = document.createElement('h3');
+  ownedTitle.textContent = `Earned perks (${perks.length})`;
+  const ownedGrid = document.createElement('div');
+  ownedGrid.className = 'perk-grid owned';
+  if (!perks.length) {
+    ownedGrid.appendChild(hint('No perks purchased yet.'));
+  } else {
+    for (const perk of perks) ownedGrid.appendChild(renderOwnedPerk(perk));
+  }
+  ownedSection.append(ownedTitle, ownedGrid);
+
+  const advancementSection = document.createElement('section');
+  const advancementTitle = document.createElement('h3');
+  advancementTitle.textContent = 'Pilot advancement';
+  const advancementHint = document.createElement('p');
+  advancementHint.className = 'hint pilot-help';
+  advancementHint.textContent = 'Perks are selected on the dedicated advancement page.';
+  const advancementButton = document.createElement('button');
+  advancementButton.type = 'button';
+  advancementButton.className = 'btn pilot-advance';
+  advancementButton.textContent = 'Open Perk Selection';
+  advancementButton.addEventListener('click', () => {
+    const slug = pilot._id.replace(/^pilot:/, '');
+    window.location.href = `/perks?pilot=${encodeURIComponent(slug)}`;
+  });
+  advancementSection.append(advancementTitle, advancementHint, advancementButton);
+
+  root.append(header, stats, effectSection, ownedSection, advancementSection);
+  sheetBody.replaceChildren(root);
+}
+
+function renderOwnedPerk(perk) {
+  const item = document.createElement('div');
+  item.className = 'perk-card purchased';
+  const heading = document.createElement('h4');
+  heading.textContent = perk.name;
+  const scope = document.createElement('span');
+  scope.className = 'perk-scope';
+  scope.textContent = perk.scopeLabel || 'All BattleMechs';
+  const description = document.createElement('p');
+  description.textContent = perk.description;
+  const effect = document.createElement('strong');
+  effect.className = 'perk-effect';
+  effect.textContent = effectText(perk.effect);
+  item.append(heading, scope, description, effect);
+  return item;
 }
 
 async function openDesignSheet(design) {

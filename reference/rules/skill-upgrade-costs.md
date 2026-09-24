@@ -58,3 +58,90 @@ The three payments always add up to the general cost, so buying incrementally co
 - Each upgrade gets progressively more expensive as the skill improves (lower number), so buying down the last point costs the most.
 - Cumulative total = XP/C-bills spent to reach that skill level from 5.
 - The single mech table is currently missing its 4 → 3 step.
+
+## Combat perks
+
+Pilots may also spend XP on combat perks. Perks are separate from the permanent
+Gunnery and Piloting skill-upgrade tiers above.
+
+- **General perks** apply in every BattleMech.
+- **Chassis perks** apply only in a selected chassis, such as Black Knight.
+- **Weight-class perks** apply only in Light, Medium, Heavy, or Assault designs.
+- **Weapon perks** apply only when firing the selected weapon.
+- Scoped perks can be purchased again for a different valid scope, but the same
+  perk and scope cannot be purchased twice.
+- Perk effects are stored with the purchase so a future catalog change does not
+  silently alter perks a pilot has already earned.
+- Prerequisites and assigned-BattleMech requirements are validated when XP is spent.
+
+Initial perks cover general and weapon gunnery, chassis and weight-class piloting,
+terrain handling, jump distance, defensive movement, heat generation and penalties,
+long-range fire, recoil, and initiative. The in-app pilot card is the authoritative
+catalog for current costs and exact effects.
+
+### Global gunnery perk path
+
+The global gunnery path broadens in three increasingly expensive tiers. Each tier
+adds another −1 gunnery modifier and requires the tier before it:
+
+| Tier | Coverage | Cost | Requirement |
+|------|----------|-----:|-------------|
+| 1 | One selected chassis | 40 XP | None |
+| 2 | One selected weight class | 80 XP | Tier 1 in a chassis from that class |
+| 3 | All BattleMechs | 160 XP | Tier 2 in any weight class |
+
+The modifiers stack where their coverage overlaps. A pilot with Black Knight,
+Heavy, and all-mech mastery receives −3 gunnery in a Black Knight, −2 in another
+Heavy chassis, and −1 in a Light, Medium, or Assault chassis.
+
+### Global piloting perk path
+
+Piloting follows the same widening and stacking progression, at half the gunnery
+cost because combat produces many more gunnery rolls than piloting rolls:
+
+| Tier | Coverage | Cost | Requirement |
+|------|----------|-----:|-------------|
+| 1 | One selected chassis | 20 XP | None |
+| 2 | One selected weight class | 40 XP | Tier 1 in a chassis from that class |
+| 3 | All BattleMechs | 80 XP | Tier 2 in any weight class |
+
+A pilot with Wasp, Light, and all-mech piloting mastery receives −3 piloting in a
+Wasp, −2 in another Light chassis, and −1 in a Medium, Heavy, or Assault chassis.
+
+### Weapon-family mastery paths
+
+Laser, missile, PPC, autocannon, and melee attacks each have an independent
+three-tier mastery path:
+
+| Tier | Coverage | Cost | Requirement |
+|------|----------|-----:|-------------|
+| 1 | One selected chassis | 30 XP | None |
+| 2 | One selected weight class | 60 XP | Tier 1 in a chassis from that class |
+| 3 | All BattleMechs | 120 XP | Tier 2 in any weight class |
+
+Each purchased tier reduces the attack target number by 1 when using that weapon
+family. The modifiers stack where coverage overlaps. A pilot with Laser mastery
+for the Stinger chassis, the Light weight class, and all mechs receives −3 on
+laser attacks in a Stinger, −2 in another Light chassis, and −1 in Medium, Heavy,
+or Assault chassis. Each weapon family must be purchased separately.
+
+### Terrain movement perks
+
+Terrain perks use a piloting roll to eliminate the normal movement surcharge.
+Failing the roll leaves the normal terrain or elevation cost in place.
+
+| Perk tree | Chassis | Weight class | All mechs | Free movement thresholds |
+|-----------|--------:|-------------:|----------:|--------------------------|
+| Woodland Runner | 30 XP | 60 XP | 120 XP | Light woods on 10 or less; heavy woods on 7 or less |
+| Rubble Runner | 30 XP | 60 XP | 120 XP | Light rubble on 10 or less; heavy rubble on 7 or less |
+| Elevation Expert | 40 XP | 80 XP | 160 XP | Separate roll per level: first on 10 or less; second on 7 or less; third on 5 or less |
+
+Woods, rubble, and elevation are separate three-tier trees. Each weight-class tier
+requires chassis training in that class, and each all-mechs tier requires its
+weight-class tier. The roll thresholds do not stack; only their coverage widens.
+
+Elevation Expert resolves each level separately. For a three-level climb, roll once
+for the first level at 10 or less, again for the second at 7 or less, and again for
+the third at 5 or less. Each successful roll removes only that level's movement
+surcharge. A failed roll leaves the normal cost for that level and does not cancel
+successful rolls for the other levels.

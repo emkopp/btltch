@@ -15,6 +15,7 @@
   <div class="gm-layout">
     <nav class="sidebar" id="gm-nav">
       <button data-panel="team" class="active">Team</button>
+      <button data-panel="staff">Staff</button>
       <button data-panel="missions">Missions</button>
       <button data-panel="time">Time</button>
     </nav>
@@ -55,6 +56,16 @@
         <div class="panel">
           <h2>Current Location</h2>
           <div id="location-current" class="summary-line">&nbsp;</div>
+          <div id="travel-history-summary" class="hint">&nbsp;</div>
+          <p><a class="map-pick" href="/map/">Open Campaign Navigator &#8599;</a></p>
+          <div class="travel-history-actions">
+            <button class="btn danger" id="clear-travel-history" type="button">Clear travel history</button>
+            <div id="clear-travel-confirmation" class="travel-clear-confirmation" hidden>
+              <strong>Clear all recorded routes and visited-system memory?</strong>
+              <button class="btn danger" id="confirm-clear-travel-history" type="button">Confirm clear history</button>
+              <button class="btn ghost" id="cancel-clear-travel-history" type="button">Cancel</button>
+            </div>
+          </div>
           <form class="grid" id="location-form">
             <label>System<input name="system" list="systems-datalist" placeholder="System name" autocomplete="off" /></label>
             <div class="actions"><button class="btn" type="submit">Set location</button></div>
@@ -82,11 +93,152 @@
         </div>
 
         <div class="panel">
-          <h2>Pilots</h2>
+          <h2>Pilot XP Management</h2>
+          <p class="hint">Add, remove, or set each pilot's available experience.</p>
+          <form id="bulk-xp-form" class="bulk-xp">
+            <label><input id="select-all-pilots" type="checkbox" /> Select all pilots</label>
+            <label>XP to add
+              <select name="amount">
+                <option value="standard:20" data-amount="20">20 XP</option>
+                <option value="standard:40" data-amount="40">40 XP</option>
+                <option value="standard:80" data-amount="80">80 XP</option>
+              </select>
+            </label>
+            <button class="btn" type="submit">Add XP to selected pilots</button>
+          </form>
           <table class="data" id="pilots-table">
-            <thead><tr><th>Callsign</th><th>Gun/Pil</th><th>Rating</th><th>Assigned 'Mech</th><th>Salary</th></tr></thead>
+            <thead><tr><th>Add XP</th><th>Callsign</th><th>Gun/Pil</th><th>Rating</th><th>Assigned 'Mech</th><th>Salary</th><th>XP</th><th>Manage XP</th></tr></thead>
             <tbody></tbody>
           </table>
+          <div class="xp-reset">
+            <button class="btn danger" id="reset-all-xp" type="button">Reset all pilot XP to 0</button>
+            <div id="reset-xp-confirmation" class="xp-reset-confirmation" hidden>
+              <strong>This will permanently set every pilot's available XP to 0.</strong>
+              <button class="btn danger" id="confirm-reset-all-xp" type="button">Confirm reset all XP</button>
+              <button class="btn ghost" id="cancel-reset-all-xp" type="button">Cancel</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <h2>Perk Creator</h2>
+          <p class="hint">Perks are stored in the campaign database and become available on the pilot advancement page immediately.</p>
+          <form class="grid" id="perk-form">
+            <label>Name<input name="name" maxlength="80" required placeholder="Targeting Discipline" /></label>
+            <label>Perk ID<input name="id" maxlength="80" placeholder="Generated from name" /></label>
+            <label>Category<input name="category" maxlength="40" required placeholder="Gunnery" /></label>
+            <label>XP cost<input name="cost" type="number" min="1" max="10000" value="20" required /></label>
+            <label>Scope
+              <select name="scope">
+                <option value="">All assigned mechs</option>
+                <option value="chassis">Selected chassis</option>
+                <option value="weightClass">Selected weight class</option>
+                <option value="weapon">Selected weapon</option>
+              </select>
+            </label>
+            <label>Prerequisite<select name="prerequisite" id="perk-prerequisite"><option value="">None</option></select></label>
+            <label>Tree ID<input name="tree" maxlength="80" placeholder="Optional mastery path ID" /></label>
+            <label>Tree tier<input name="tier" type="number" min="1" max="10" value="1" /></label>
+            <label>Effect
+              <select name="effectName" required>
+                <option value="gunneryModifier">Gunnery target</option>
+                <option value="pilotingModifier">Piloting target</option>
+                <option value="laserAttackModifier">Laser attack target</option>
+                <option value="missileAttackModifier">Missile attack target</option>
+                <option value="ppcAttackModifier">PPC attack target</option>
+                <option value="autocannonAttackModifier">Autocannon attack target</option>
+                <option value="meleeAttackModifier">Melee attack target</option>
+                <option value="longRangeModifier">Long-range penalty</option>
+                <option value="recoilModifier">Recoil penalty</option>
+                <option value="terrainPilotingModifier">Terrain/fall penalty</option>
+                <option value="jumpDistanceModifier">Jump distance</option>
+                <option value="defensiveMovementModifier">Defensive movement</option>
+                <option value="heatGeneratedModifier">Heat generated</option>
+                <option value="heatPenaltyModifier">Heat penalty</option>
+                <option value="initiativeModifier">Initiative</option>
+                <option value="lightWoodsFreeRollMax">Light woods threshold</option>
+                <option value="heavyWoodsFreeRollMax">Heavy woods threshold</option>
+                <option value="lightRubbleFreeRollMax">Light rubble threshold</option>
+                <option value="heavyRubbleFreeRollMax">Heavy rubble threshold</option>
+                <option value="oneLevelFreeRollMax">One-level threshold</option>
+                <option value="twoLevelsFreeRollMax">Two-level threshold</option>
+                <option value="threeLevelsFreeRollMax">Three-level threshold</option>
+                <option value="separateElevationRollPerLevel">Separate elevation rolls</option>
+              </select>
+            </label>
+            <label>Effect value<input name="effectValue" type="number" min="-20" max="20" value="-1" required /></label>
+            <label class="wide">Description<textarea name="description" maxlength="500" rows="2" required></textarea></label>
+            <label class="check"><input name="matchPrerequisiteWeightClass" type="checkbox" /> Require prerequisite chassis to match selected weight class</label>
+            <div class="actions"><button class="btn" type="submit">Create perk</button></div>
+          </form>
+          <h3>Database Perks</h3>
+          <table class="data" id="perks-table">
+            <thead><tr><th>Name</th><th>Category</th><th>Cost</th><th>Scope</th><th>Tree</th><th>Effect</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="panel-staff" class="gm-section">
+        <div class="panel">
+          <h2 id="staff-form-title">Add Staff Member</h2>
+          <p class="hint">Create and maintain engineering, medical, and support personnel.</p>
+          <form class="grid" id="staff-form">
+            <input name="staffId" type="hidden" />
+            <label>Name<input name="name" maxlength="100" required placeholder="Staff member name" /></label>
+            <label>Type
+              <select name="staffType">
+                <option value="engineer">Engineer</option>
+                <option value="medical">Medical</option>
+                <option value="support">Support</option>
+              </select>
+            </label>
+            <label>Tier
+              <select name="tier">
+                <option value="substandard">Substandard</option>
+                <option value="normal" selected>Normal</option>
+                <option value="expert">Expert</option>
+                <option value="epic">Epic</option>
+                <option value="legendary">Legendary</option>
+              </select>
+            </label>
+            <label>Rating<input name="rating" type="number" min="1" max="10" value="5" required /></label>
+            <label>Monthly cost<input name="monthlyCost" type="number" min="0" max="10000000" step="1" value="500" required /></label>
+            <div class="actions">
+              <button class="btn" type="submit">Add staff member</button>
+              <button class="btn ghost" id="cancel-staff-edit" type="button" hidden>Cancel edit</button>
+            </div>
+          </form>
+        </div>
+
+        <div class="panel">
+          <h2>Staff XP Management</h2>
+          <p class="hint">Award XP to selected staff, then open each member's skill page to purchase type-specific advancement.</p>
+          <form id="bulk-staff-xp-form" class="bulk-xp">
+            <label><input id="select-all-staff" type="checkbox" /> Select all staff</label>
+            <label>XP to add
+              <select name="amount">
+                <option value="20">20 XP</option>
+                <option value="40">40 XP</option>
+                <option value="80">80 XP</option>
+              </select>
+            </label>
+            <button class="btn" type="submit">Add XP to selected staff</button>
+          </form>
+          <table class="data" id="staff-table">
+            <thead>
+              <tr><th>Add XP</th><th>Name</th><th>Type</th><th>Tier</th><th>Rating</th><th>Monthly</th><th>XP</th><th>Skills</th><th>Manage XP</th><th>Actions</th></tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+          <div class="xp-reset">
+            <button class="btn danger" id="reset-all-staff-xp" type="button">Reset all staff XP to 0</button>
+            <div id="reset-staff-xp-confirmation" class="xp-reset-confirmation" hidden>
+              <strong>This will permanently set every staff member's available XP to 0.</strong>
+              <button class="btn danger" id="confirm-reset-all-staff-xp" type="button">Confirm reset all XP</button>
+              <button class="btn ghost" id="cancel-reset-all-staff-xp" type="button">Cancel</button>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -97,14 +249,18 @@
             <label>Employer<select name="employer" id="employer-select" required></select></label>
             <label>Mission type<select name="missionType" id="missiontype-select"></select></label>
             <label>Location / system
-              <span class="loc-picker">
-                <input name="location" list="systems-datalist" placeholder="Search system&hellip;" autocomplete="off" />
-                <a class="map-pick" href="/map/?pick=1" target="_blank" rel="noopener" title="Pick a system on the map">&#8599; map</a>
-              </span>
+              <input name="location" list="systems-datalist" placeholder="Search system&hellip;" autocomplete="off" />
             </label>
             <label>Length (months)<input name="lengthMonths" type="number" min="1" value="6" /></label>
             <label>Base pay (C-Bills / mo)<input name="basePay" type="number" step="1000" value="0" /></label>
             <label>Salvage rights (%)<input name="salvagePct" type="number" min="0" max="100" value="50" /></label>
+            <label>Completion XP award
+              <select name="xpAward">
+                <option value="20">20 XP</option>
+                <option value="40">40 XP</option>
+                <option value="80">80 XP</option>
+              </select>
+            </label>
             <label>Command rights
               <select name="commandRights">
                 <option>Independent</option>
@@ -130,7 +286,7 @@
         <div class="panel">
           <h2>Missions</h2>
           <table class="data" id="missions-table">
-            <thead><tr><th>Employer</th><th>Type</th><th>Location</th><th>Length</th><th>Base pay</th><th>Salvage</th><th>Status</th><th>Visible</th><th></th></tr></thead>
+            <thead><tr><th>Employer</th><th>Type</th><th>Location</th><th>Length</th><th>Base pay</th><th>Salvage</th><th>XP</th><th>Status</th><th>Visible</th><th></th></tr></thead>
             <tbody></tbody>
           </table>
         </div>
@@ -167,6 +323,13 @@
         </label>
         <label>Base pay (C-Bills / mo)<input name="basePay" type="number" step="1000" /></label>
         <label>Salvage rights (%)<input name="salvagePct" type="number" min="0" max="100" /></label>
+        <label>Completion XP award
+          <select name="xpAward">
+            <option value="20">20 XP</option>
+            <option value="40">40 XP</option>
+            <option value="80">80 XP</option>
+          </select>
+        </label>
         <div class="wide rewards-block">
           <div class="rewards-head">
             <span>Rewards &amp; offerings</span>
